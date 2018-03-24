@@ -70,6 +70,29 @@ public class MastersController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/editSupplier/{suppId}", method = RequestMethod.GET)
+	public ModelAndView editSupplier(@PathVariable int suppId,HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("masters/addSupplier");
+		RestTemplate rest = new RestTemplate();
+		try {
+			 
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("suppId", suppId);
+			SupplierMaster supplierMaster = rest.postForObject(Constants.url + "getSuppllierById",map,
+					SupplierMaster.class);
+		  
+			model.addObject("supplierMaster",supplierMaster);
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+
+		return model;
+	}
+	
 	@RequestMapping(value = "/deleteSupplier/{suppId}", method = RequestMethod.GET)
 	public String deleteSupplier(@PathVariable int suppId, HttpServletRequest request, HttpServletResponse response) {
  

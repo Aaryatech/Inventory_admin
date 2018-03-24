@@ -99,7 +99,9 @@
 												  		<td><c:out value="${supplierList.email1}" /></td>
 														   <td><c:out value="${supplierList.panNo}" /></td>
 																
-							<td><a href="${pageContext.request.contextPath}/deleteSupplier/${supplierList.suppId}"
+							<td><a href="${pageContext.request.contextPath}/editSupplier/${supplierList.suppId}"><span class="glyphicon glyphicon-edit" onclick="edit(${itemUomList.uomId});"></span></a>
+							
+							<a href="${pageContext.request.contextPath}/deleteSupplier/${supplierList.suppId}"
 													    onClick="return confirm('Are you sure want to delete this record');"><span
 														class="glyphicon glyphicon-remove"></span></a></td>
 																</tr>

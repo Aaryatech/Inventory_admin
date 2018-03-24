@@ -107,13 +107,13 @@
 							
 								<div class="col-md-2">Supplier Name*</div>
 								<div class="col-md-3">
-									<input type="text" name="supp_name" class="form-control"placeholder="Enter Supplier Name " required/>
-									<input type="hidden" name="suppId" />
+									<input type="text" name="supp_name" class="form-control" value="${supplierMaster.suppName}" placeholder="Enter Supplier Name " required/>
+									<input type="hidden" name="suppId" value="${supplierMaster.suppId}" />
 								</div> 
 								<div class="col-md-1"></div>
 								<div class="col-md-2">Supplier GSTIN*</div>
 									<div class="col-md-3">
-									<input type="text" name="supp_gstin" class="form-control" placeholder="Enter GSTIN " required/>
+									<input type="text" name="supp_gstin" class="form-control" value="${supplierMaster.gstinNo}" placeholder="Enter GSTIN " required/>
 									
 									</div>
 								
@@ -124,12 +124,12 @@
 							
 								<div class="col-md-2">Address*</div>
 								<div class="col-md-3">
-									<input type="text" name="supp_addr" class="form-control" placeholder="Address" required/>
+									<input type="text" name="supp_addr" value="${supplierMaster.address}" class="form-control" placeholder="Address" required/>
 									</div>
 									<div class="col-md-1"></div>
 								<div class="col-md-2">City*</div>
 									<div class="col-md-3">
-									<input type="text" name="supp_city" class="form-control"  placeholder="Enter City " required/>
+									<input type="text" name="supp_city" value="${supplierMaster.city}" class="form-control"  placeholder="Enter City " required/>
 									
 									</div>
 								
@@ -140,12 +140,12 @@
 							
 								<div class="col-md-2">State*</div>
 								<div class="col-md-3">
-									<input type="text" name="supp_state" class="form-control"  placeholder="Enter State" required value="Maharashtra"/>
+									<input type="text" name="supp_state" value="${supplierMaster.state}" class="form-control"  placeholder="Enter State" required />
 								</div>
 								<div class="col-md-1"></div>
 								<div class="col-md-2">Country*</div>
 									<div class="col-md-3">
-									<input type="text" name="supp_country" class="form-control"  placeholder="Enter County " required value="India"/>
+									<input type="text" name="supp_country" value="${supplierMaster.country}" class="form-control"  placeholder="Enter County " required >
 								
 									</div>
 								
@@ -155,12 +155,12 @@
 							
 								<div class="col-md-2">Mobile 1*</div>
 								<div class="col-md-3">
-									<input type="text" name="supp_mob1" class="form-control" placeholder="Enter Mobile 1 " required 
+									<input type="text" name="supp_mob1" value="${supplierMaster.mobile1}" class="form-control" placeholder="Enter Mobile 1 " required 
 													 pattern="^\d{10}$" required /></div> 
 								<div class="col-md-1"></div>
 								<div class="col-md-2">Email 1*</div>
 									<div class="col-md-3">
-									<input type="email" name="supp_email1" class="form-control"  placeholder="Enter Email 1 " required
+									<input type="email" name="supp_email1" value="${supplierMaster.email1}" class="form-control"  placeholder="Enter Email 1 " required
 													data-rule-email="true" />
 									</div>
 								
@@ -171,12 +171,12 @@
 							
 								<div class="col-md-2">Mobile 2*</div>
 								<div class="col-md-3">
-									<input type="text" name="supp_mob2" class="form-control" placeholder="Enter Mobile 2 " required 
+									<input type="text" name="supp_mob2" value="${supplierMaster.mobile2}" class="form-control" placeholder="Enter Mobile 2 " required 
 													 pattern="^\d{10}$" required /></div> 
 								 <div class="col-md-1"></div>
 								<div class="col-md-2">Email 2</div>
 									<div class="col-md-3">
-									<input type="email" name="supp_email2" class="form-control"  placeholder="Enter Email 2 "  
+									<input type="email" name="supp_email2" value="${supplierMaster.email2}" class="form-control"  placeholder="Enter Email 2 "  
 													data-rule-email="true" />
 									</div>
 								
@@ -186,12 +186,12 @@
 							
 								<div class="col-md-2">Mobile 3</div>
 								<div class="col-md-3">
-									<input type="text" name="supp_mob3" class="form-control" placeholder="Enter Mobile3 "   
+									<input type="text" name="supp_mob3" value="${supplierMaster.mobile3}" class="form-control" placeholder="Enter Mobile3 "   
 													 pattern="^\d{10}$"   /></div> 
 								<div class="col-md-1"></div>
 								<div class="col-md-2">Email 3</div>
 									<div class="col-md-3">
-									<input type="email" name="supp_email3" class="form-control"  placeholder="Enter Email3 "  
+									<input type="email" name="supp_email3" value="${supplierMaster.email3}" class="form-control"  placeholder="Enter Email3 "  
 													data-rule-email="true" />
 									</div>
 								
@@ -201,12 +201,12 @@
 							
 								<div class="col-md-2">Phone 1</div>
 								<div class="col-md-3">
-									<input type="text" name="supp_phone1" class="form-control" placeholder="Enter Phone 1 "  pattern="^[0-9]{10,12}$" />
+									<input type="text" name="supp_phone1" value="${supplierMaster.phone1}" class="form-control" placeholder="Enter Phone 1 "  pattern="^[0-9]{10,12}$" />
 								</div>
 								<div class="col-md-1"></div>
 								<div class="col-md-2">Email 4</div>
 									<div class="col-md-3">
-									<input type="email" name="supp_email4" class="form-control"  placeholder="Enter Email4 "  
+									<input type="email" name="supp_email4" value="${supplierMaster.email4}" class="form-control"  placeholder="Enter Email4 "  
 													data-rule-email="true" />
 									</div>
 								
@@ -217,12 +217,12 @@
 							
 								<div class="col-md-2">Phone 2</div>
 								<div class="col-md-3">
-									<input type="text" name="supp_phone2" class="form-control" placeholder="Enter Phone 5 "  pattern="^[0-9]{10,12}$" />
+									<input type="text" name="supp_phone2" value="${supplierMaster.phone2}" class="form-control" placeholder="Enter Phone 5 "  pattern="^[0-9]{10,12}$" />
 								</div>
 								<div class="col-md-1"></div>
 								<div class="col-md-2">Email 5</div>
 									<div class="col-md-3">
-									<input type="email" name="supp_email5" class="form-control"  placeholder="Enter Email5 "  
+									<input type="email" name="supp_email5" value="${supplierMaster.email5}" class="form-control"  placeholder="Enter Email5 "  
 													data-rule-email="true" />
 									</div>
 								
@@ -232,13 +232,13 @@
 							
 								<div class="col-md-2">Supplier Pan No*</div>
 								<div class="col-md-3">
-									<input type="text" name="supp_panno" class="form-control"  placeholder="Supplier Pan No" required/>
+									<input type="text" name="supp_panno" value="${supplierMaster.panNo}" class="form-control"  placeholder="Supplier Pan No" required/>
 									
 								</div>
 								<div class="col-md-1"></div>
 								<div class="col-md-2"> Contact Person*</div>
 									<div class="col-md-3">
-									<input type="text" name="supp_c_person" class="form-control" placeholder="Supplier contact person" required/>
+									<input type="text" name="supp_c_person" value="${supplierMaster.contactPrsn}" class="form-control" placeholder="Supplier contact person" required/>
 									
 									</div>
 								
@@ -248,13 +248,13 @@
 							
 								<div class="col-md-2">Supplier FDA Lic*</div>
 								<div class="col-md-3">
-									<input type="text" name="supp_fdalic" class="form-control" placeholder="Supplier FDA Lic" required />
+									<input type="text" name="supp_fdalic" value="${supplierMaster.fdaLic}" class="form-control" placeholder="Supplier FDA Lic" required />
 										
 								</div>
 								<div class="col-md-1"></div>
 								<div class="col-md-2">Supplier Pay Id*</div>
 									<div class="col-md-3">
-									<input type="text" name="supp_pay_id" class="form-control" placeholder=" Supplier Pay Id" required="true"  data-rule-required="true"/>
+									<input type="text" name="supp_pay_id" value="${supplierMaster.supplierPayId}" class="form-control" placeholder=" Supplier Pay Id" required="true"  data-rule-required="true"/>
 									
 									</div>
 								
@@ -264,15 +264,23 @@
 							
 								<div class="col-md-2">Supplier Credit days*</div>
 								<div class="col-md-3">
-									<input type="text" name="credit_days" class="form-control" placeholder="Supplier Credit days" required data-rule-required="true"/>
+									<input type="text" name="credit_days" value="${supplierMaster.creditDays}" class="form-control" placeholder="Supplier Credit days" required data-rule-required="true"/>
 										
 								</div>
-								
+								<c:choose>
+									<c:when test="${supplierMaster.isSameState==1}">
+										<c:set var="choose" value="Yes"></c:set> 
+									</c:when>
+									<c:otherwise>
+										<c:set var="choose" value="No"></c:set> 
+									</c:otherwise>
+								</c:choose>
 								<div class="col-md-1"></div>
 								<div class="col-md-2">Is Same State*</div>
 									<div class="col-md-3">
 									 <select id="isSameState" name="isSameState" id="isSameState" class="form-control chosen" required>
-									  <option value="" Selected> Select</option>
+									   <option value="${supplierMaster.isSameState}" >${choose}</option>
+									  <option value=""  > Select</option>
 									 <option value="1">Yes</option>
 									 <option value="2">No</option>
 									 </select>
