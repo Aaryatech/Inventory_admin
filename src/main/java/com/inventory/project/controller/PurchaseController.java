@@ -72,6 +72,9 @@ public class PurchaseController {
 			model.addObject("itemList",itemList);
 			model.addObject("supplierList",supplierList);
 			
+			
+			
+			
 		}catch(Exception e)
 		{
 			
@@ -80,6 +83,9 @@ public class PurchaseController {
 
 		return model;
 	}
+	
+	
+	
 	
 	@RequestMapping(value = "/checkIsSupplierSameState", method = RequestMethod.GET)
 	@ResponseBody
