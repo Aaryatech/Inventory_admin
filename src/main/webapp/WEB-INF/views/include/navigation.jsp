@@ -171,21 +171,28 @@
 				</a>
 				<!-- BEGIN Submenu -->
 				<ul class="submenu">
-				<li> 
-					<a href="${pageContext.request.contextPath}/orders">Orders</a>
-					</li>
-				<li> 
-					<a href="${pageContext.request.contextPath}/bill">Invoice</a>
-					</li>
+				
 					
 					<li> 
 					<a href="${pageContext.request.contextPath}/purchaseBillList">Purchase Bill List</a>
 					</li>
-					
 					<li> 
-					<a href="${pageContext.request.contextPath}/insertGrn">GRN GVN</a>
+					<a href="${pageContext.request.contextPath}/orders">Orders</a>
+					</li>
+				     <li> 
+				 	<a href="${pageContext.request.contextPath}/bill">Bill</a>
+					</li>
+				    <li> 
+				  	<a href="${pageContext.request.contextPath}/bills">View Bills</a>
 					</li>
 					
+				
+					</ul>
+					<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
+					<span>Stock</span> <b class="arrow fa fa-angle-right"></b>
+				</a>
+				<!-- BEGIN Submenu -->
+				<ul class="submenu">
 					<li> 
 					<a href="${pageContext.request.contextPath}/itemStock">Insert Opening Stock</a>
 					</li>
@@ -193,8 +200,39 @@
 					<li> 
 					<a href="${pageContext.request.contextPath}/getCurrentStock">Get Current Stock</a>
 					</li>
-					</ul>
+				
+				</ul>
+				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
+					<span>GRN/GVN</span> <b class="arrow fa fa-angle-right"></b>
+				</a>
+				<!-- BEGIN Submenu -->
+				<ul class="submenu">
+					<li> 
+					<a href="${pageContext.request.contextPath}/insertGrn">GRN GVN</a>
+					</li>
+				</ul>
+					<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
+					<span>Sale Report</span> <b class="arrow fa fa-angle-right"></b>
+				</a>
+				<!-- BEGIN Submenu -->
+				<ul class="submenu">
+				
 					
+					<li> 
+					<a href="${pageContext.request.contextPath}/saleReportByDate">Sale Report Datewise</a>
+					</li>
+					<li> 
+					<a href="${pageContext.request.contextPath}/saleReportGroupByDate">Sake Report(Group By Date)</a>
+					</li>
+				    <li> 
+					<a href="${pageContext.request.contextPath}/saleByItemAndHsncodeWise">Sale Report(Itemwise And Hsncodewise)</a>
+					</li>
+					<li> 
+					<a href="${pageContext.request.contextPath}/saleByMonthWise">Sale Report(Monthwise)</a>
+					</li>
+					
+					
+					</ul>
 				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
 					<span>Logout</span> <b class="arrow fa fa-angle-right"></b>
 				</a>

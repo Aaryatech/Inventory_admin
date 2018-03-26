@@ -20,7 +20,7 @@ contentType="text/html; charset=ISO8859_1"%>
     <td colspan="2" width="20%" style=" padding:10px;color:#FFF; font-size:15px;">&nbsp;</td>
     <td width="60%" colspan="6" style="border-left:1px solid #313131; padding:5px;color:#000; font-size:15px; text-align:center">
     <h4 style="color:#000; font-size:16px; text-align:center; margin:0px;">Sona Electricals</h4>
-   <p style="color:#000; font-size:10px; text-align:center;margin:0px;">Factory Add: A-32 Shendra, MIDC, Auraangabad-4331667 <br />
+   <p style="color:#000; font-size:10px; text-align:center;margin:0px;"> Auraangabad-4331667 <br />
 Phone:0240-2466217, Email: sonaElectricals@gmail.com</p>
  </td>
     <td colspan="3" width="20%" style="border-left:1px solid #313131; padding:10px;color:#FFF; font-size:15px;">
@@ -71,6 +71,7 @@ duplicate for tranpoter</p>
     <td align="center" width="10%" colspan="2" style="border-left:1px solid #313131; padding:10px;color:#000; font-size:10px; text-align:center;"> CGST</td>
     <td align="center" width="10%" colspan="2" style="border-left:1px solid #313131; padding:10px;color:#000; font-size:10px;text-align:center;">SGST</td>
      <td align="center" width="10%" colspan="2" style="border-left:1px solid #313131; padding:10px;color:#000; font-size:10px;text-align:center;">IGST</td>
+      <td align="center" width="10%" colspan="2" style="border-left:1px solid #313131; padding:10px;color:#000; font-size:10px;text-align:center;">CESS</td>
  
   </tr>
   <tr>
@@ -80,6 +81,8 @@ duplicate for tranpoter</p>
     <td align="center" style="border-top:1px solid #313131;border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:10px;">Amount</td>
          <td align="center" style="border-top:1px solid #313131;border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:10px;">Rate%</td>
      <td align="center" style="border-top:1px solid #313131;border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:10px;">Amount</td>
+      <td align="center" style="border-top:1px solid #313131;border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:10px;">Rate%</td>
+     <td align="center" style="border-top:1px solid #313131;border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:10px;">Amount</td>
  
   </tr>
  
@@ -87,6 +90,7 @@ duplicate for tranpoter</p>
    <c:set var = "totalAmt" value = "0"/>
     <c:set var = "totalCgst" value = "0"/>
       <c:set var = "totalSgst" value = "0"/>
+       <c:set var = "totalIgst" value = "0"/>
            <c:set var = "totalCess" value = "0"/>
      
      <c:forEach items="${billHeaderRes.billDetailList}" var="billDetails" varStatus="count">
@@ -113,7 +117,13 @@ duplicate for tranpoter</p>
 								maxFractionDigits="2" minFractionDigits="2" value="${billDetails.sgstPer}"/></td>
     <td align="right" style="border-left:1px solid #313131; padding:3px 5px;color:#000;font-size:10px;"><fmt:formatNumber type="number"
 								maxFractionDigits="2" minFractionDigits="2" value="${billDetails.sgstRs}"/></td>
-								  <c:set var = "totalSgst" value = "${totalSgst+billDetails.sgstRs}"/>
+						 <c:set var = "totalSgst" value = "${totalSgst+billDetails.sgstRs}"/>
+								
+	  <td align="right" style="border-left:1px solid #313131; padding:3px 5px;color:#000;font-size:10px;"><fmt:formatNumber type="number"
+								maxFractionDigits="2" minFractionDigits="2" value="${billDetails.igstPer}"/></td>
+    <td align="right" style="border-left:1px solid #313131; padding:3px 5px;color:#000;font-size:10px;"><fmt:formatNumber type="number"
+								maxFractionDigits="2" minFractionDigits="2" value="${billDetails.igstRs}"/></td>	
+								<c:set var = "totalIgst" value = "${totalIgst+billDetails.igstRs}"/>						
 	  <td align="right" style="border-left:1px solid #313131; padding:3px 5px;color:#000;font-size:10px;"><fmt:formatNumber type="number"
 								maxFractionDigits="2" minFractionDigits="2" value="${billDetails.cessPer}"/></td>
     <td align="right" style="border-left:1px solid #313131; padding:3px 5px;color:#000;font-size:10px;"><fmt:formatNumber type="number"
@@ -139,6 +149,9 @@ duplicate for tranpoter</p>
 								maxFractionDigits="2" minFractionDigits="2" value="${totalSgst}"/></b></td>
 	   <td align="center" style="border-top:1px solid #313131;border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:0px;">-</td>
     <td align="right" style="border-top:1px solid #313131;border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:12px;"><b><fmt:formatNumber type="number"
+								maxFractionDigits="2" minFractionDigits="2" value="${totalIgst}"/></b></td>				
+	<td align="center" style="border-top:1px solid #313131;border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:0px;">-</td>
+    <td align="right" style="border-top:1px solid #313131;border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:12px;"><b><fmt:formatNumber type="number"
 								maxFractionDigits="2" minFractionDigits="2" value="${totalCess}"/></b></td>							
   </tr> 
    <tr>
@@ -148,9 +161,9 @@ duplicate for tranpoter</p>
            <td align="right" style="border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:0px;">-</td>
            <td align="right" style="border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:0px;">-</td>
    
-    <td style="border-bottom:1px solid #313131; font-size:0px;">-</td><td style="border-bottom:1px solid #313131; font-size:0px;">-</td><td style="border-bottom:1px solid #313131;font-size:0px;">-</td><td style="border-bottom:1px solid #313131;padding:4px;color:#000; font-size:0px;">-</td><td style="border-bottom:1px solid #313131;font-size:0px;">-</td><td style="border-bottom:1px solid #313131;padding:4px;color:#000; font-size:0px;">-</td><td style="border-bottom:1px solid #313131;font-size:0px;">-</td><td style="border-bottom:1px solid #313131;font-size:12px;"><b>Total:</b></td>
+    <td style="border-bottom:1px solid #313131; font-size:0px;">-</td> <td style="border-bottom:1px solid #313131; font-size:0px;">-</td> <td style="border-bottom:1px solid #313131; font-size:0px;">-</td><td style="border-bottom:1px solid #313131; font-size:0px;">-</td><td style="border-bottom:1px solid #313131;font-size:0px;">-</td><td style="border-bottom:1px solid #313131;padding:4px;color:#000; font-size:0px;">-</td><td style="border-bottom:1px solid #313131;font-size:0px;">-</td><td style="border-bottom:1px solid #313131;padding:4px;color:#000; font-size:0px;">-</td><td style="border-bottom:1px solid #313131;font-size:0px;">-</td><td style="border-bottom:1px solid #313131;font-size:12px;"><b>Total:</b></td>
     <td align="right" style="border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:12px;"><b><fmt:formatNumber type="number"
-								maxFractionDigits="2" minFractionDigits="2" value="${totalAmt+totalCgst+totalSgst+totalCess}"/></b></td>
+								maxFractionDigits="2" minFractionDigits="2" value="${totalAmt+totalCgst+totalSgst+totalIgst+totalCess}"/></b></td>
   </tr>
 </table>
 
