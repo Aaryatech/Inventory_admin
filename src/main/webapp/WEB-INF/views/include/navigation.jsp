@@ -177,6 +177,22 @@
 				<li> 
 					<a href="${pageContext.request.contextPath}/bill">Invoice</a>
 					</li>
+					
+					<li> 
+					<a href="${pageContext.request.contextPath}/purchaseBillList">Purchase Bill List</a>
+					</li>
+					
+					<li> 
+					<a href="${pageContext.request.contextPath}/insertGrn">GRN GVN</a>
+					</li>
+					
+					<li> 
+					<a href="${pageContext.request.contextPath}/itemStock">Insert Opening Stock</a>
+					</li>
+					
+					<li> 
+					<a href="${pageContext.request.contextPath}/getCurrentStock">Get Current Stock</a>
+					</li>
 					</ul>
 					
 				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
