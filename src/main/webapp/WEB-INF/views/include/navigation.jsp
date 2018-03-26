@@ -166,7 +166,19 @@
 					</li>
  
 				</ul>
-				
+					<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
+					<span>Transaction</span> <b class="arrow fa fa-angle-right"></b>
+				</a>
+				<!-- BEGIN Submenu -->
+				<ul class="submenu">
+				<li> 
+					<a href="${pageContext.request.contextPath}/orders">Orders</a>
+					</li>
+				<li> 
+					<a href="${pageContext.request.contextPath}/bill">Invoice</a>
+					</li>
+					</ul>
+					
 				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
 					<span>Logout</span> <b class="arrow fa fa-angle-right"></b>
 				</a>
