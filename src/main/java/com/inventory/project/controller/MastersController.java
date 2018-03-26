@@ -395,8 +395,13 @@ public class MastersController {
 			
 					
 				map.add("flag", 1);
-				ItemGroup[] itemGroup = rest.postForObject(Constants.url + "getAllGroupList",map, ItemGroup[].class);
-				ArrayList<ItemGroup> itemGroupList = new ArrayList<ItemGroup>(Arrays.asList(itemGroup));
+				ItemGroup[] allGroup = rest.postForObject(Constants.url + "getAllGroupList",map, ItemGroup[].class);
+				ArrayList<ItemGroup> allGroupList = new ArrayList<ItemGroup>(Arrays.asList(allGroup));
+				
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("flag", 0);
+				ItemGroup[] activeGroup = rest.postForObject(Constants.url + "getAllGroupList",map, ItemGroup[].class);
+				ArrayList<ItemGroup> activeGroupList = new ArrayList<ItemGroup>(Arrays.asList(activeGroup));
 			  
 				map = new LinkedMultiValueMap<String, Object>();
 				map.add("flag", 0);
@@ -405,7 +410,8 @@ public class MastersController {
 				ArrayList<ItemCategory> itemCategoryList = new ArrayList<ItemCategory>(Arrays.asList(itemCategory)); 
 				
 				model.addObject("itemCategoryList",itemCategoryList);
-				model.addObject("itemGroupList",itemGroupList);
+				model.addObject("activeGroupList",activeGroupList);
+				model.addObject("itemGroupList",allGroupList);
 			}catch(Exception e)
 			{
 				e.printStackTrace();
@@ -936,6 +942,28 @@ public class MastersController {
 		}
 
 		return "redirect:/addUser";
+	}
+	
+	
+	@RequestMapping(value = "/getSupplierListForPurchaseLis", method = RequestMethod.GET)
+	@ResponseBody
+	public List<SupplierMaster> getSupplierListForPurchaseLis(HttpServletRequest request, HttpServletResponse response) {
+		
+		RestTemplate rest = new RestTemplate();
+		List<SupplierMaster> supplierList = new ArrayList<SupplierMaster>();
+		try {
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("flag", 0);
+			SupplierMaster[] supplierMaster = rest.postForObject(Constants.url + "getSuppllierList",map,
+					SupplierMaster[].class);
+			supplierList = new ArrayList<SupplierMaster>(Arrays.asList(supplierMaster));
+			 
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return supplierList;
 	}
 	
 

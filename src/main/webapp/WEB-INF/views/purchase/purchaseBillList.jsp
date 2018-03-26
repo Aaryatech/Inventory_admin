@@ -15,6 +15,7 @@
  
 
 	<c:url var="purchaseBillBetweenDate" value="/purchaseBillBetweenDate"></c:url> 
+	<c:url var="getSupplierListForPurchaseLis" value="/getSupplierListForPurchaseLis"></c:url> 
 
 
 	<div class="container" id="main-container">
@@ -274,6 +275,14 @@
 			{
 			
 			$('#loader').show();
+			
+			 $.getJSON('${getSupplierListForPurchaseLis}',
+
+						{ 
+							ajax : 'true'
+
+						},
+						function(suplist) {
 
 			$.getJSON('${purchaseBillBetweenDate}',
 
@@ -294,17 +303,33 @@
 									alert("No records found !!");
 									 document.getElementById("expExcel").disabled=true;
 								}
+								
+								
+
+											 
+										
 							 
+								var len = suplist.length; 
+								 
 
 							  $.each( data, function(key, itemList) {
 												
 								 
-									
+									var suppname;
 												var tr = $('<tr></tr>');
 											  	tr.append($('<td style="text-align:center;"></td>').html(key+1)); 
 											  	tr.append($('<td style="text-align:center;"></td>').html(itemList.invoiceNo));
 											  	tr.append($('<td style="text-align:center;"></td>').html(itemList.invDate));  
-											  	tr.append($('<td style="text-align:center;"></td>').html(itemList.suppId)); 
+											  	
+											  	for(var i=0;i<len;i++)
+											  	{
+											  		if(suplist[i].suppId==itemList.suppId)
+											  			{
+											  			suppname = suplist[i].suppName;
+											  			}
+											  	}
+											   
+											  	tr.append($('<td style="text-align:center;"></td>').html(suppname)); 
 											  	tr.append($('<td style="text-align:right"></td>').html((itemList.taxableAmt).toFixed(2)));
 											  	tr.append($('<td style="text-align:right"></td>').html((itemList.cgst+itemList.sgst+itemList.igst).toFixed(2))); 
 											  	tr.append($('<td style="text-align:right"></td>').html((itemList.cess).toFixed(2))); 
@@ -317,7 +342,7 @@
 
 											})  
 							});
-
+						});
 			}
 	}
 		 

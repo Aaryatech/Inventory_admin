@@ -134,6 +134,16 @@
 												<input type="text" class="form-control" id="discPer" name="discPer" value="0">
 											</div>
 									 
+						</div><br>
+						
+						<div class="box-content">
+										 
+										<div class="col-md-2">Expire Date</div>
+											<div class="col-md-2">
+												<input type="text" class="form-control date-picker" id="expireDate" name="expireDate" >
+											</div>
+											 
+									 
 						</div><br><br>
 						
 						<div class="box-content">
@@ -172,6 +182,7 @@
 												<th>Total<i class="fa fa-inr" style="font-size:13px"></i></th>
 												<th>Wholesale Rate<i class="fa fa-inr" style="font-size:13px"></i></th>
 												<th>Retail Rate<i class="fa fa-inr" style="font-size:13px"></i></th>
+												<th>Expire Date</th>
 												<th>Action</th>
 
 											</tr>
@@ -504,6 +515,7 @@
 		var freightAmt = $("#freightAmt").val();
 		var index = $("#index").val();
 		var suppId = $("#suppId").val();
+		var expireDate = $("#expireDate").val();
 		var valid=0;
 		if (suppId=="" || isNaN(suppId)) {
 
@@ -571,6 +583,14 @@
 			valid=1;
 
 		}
+		
+		if (expireDate=="") {
+
+			 
+			alert("Enter Expire Date");
+			valid=1;
+
+		}
 		  
 		if(valid==0)
 			{
@@ -589,6 +609,7 @@
 							extraCharges : extraCharges,
 							insuranceAmt : insuranceAmt,
 							freightAmt : freightAmt,
+							expireDate : expireDate,
 							ajax : 'true',
 
 						},
@@ -639,7 +660,7 @@
 										  	tr.append($('<td style="text-align:right;"></td>').html('<input style="text-align:right; width:100px" type="text" onchange="changeRate('+key+')" id="retailRate'+key+'" value="'+(itemList.retailRate).toFixed(2)+'"  class="form-control" '+
 												  	' name="retailRate'+key+'" required><input type="hidden"  id="retailRateOrigingal'+key+'"  value="'+(itemList.retailRate).toFixed(2)+'"  >'));
 										  	
-										  	 
+										  	tr.append($('<td></td>').html(itemList.expiryDate)); 
 										  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" onclick="edit('+key+');"></span> <span class="glyphicon glyphicon-remove" onclick="deleteItem('+key+');""></span>')); 
 											$('#table_grid tbody').append(tr);
 											
@@ -668,7 +689,7 @@
 							document.getElementById("rate").value="1";
 							document.getElementById("discPer").value="0";
 							document.getElementById("index").value="";
-							
+							document.getElementById("expireDate").value="";
 						});
 				
 			 
@@ -741,7 +762,7 @@
 										  	
 									tr.append($('<td style="text-align:right;"></td>').html('<input style="text-align:right; width:100px" type="text" onchange="changeRate('+key+')" id="retailRate'+key+'" value="'+(itemList.retailRate).toFixed(2)+'"  class="form-control" '+
 												  	' name="retailRate'+key+'" required><input type="hidden"  id="retailRateOrigingal'+key+'"  value="'+(itemList.retailRate).toFixed(2)+'"  >'));
-									 
+									tr.append($('<td></td>').html(itemList.expiryDate)); 
 								  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" onclick="edit('+key+');"></span>'
 										  	+'<span class="glyphicon glyphicon-remove" onclick="deleteItem('+key+');"></span>')); 
 									$('#table_grid tbody').append(tr);
@@ -790,7 +811,8 @@
 					document.getElementById("itemId").value=data.itemId;
 					document.getElementById("recQty").value=data.recQty;
 					document.getElementById("rate").value=data.rate;
-					document.getElementById("discPer").value=data.discPer;  
+					document.getElementById("discPer").value=data.discPer; 
+					document.getElementById("expireDate").value=data.expiryDate;
 							 
 					
 				});
@@ -898,6 +920,7 @@
 										tr.append($('<td style="text-align:right;"></td>').html('<input style="text-align:right; width:100px" type="text" onchange="changeRate('+key+')" id="retailRate'+key+'" value="'+(itemList.retailRate).toFixed(2)+'"  class="form-control" '+
 													  	' name="retailRate'+key+'" required><input type="hidden"  id="retailRateOrigingal'+key+'"  value="'+(itemList.retailRate).toFixed(2)+'"  >'));
 										
+										tr.append($('<td></td>').html(itemList.expiryDate)); 
 									  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" onclick="edit('+key+');"></span>'
 											  	+'<span class="glyphicon glyphicon-remove" onclick="deleteItem('+key+');""></span>')); 
 										$('#table_grid tbody').append(tr);

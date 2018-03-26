@@ -109,7 +109,9 @@
 												<th>Sr.No.</th> 
 												<th >Batch No.</th>
 												<th >Item</th>
+												<th>Expire Date</th> 
 												<th>In Qty</th>  
+												 
 												  
 											</tr>
 										</thead>
@@ -126,6 +128,7 @@
 														<td ><c:out value="${count.index+1}" /></td> 
 														<td ><c:out value="${purchaseDetailList.batchNo}" /></td>
 														<td ><c:out value="${purchaseDetailList.itemName}" /></td> 
+														<td ><c:out value="${purchaseDetailList.expiryDate}" /></td>
 												 	 	<td align="right" ><c:out value="${purchaseDetailList.recQty}" /> </td>
 												 	 	 
 													</tr>

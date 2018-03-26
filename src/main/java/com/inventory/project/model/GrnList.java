@@ -1,9 +1,11 @@
 package com.inventory.project.model;
- 
+  
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class GrnList {
 	 
+	private int purDetailId; 
 	private int purchaseId;  
 	private String invoiceNo; 
 	private String invDate;  
@@ -15,6 +17,14 @@ public class GrnList {
 	private String hsnCode; 
 	private int balance; 
 	private float rateWithTax;
+	private String expiryDate;
+	
+	public int getPurDetailId() {
+		return purDetailId;
+	}
+	public void setPurDetailId(int purDetailId) {
+		this.purDetailId = purDetailId;
+	}
 	public int getPurchaseId() {
 		return purchaseId;
 	}
@@ -83,11 +93,19 @@ public class GrnList {
 	public void setBatchNo(String batchNo) {
 		this.batchNo = batchNo;
 	}
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public String getExpiryDate() {
+		return expiryDate;
+	}
+	public void setExpiryDate(String expiryDate) {
+		this.expiryDate = expiryDate;
+	}
 	@Override
 	public String toString() {
-		return "GrnList [purchaseId=" + purchaseId + ", invoiceNo=" + invoiceNo + ", invDate=" + invDate + ", suppId="
-				+ suppId + ", suppName=" + suppName + ", batchNo=" + batchNo + ", itemId=" + itemId + ", itemName="
-				+ itemName + ", hsnCode=" + hsnCode + ", balance=" + balance + ", rateWithTax=" + rateWithTax + "]";
+		return "GrnList [purDetailId=" + purDetailId + ", purchaseId=" + purchaseId + ", invoiceNo=" + invoiceNo
+				+ ", invDate=" + invDate + ", suppId=" + suppId + ", suppName=" + suppName + ", batchNo=" + batchNo
+				+ ", itemId=" + itemId + ", itemName=" + itemName + ", hsnCode=" + hsnCode + ", balance=" + balance
+				+ ", rateWithTax=" + rateWithTax + ", expiryDate=" + expiryDate + "]";
 	}
 	
 	

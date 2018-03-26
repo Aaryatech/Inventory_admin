@@ -1,5 +1,6 @@
 package com.inventory.project.model;
- 
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class PurchaseDetail {
 	 
@@ -37,6 +38,7 @@ public class PurchaseDetail {
 	private float wholesaleRate; 
 	private float retailRate; 
 	private int delStatus;
+	private String expiryDate;
 	public int getPurDetailId() {
 		return purDetailId;
 	}
@@ -245,6 +247,13 @@ public class PurchaseDetail {
 	public void setDelStatus(int delStatus) {
 		this.delStatus = delStatus;
 	}
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public String getExpiryDate() {
+		return expiryDate;
+	}
+	public void setExpiryDate(String expiryDate) {
+		this.expiryDate = expiryDate;
+	}
 	@Override
 	public String toString() {
 		return "PurchaseDetail [purDetailId=" + purDetailId + ", purchaseId=" + purchaseId + ", itemName=" + itemName
@@ -256,7 +265,7 @@ public class PurchaseDetail {
 				+ ", roundOff=" + roundOff + ", discOnBill=" + discOnBill + ", otherExtra=" + otherExtra + ", batchNo="
 				+ batchNo + ", sellQty=" + sellQty + ", balance=" + balance + ", rateWithoutTax=" + rateWithoutTax
 				+ ", rateWithTax=" + rateWithTax + ", wholesaleRate=" + wholesaleRate + ", retailRate=" + retailRate
-				+ ", delStatus=" + delStatus + "]";
+				+ ", delStatus=" + delStatus + ", expiryDate=" + expiryDate + "]";
 	}
 	 
 	

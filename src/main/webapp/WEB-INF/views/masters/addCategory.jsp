@@ -59,8 +59,8 @@
 									<div class="col-sm-9 col-lg-10 controls">
 										 <select id="groupId" name="groupId" class="form-control" required>
 									  <option value="">Select Company</option>
-										  <c:forEach items="${itemGroupList}" var="itemGroupList" varStatus="count"> 
-										 	 <option value="${itemGroupList.groupId}">${itemGroupList.groupName}</option> 
+										  <c:forEach items="${activeGroupList}" var="activeGroupList" varStatus="count"> 
+										 	 <option value="${activeGroupList.groupId}">${activeGroupList.groupName}</option> 
 										  </c:forEach>
 									 
 									 </select>

@@ -158,6 +158,7 @@ public class PurchaseController {
 			float extraCharges = Float.parseFloat(request.getParameter("extraCharges"));
 			String itemName = request.getParameter("itemName");
 			String index = request.getParameter("index");
+			String expireDate = request.getParameter("expireDate");
 			
 			 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
@@ -186,7 +187,7 @@ public class PurchaseController {
 				addItem.setCessPer(itemMaster.getCess());
 				String batchNo = itemId+"-"+tSetting.getSettingValue();
 				addItem.setBatchNo(batchNo);
-				
+				addItem.setExpiryDate(expireDate);
 				purchaseDetailtemList.add(addItem);
 				 
 				float totalValue = 0; 
@@ -259,10 +260,19 @@ public class PurchaseController {
 			{
 				System.out.println("edit Item");
 				 int key=Integer.parseInt(index);
+				 if(purchaseDetailtemList.get(key).getItemId()!=itemId)
+				 {
+					map = new LinkedMultiValueMap<String, Object>();
+					map.add("key", "Batch No");
+					TSetting tSetting = rest.postForObject(Constants.url + "getSettingValueByKey",map, TSetting.class);
+					String batchNo = itemId+"-"+tSetting.getSettingValue();
+					purchaseDetailtemList.get(key).setBatchNo(batchNo);
+				 }
 				purchaseDetailtemList.get(key).setItemName(itemName);
 				purchaseDetailtemList.get(key).setItemId(itemId);
 				purchaseDetailtemList.get(key).setRate(rate);
 				purchaseDetailtemList.get(key).setRecQty(recQty);
+				purchaseDetailtemList.get(key).setExpiryDate(expireDate);
 				purchaseDetailtemList.get(key).setValue(Float.valueOf(df.format(recQty*rate))); 
 				purchaseDetailtemList.get(key).setDiscPer(discPer);
 				purchaseDetailtemList.get(key).setDiscAmt(Float.valueOf(df.format((discPer/100)*purchaseDetailtemList.get(key).getValue()))); 
@@ -271,6 +281,7 @@ public class PurchaseController {
 				purchaseDetailtemList.get(key).setSgstPer(itemMaster.getSgst());
 				purchaseDetailtemList.get(key).setIgstPer(itemMaster.getIgst());
 				purchaseDetailtemList.get(key).setCessPer(itemMaster.getCess()); 
+				
 				 
 				float totalValue = 0; 
 				
@@ -640,6 +651,7 @@ public class PurchaseController {
 					purchaseDetail.setRateWithoutTax(purchaseDetailtemList.get(i).getRateWithoutTax());
 					purchaseDetail.setWholesaleRate(purchaseDetailtemList.get(i).getWholesaleRate());
 					purchaseDetail.setRetailRate(purchaseDetailtemList.get(i).getRetailRate());
+					purchaseDetail.setExpiryDate(purchaseDetailtemList.get(i).getExpiryDate());
 					purchaseDetailList.add(purchaseDetail);
 				}
 				insert.setPurchaseDetailList(purchaseDetailList);
@@ -756,6 +768,7 @@ public class PurchaseController {
 						 itemBarcode.setItemName(purchaseDetailListForBarcode.get(i).getItemName());
 						 itemBarcode.setBatchNo(purchaseDetailListForBarcode.get(i).getBatchNo());
 						 itemBarcode.setQty(purchaseDetailListForBarcode.get(i).getRecQty());
+						 itemBarcode.setExpireDate(purchaseDetailListForBarcode.get(i).getExpiryDate());
 						 itemBarcodelist.add(itemBarcode);
 					}
 						 
@@ -796,9 +809,12 @@ public class PurchaseController {
 
 						String text = barcode + System.getProperty("line.separator")
 								+ "TEXT 347,40,\"ROMAN.TTF\",180,1,10,\"" + prod.getBatchNo() + "\"";
+						
+						String expireDate = text + System.getProperty("line.separator")
+						+ "TEXT 347,40,\"ROMAN.TTF\",180,1,10,\"" + prod.getExpireDate() + "\"";
  
 
-						String contents = text + System.getProperty("line.separator") + "PRINT 1,1"
+						String contents = expireDate + System.getProperty("line.separator") + "PRINT 1,1"
 								+ System.getProperty("line.separator");
 
 						writer.write(contents);

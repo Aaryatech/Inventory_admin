@@ -21,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.inventory.project.common.Constants;
+import com.inventory.project.common.DateConvertor;
 import com.inventory.project.model.GrnGvnDetail;
 import com.inventory.project.model.GrnGvnHeader;
 import com.inventory.project.model.GrnList;
@@ -81,6 +82,30 @@ public class GrnController {
 		return supplierMaster;
 	}
 	
+	@RequestMapping(value = "/getallExpireItemSupllierWise", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GrnList> getallExpireItemSupllierWise(HttpServletRequest request, HttpServletResponse response) {
+		
+		 
+		 getGrnList = new ArrayList<GrnList>();
+		try {
+			 Date date = new Date();
+			 SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+			int suppId = Integer.parseInt(request.getParameter("suppId")); 
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			 map.add("suppId", suppId);
+			 map.add("currentDate", DateConvertor.convertToYMD(sf.format(date)));
+			 GrnList[] allGrnList = rest.postForObject(Constants.url + "getallExpireItemSupllierWise",map, GrnList[].class);
+			 getGrnList = new ArrayList<GrnList>(Arrays.asList(allGrnList));
+			 
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return getGrnList;
+	}
+	
 	@RequestMapping(value = "/getGrnList", method = RequestMethod.GET)
 	@ResponseBody
 	public List<GrnList> getGrnList(HttpServletRequest request, HttpServletResponse response) {
@@ -101,9 +126,12 @@ public class GrnController {
 			 }
 			 if(flag!=1)
 			 {
+				 Date date = new Date();
+				 SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
 				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 				 map.add("batchNo", batchNo);
 				 map.add("suppId", suppId);
+				 map.add("currentDate", DateConvertor.convertToYMD(sf.format(date)));
 				 GrnList grnList = rest.postForObject(Constants.url + "getItemFromPurchaseBillForGvn",map, GrnList.class);
 				 
 				 if(grnList.getPurchaseId()!=0)
@@ -149,7 +177,7 @@ public class GrnController {
 				for(int i=0;i<getGrnList.size();i++)
 				{
 					getGrnList.get(i).setRateWithTax(Float.parseFloat(request.getParameter("rateWithTaxRate"+i)));
-					getGrnList.get(i).setBalance(Integer.parseInt(request.getParameter("balanceRate"+i))); 
+					getGrnList.get(i).setBalance(Integer.parseInt(request.getParameter("balanceRate"+i)));  
 				}
 				 
 				GrnGvnHeader insert = new GrnGvnHeader();

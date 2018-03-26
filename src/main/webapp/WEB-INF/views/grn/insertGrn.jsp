@@ -7,7 +7,7 @@
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<body> 
 <c:url var="addItemInPurchaseBill" value="/addItemInPurchaseBill"></c:url>
-<c:url var="editPurchaseItemList" value="/editPurchaseItemList"></c:url>
+<c:url var="getallExpireItemSupllierWise" value="/getallExpireItemSupllierWise"></c:url>
 <c:url var="delteItemFromGrnList" value="/delteItemFromGrnList"></c:url>
 <c:url var="getGrnList" value="/getGrnList"></c:url>
 <c:url var="getGstinNo" value="/getGstinNo"></c:url>
@@ -89,7 +89,7 @@
 						<div class="box-content">
 						<div class="col-md-2" >Batch No</div>
 									<div class="col-md-3">
-										 <input type="text" name="batchNo" id="batchNo" class="form-control" required>
+										 <input type="text" name="batchNo" id="batchNo" class="form-control"  >
 									</div>
 							<div class="col-md-1"><input type="button" class="btn btn-info" id=search onclick="searchItem();" value="Search"></div>
 							 
@@ -121,10 +121,8 @@
 											</tr>
 										</thead>
 										<tbody>
-
-
-											 
-
+										
+										 
 										</tbody>
 									</table>
 								</div>
@@ -223,8 +221,7 @@
 		{
 		
 		 var suppId = $("#suppId").val();
-			$
-			.getJSON(
+			$.getJSON(
 					'${getGstinNo}',
 
 					{
@@ -236,6 +233,59 @@
 					function(data) {
 						 
 						document.getElementById("gstinNo").value=data.gstinNo;
+						
+						$.getJSON(
+								'${getallExpireItemSupllierWise}',
+
+								{
+									 
+									suppId : suppId, 
+									ajax : 'true',
+
+								},
+								function(list) {
+									
+									$('#table_grid td').remove();
+									if (list == "") {
+										alert("No records found !!");
+
+									}
+									else
+										{
+										document.getElementById("suppId").disabled=true;
+										document.getElementById("submit").disabled=false;
+										document.getElementById("suppId").value=suppId;
+										document.getElementById("supId").value=suppId;
+										}
+									$.each( list, function(key, itemList) {
+												
+												 
+												var tr = $('<tr></tr>');
+													tr.append($('<td></td>').html(key+1));
+													tr.append($('<td></td>').html(itemList.invoiceNo));
+												  	tr.append($('<td></td>').html(itemList.invDate));
+												  	tr.append($('<td></td>').html(itemList.itemName));
+												  	tr.append($('<td></td>').html(itemList.batchNo)); 
+												  	tr.append($('<td></td>').html(itemList.hsnCode));  
+												  	tr.append($('<td style="text-align:right;"></td>').html('<input style="text-align:right; width:100px" type="text" onchange="changeRate('+key+')" id="rateWithTaxRate'+key+'" value="'+(itemList.rateWithTax).toFixed(2)+'"  class="form-control" '+
+														  	'  name="rateWithTaxRate'+key+'" required><input type="hidden"  id="rateWithTaxOrigingal'+key+'"  value="'+(itemList.rateWithTax).toFixed(2)+'"  >'));
+												  	
+												  	tr.append($('<td style="text-align:right;"></td>').html('<input style="text-align:right; width:100px" type="text" onchange="changeRate('+key+')" id="balanceRate'+key+'" value="'+itemList.balance+'"  class="form-control" '+
+														  	'  name="balanceRate'+key+'" required><input type="hidden"  id="balanceOrigingal'+key+'"  value="'+itemList.balance+'"  >'));
+												  	
+												  	 
+												  	 tr.append($('<td style="text-align:right;"></td>').html('<input style="text-align:right; width:100px" type="text" onchange="changeRate('+key+')" id="total'+key+'" value="'+(itemList.rateWithTax*itemList.balance).toFixed(2)+'"  class="form-control" '+
+															  	'  name="total'+key+'" readonly>')); 
+												  	 
+												  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-remove" onclick="deleteItem('+key+');""></span>')); 
+													$('#table_grid tbody').append(tr);
+													
+												 
+
+											})
+											
+									
+								});
 						
 					});
 			
@@ -284,7 +334,7 @@
 							}
 							else
 								{
-								document.getElementById("suppId").disabled=true;
+							 
 								document.getElementById("submit").disabled=false;
 								document.getElementById("suppId").value=suppId;
 								document.getElementById("supId").value=suppId;
@@ -399,11 +449,29 @@
 	   	if(rateWithTaxRate=="")
 	   		{
 	   		document.getElementById("rateWithTaxRate"+key+"").value=rateWithTaxOrigingal;
+	   		document.getElementById("total"+key+"").value=(rateWithTaxOrigingal*balanceRate).toFixed(2);
+	   		}
+	   	else
+	   		{
+	   		document.getElementById("total"+key+"").value=(rateWithTaxRate*balanceRate).toFixed(2);
 	   		}
 		if(balanceRate=="")
 	   		{
 	   		document.getElementById("balanceRate"+key+"").value=balanceOrigingal;
+	   		document.getElementById("total"+key+"").value=(balanceOrigingal*rateWithTaxRate).toFixed(2);
 	   		}
+		else
+   		{
+			if(rateWithTaxRate=="")
+				{
+				document.getElementById("total"+key+"").value=(rateWithTaxOrigingal*balanceRate).toFixed(2);
+				}
+			else
+				{
+				document.getElementById("total"+key+"").value=(rateWithTaxRate*balanceRate).toFixed(2);
+				}
+   		
+   		}
 		 
 	}
 	  
