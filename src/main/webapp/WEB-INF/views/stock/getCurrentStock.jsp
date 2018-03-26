@@ -92,7 +92,7 @@
 								 <div class="col-md-2">Select Category</div>
 								 	<div class="col-md-3">
 									<select name="catId" id="catId"  class="form-control"   >
-										 <option value="">Select Category</option> 
+										 <option value="0">All</option> 
 											 <c:forEach items="${itemCategoryList}" var="itemCategoryList">
 												<option value="${itemCategoryList.catId}"><c:out value="${itemCategoryList.catName}"/></option>
 												</c:forEach> 
@@ -326,12 +326,11 @@
 				alert("Enter From Date");
 				valid=1;
 			}
-		else if(toDate=="" || toDate>=date)
+		else if(toDate=="" || compareDate()==false)
 		{
 			if(toDate=="")
 				alert("Enter To Date");
-			else
-				alert("Enter Date Befor Stock Date");
+		 
 			valid=1;
 		}
 		else if(catId=="")
@@ -413,6 +412,47 @@ function unlockDiv() {
 		 
 	 
 }
+
+function compareDate() {
+	 
+	var date = $('#date').val();//delivery Date
+	var toDate = $('#toDate').val();
+	var fromDate = $('#fromDate').val();
+	
+	var isValid=false;
+	
+	var stockDate = date.split('-'); 
+	var toDateValue = toDate.split('-');
+	var fromDateValue = fromDate.split('-');
+	
+	var tDate=new Date();
+	tDate.setFullYear(toDateValue[2],(toDateValue[1] - 1 ),toDateValue[0]);
+	 
+	var sDate=new Date();
+	sDate.setFullYear(stockDate[2],(stockDate[1] - 1 ),stockDate[0]);
+	
+	var frDate=new Date();
+	frDate.setFullYear(fromDateValue[2],(fromDateValue[1] - 1 ),fromDateValue[0]);
+ 
+	if(sDate<=tDate || tDate<frDate) 
+		{
+			if(sDate<=tDate)
+				alert("Enter To Date Befor The Stock Date ");
+			else
+				alert("Enter from Date Befor The To Date ");
+		isValid=false; 
+		}
+		
+	else
+		{
+		isValid = true; 
+		}
+		
+ 
+       return isValid;
+ 
+}
+
 	function changeQty(itemId)
 	{
 		 
