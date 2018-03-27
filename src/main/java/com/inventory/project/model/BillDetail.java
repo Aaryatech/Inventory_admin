@@ -45,12 +45,22 @@ public class BillDetail {
 	
 	private float taxAmt;
 	
+	private float discAmt;
+	
 	private float grandTotal;
 
 	private int uniqueKey;
 	
 	
 	
+	public float getDiscAmt() {
+		return discAmt;
+	}
+
+	public void setDiscAmt(float discAmt) {
+		this.discAmt = discAmt;
+	}
+
 	public float getValue() {
 		return value;
 	}
@@ -243,9 +253,9 @@ public class BillDetail {
 				+ rate + ", baseRate=" + baseRate + ", batchNo=" + batchNo + ", value=" + value + ", taxableAmt="
 				+ taxableAmt + ", cgstPer=" + cgstPer + ", cgstRs=" + cgstRs + ", sgstPer=" + sgstPer + ", sgstRs="
 				+ sgstRs + ", igstPer=" + igstPer + ", igstRs=" + igstRs + ", cessPer=" + cessPer + ", cessRs=" + cessRs
-				+ ", taxAmt=" + taxAmt + ", grandTotal=" + grandTotal + ", uniqueKey=" + uniqueKey + "]";
+				+ ", taxAmt=" + taxAmt + ", discAmt=" + discAmt + ", grandTotal=" + grandTotal + ", uniqueKey="
+				+ uniqueKey + "]";
 	}
-
-	
     
+
 }
