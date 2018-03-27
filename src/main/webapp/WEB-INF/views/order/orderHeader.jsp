@@ -146,7 +146,16 @@
 															</c:choose></td>
 														
 															<td align="left">
-                                                        	<a href="${pageContext.request.contextPath}/bill/${order.orderId}"><abbr title="BILL"><input type="button" value="BILL" class="btn btn-default"/></abbr></a>&nbsp;&nbsp;
+                                                        	<c:choose>
+															<c:when test="${order.orderStatus==2}">
+															<a href="" onclick="return billAlert()"><abbr title="BILL"><input type="button" value="BILL" class="btn btn-default"/></abbr></a>
+															</c:when>
+															<c:otherwise>
+															<a href="${pageContext.request.contextPath}/bill/${order.orderId}"><abbr title="BILL"><input type="button" value="BILL" class="btn btn-default"/></abbr></a>
+															
+															</c:otherwise>
+															</c:choose>
+															&nbsp;&nbsp;
                                                        <abbr title="Bill Detail">  <a href="${pageContext.request.contextPath}/orderDetail/${order.orderId}"><span
 														class="fa fa-list fa-lg"></span></abbr></a>&nbsp;&nbsp;
                                                          </td>
@@ -238,7 +247,13 @@
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
 
-
+<script type="text/javascript">
+function billAlert()
+{
+	
+alert("Bill Already Completed Of this Order")	
+}
+</script>
 </body>
 
 </html>

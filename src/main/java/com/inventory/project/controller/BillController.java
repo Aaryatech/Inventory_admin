@@ -46,6 +46,7 @@ import com.inventory.project.model.GetOrderDetail;
 import com.inventory.project.model.Info;
 import com.inventory.project.model.ItemMaster;
 import com.inventory.project.model.PurchaseDetail;
+import com.inventory.project.model.TSetting;
 
 @Controller
 @Scope("session")
@@ -60,6 +61,7 @@ public class BillController {
 		{
             RestTemplate rest = new RestTemplate();
             insertBillList=new ArrayList<BillDetail>();
+            
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			
 			String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
@@ -68,9 +70,9 @@ public class BillController {
 			batchList = new ArrayList<PurchaseDetail>(Arrays.asList(purchaseDetailList));
             System.out.println("purchaseDetailList"+batchList.toString());
             
-       	 map = new LinkedMultiValueMap<String, Object>();
-		 map.add("flag", 0);
-		 ItemMaster[] itemMaster = rest.postForObject(Constants.url + "getItemList",map, ItemMaster[].class);
+         	 map = new LinkedMultiValueMap<String, Object>();
+		     map.add("flag", 0);
+		     ItemMaster[] itemMaster = rest.postForObject(Constants.url + "getItemList",map, ItemMaster[].class);
 			ArrayList<ItemMaster> itemList = new ArrayList<ItemMaster>(Arrays.asList(itemMaster));
 			model.addObject("itemList", itemList);
 			
@@ -80,6 +82,40 @@ public class BillController {
 					CustomerMaster[].class); 
 			ArrayList<CustomerMaster> customerList = new ArrayList<CustomerMaster>(Arrays.asList(customerMaster)); 
 			
+			 map = new LinkedMultiValueMap<String, Object>();
+			 map.add("key","invoice_no");
+             TSetting tsettingRes=rest.postForObject(Constants.url + "/getUniqueSettingValue",map,TSetting.class); 
+             
+             int CurrentYear = Calendar.getInstance().get(Calendar.YEAR);
+             int CurrentMonth = (Calendar.getInstance().get(Calendar.MONTH)+1);
+             String financiyalYearFrom="";
+             String financiyalYearTo="";
+             if(CurrentMonth<4)
+             {
+                 financiyalYearFrom=""+(CurrentYear-1);
+                 financiyalYearTo=""+(CurrentYear);
+             }
+             else
+             {
+                 financiyalYearFrom=""+(CurrentYear);
+                 financiyalYearTo=""+(CurrentYear+1);
+             }
+             financiyalYearFrom = financiyalYearFrom.substring(2);
+             financiyalYearTo = financiyalYearTo.substring(2);
+             
+             int maxInvLenth=String.valueOf(tsettingRes.getSettingValue()).length();
+             maxInvLenth=5-maxInvLenth;
+     		 StringBuilder invoiceNo=new StringBuilder(financiyalYearFrom+""+financiyalYearTo);
+     		
+     		for(int i=0;i<maxInvLenth;i++)
+     		{   String j="0";
+     		    invoiceNo.append(j);
+     		}
+     		invoiceNo.append(String.valueOf(tsettingRes.getSettingValue()));
+     		 System.out.println("invoiceNo"+invoiceNo);
+     		 model.addObject("", tsettingRes.getSettingValue());
+            model.addObject("invoiceNo", invoiceNo);
+            model.addObject("tsettingRes", tsettingRes); 
 			model.addObject("customerList",customerList); 		
 			model.addObject("currentDate", date);
 		}

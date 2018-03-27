@@ -48,7 +48,7 @@
 								<i class="fa fa-bars"></i>Invoice Detail
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/">Back to List</a> <a data-action="collapse" href="#"><i
+								<a href="${pageContext.request.contextPath}/bills"></a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 							
@@ -65,7 +65,7 @@
 									<div class="col-md-2">Invoice No:</div>
 									<div class="col-md-3">	<input class="form-control" id="invoice_no" size="14"
 													type="text" name="invoice_no"
-													placeholder="Invoice No." required />
+													placeholder="Invoice No." value="${invoiceNo}"required />
 									</div>
 							      <div class="col-md-3">Invoice Date:</div>
 								 
@@ -313,9 +313,20 @@
 										onclick="generateBill()">Generate Bill</button>
 									<button class="btn additem_btn" id="pdfBtn" 
 										onclick="pdfBtn()">Print Bill</button>
-								
+									<button class="btn additem_btn" id="viewbillbtn" 
+										onclick="location.href='${pageContext.request.contextPath}/orders';"style="display: none;".
+										>View Bills</button>
 								</center>
+		<div align="center" id="loader" style="display: none">
 
+					<span>
+						<h4>
+							<font color="#343690">Loading</font>
+						</h4>
+					</span> <span class="l-1"></span> <span class="l-2"></span> <span
+						class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
+					<span class="l-6"></span>
+				</div>
 								</div>
 							<!-- 	</form> -->
 							
@@ -395,7 +406,7 @@
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
 
-!------------------------CALLING FUNCTION WHEN FLAVOUR CHANGE FOR GETTING ADDON RATE---------------->		
+
 <script type="text/javascript">
 function onBatchChanged(batchNo,key1) {
 	
@@ -459,7 +470,7 @@ function onBatchChanged(batchNo,key1) {
 		     var grandAmt = total;// - (total * (discount / 100));
 			 document.getElementById("paidAmount").setAttribute('value',grandAmt);
 			 var paidAmount = $("#paidAmount").val();
-			 var grandMinusPaidAmt = grandAmt - paidAmount;alert("dd"+grandMinusPaidAmt)
+			 var grandMinusPaidAmt = grandAmt - paidAmount;
 			 document.getElementById('grandtotal').innerHTML=""+grandAmt;
 			 document.getElementById('grandtot').value=grandAmt;
 			 document.getElementById('remAmount').value=""+grandMinusPaidAmt; 
@@ -731,6 +742,7 @@ function generateBill()
 	var discount = $("#discount").val();
 	var invoiceNo = $("#invoice_no").val();
 	var invoiceDate = $("#invoice_date").val();
+	$('#loader').show();
 	$
 	.getJSON(
 			'${generateBill}',
@@ -744,8 +756,9 @@ function generateBill()
 
 			},
 			function(data) {
+				$('#loader').hide();
 				 alert("Bill Saved Successfully.")
-				   window.open('${pageContext.request.contextPath}/orders/');
+				document.getElementById('viewbillbtn').click();
 				    document.getElementById('invoice_no').value="";
 
 		    	    //document.getElementById('cust_id').value=0;
@@ -780,6 +793,7 @@ var remark = $("#remark").val();
 	var discount = $("#discount").val();
 	var invoiceNo = $("#invoice_no").val();
 	var invoiceDate = $("#invoice_date").val();
+	$('#loader').show();
 	$
 	.getJSON(
 			'${generateBill}',
@@ -793,11 +807,11 @@ var remark = $("#remark").val();
 
 			},
 			function(data) {
-				
+				$('#loader').hide();
 				alert("Bill Saved Successfully.")
+				document.getElementById('viewbillbtn').click();
 
-				   window.open('${pageContext.request.contextPath}/pdf?url=/showBillPdf/'+data.billNo);
-				
+				   window.open('${pageContext.request.contextPath}/pdf?url=pdf/showBillsPdf/'+data.billNo);
 
 		    	    document.getElementById('cust_id').value=0;
 				    document.getElementById('gstin_no').value="";
@@ -813,6 +827,7 @@ var remark = $("#remark").val();
 					 document.getElementById('remAmount').value=0; 
 					 document.getElementById('remAmt').innerHTML="";  
 					 document.getElementById('remark').value="";  
+					 document.getElementById('discount').value=0;
 					 document.getElementById('invoice_no').value="";  
 			});
 	

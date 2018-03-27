@@ -51,7 +51,7 @@
 								<i class="fa fa-bars"></i>Invoice Detail
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/">Back to List</a> <a data-action="collapse" href="#"><i
+								<a href="${pageContext.request.contextPath}/bills">Invoice List</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 							
@@ -71,7 +71,7 @@
 									<div class="col-md-2">Invoice No:</div>
 									<div class="col-md-3">	<input class="form-control" id="invoice_no" size="14"
 													type="text" name="invoice_no"
-													placeholder="Invoice No." required />
+													placeholder="Invoice No." value="${invoiceNo}"required />
 									</div>
 							      <div class="col-md-3">Invoice Date:</div>
 								 
@@ -290,7 +290,16 @@
 										onclick="pdfBtn()">Print Bill</button>
 								
 								</center>
+<div align="center" id="loader" style="display: none">
 
+					<span>
+						<h4>
+							<font color="#343690">Loading</font>
+						</h4>
+					</span> <span class="l-1"></span> <span class="l-2"></span> <span
+						class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
+					<span class="l-6"></span>
+				</div>
 								</div>
 							<!-- 	</form> -->
 							
@@ -722,7 +731,7 @@ function deleteItemDetail(batchNo,itemId,billQty,index){
 			var grandAmt = total;// - (total * (discount / 100));
 		    document.getElementById("paidAmount").setAttribute('value',grandAmt);
 			var paidAmount = $("#paidAmount").val();
-			var grandMinusPaidAmt = grandAmt - paidAmount;alert("dd"+grandMinusPaidAmt)
+			var grandMinusPaidAmt = grandAmt - paidAmount;
 		    document.getElementById('grandtotal').innerHTML=""+grandAmt;
 		    document.getElementById('grandtot').value=grandAmt;
 		    document.getElementById('remAmount').value=""+grandMinusPaidAmt; 
@@ -759,6 +768,8 @@ function generateBill()
 	var remark = $("#remark").val();
 	var paidAmount = $("#paidAmount").val();
 	var discount = $("#discount").val();
+	$('#loader').show();
+
 	$
 	.getJSON(
 			'${generateBill}',
@@ -778,7 +789,8 @@ function generateBill()
 
 			},
 			function(data) {
-				
+				$('#loader').hide();
+
 				alert("Bill Saved Successfully.")
 		    	     document.getElementById('cust_id').value=0;
 				     document.getElementById('gstin_no').value="";
@@ -817,6 +829,8 @@ function pdfBtn()
 	var remark = $("#remark").val();
 	var paidAmount = $("#paidAmount").val();
 	var discount = $("#discount").val();
+	$('#loader').show();
+
 	$
 	.getJSON(
 			'${generateBill}',
@@ -836,7 +850,8 @@ function pdfBtn()
 
 			},
 			function(data) {
-				
+				$('#loader').hide();
+
 				alert("Bill Saved Successfully.")
 
 				   window.open('${pageContext.request.contextPath}/pdf?url=/showBillPdf/'+data.billNo);
@@ -861,6 +876,8 @@ function pdfBtn()
 </script>
 <script type="text/javascript">
 		function validation() {
+			var invNo = $("#invoice_no").val();
+			var invdate = $("#invoice_date").val();
 			var custId = $("#cust_id").val();
 			var gstIn = $("#gstin_no").val();
 			var custType = $("#cust_type").val();
@@ -868,6 +885,14 @@ function pdfBtn()
 			var batchNo = $("#batch_no").val();
 			var qty = $("#qty").val();
 			var isValid = true;
+			if (invNo=="" || invNo == null) {
+				isValid = false;
+				alert("Please Enter Invoice No.");
+			} else
+			if (invdate=="" || invdate == null) {
+				isValid = false;
+				alert("Please Select Invoice Date");
+			} else
 			if (custId==0 || custId == null) {
 				isValid = false;
 				alert("Please Select Customer");

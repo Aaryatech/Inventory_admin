@@ -19,7 +19,8 @@
 	href="${pageContext.request.contextPath}/resources/assets/font-awesome/css/font-awesome.min.css">
 
 <!--page specific css styles-->
-
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/loader.css">
 <!--flaty css styles-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/flaty.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/flaty-responsive.css">

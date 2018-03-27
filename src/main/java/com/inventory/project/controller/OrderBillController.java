@@ -35,6 +35,7 @@ import com.inventory.project.model.GetOrderDetail;
 import com.inventory.project.model.Info;
 import com.inventory.project.model.ItemMaster;
 import com.inventory.project.model.PurchaseDetail;
+import com.inventory.project.model.TSetting;
 
 @Controller
 @Scope("session")
@@ -44,7 +45,7 @@ public class OrderBillController {
 	ArrayList<GetOrderDetail> orderDOrignalListRes;
 	ArrayList<PurchaseDetail> batchList;
 	private List<BillDetail> insertBillList=new ArrayList<BillDetail>();
-	GetOrder getOrderRes;
+	GetOrder getOrderRes=new GetOrder();
 	//-------------------------------------------------------------------------------------------------------------------------
 	@RequestMapping(value = "/bill/{orderId}", method = RequestMethod.GET)
 	public ModelAndView bill(@PathVariable("orderId") int orderId,HttpServletRequest request, HttpServletResponse response) {
@@ -73,6 +74,38 @@ public class OrderBillController {
 		 map.add("flag", 0);
 		 ItemMaster[] itemMaster = rest.postForObject(Constants.url + "getItemList",map, ItemMaster[].class);
 			ArrayList<ItemMaster> itemList = new ArrayList<ItemMaster>(Arrays.asList(itemMaster));
+			 map = new LinkedMultiValueMap<String, Object>();
+			 map.add("key","invoice_no");
+             TSetting tsettingRes=rest.postForObject(Constants.url + "/getUniqueSettingValue",map,TSetting.class); 
+             
+             int CurrentYear = Calendar.getInstance().get(Calendar.YEAR);
+             int CurrentMonth = (Calendar.getInstance().get(Calendar.MONTH)+1);
+             String financiyalYearFrom="";
+             String financiyalYearTo="";
+             if(CurrentMonth<4)
+             {
+                 financiyalYearFrom=""+(CurrentYear-1);
+                 financiyalYearTo=""+(CurrentYear);
+             }
+             else
+             {
+                 financiyalYearFrom=""+(CurrentYear);
+                 financiyalYearTo=""+(CurrentYear+1);
+             }
+             financiyalYearFrom = financiyalYearFrom.substring(2);
+             financiyalYearTo = financiyalYearTo.substring(2);
+             
+             int maxInvLenth=String.valueOf(tsettingRes.getSettingValue()).length();
+             maxInvLenth=5-maxInvLenth;
+     		 StringBuilder invoiceNo=new StringBuilder(financiyalYearFrom+""+financiyalYearTo);
+     		
+     		for(int i=0;i<maxInvLenth;i++)
+     		{   String j="0";
+     		    invoiceNo.append(j);
+     		}
+     		invoiceNo.append(String.valueOf(tsettingRes.getSettingValue()));
+     		 System.out.println("invoiceNo"+invoiceNo);
+            model.addObject("invoiceNo", invoiceNo);
 			model.addObject("itemList", itemList);
 			model.addObject("batchList", batchList);
 			model.addObject("currentDate", date);
@@ -154,20 +187,10 @@ public class OrderBillController {
 		try {
 		int batchKey=0;
 		GetOrderDetail getOrderDetail=orderDListRes.get(key);
-	System.out.println("getOrderDetailgetOrderDetail"+getOrderDetail.toString());
+	   System.out.println("getOrderDetailgetOrderDetail"+getOrderDetail.toString());
 		
-	/*	if(!prevBatchNo.equals("0"))
-		{
-			insertBillList=new ArrayList<BillDetail>();
-			for(int k=0;k<billDetailList.size();k++)
-			{
-				if(!billDetailList.get(k).getBatchNo().equals(prevBatchNo)&&billDetailList.get(k).getItemId()!=getOrderDetail.getItemId())
-				{
-					insertBillList.add(billDetailList.get(k));
-				}
-			}
-		}*/
-		PurchaseDetail purchaseDetail = null;
+
+		PurchaseDetail purchaseDetail = new PurchaseDetail();
 		List<PurchaseDetail> purchaseDetailList=new ArrayList<PurchaseDetail>();
 		System.err.println(getOrderRes.getIsSameState());
 		int isSameState=getOrderRes.getIsSameState();
@@ -857,7 +880,10 @@ orderDListRes.get(key).setOrderQty(0);//
             {
             	insertBillList=new ArrayList<BillDetail>();
             	Info info=rest.postForObject(Constants.url + "/bill/postPurchaseDetails", batchList,Info.class);
-
+            	
+    			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+    			map.add("orderId",getOrderRes.getOrderId());
+                Info infoRes=rest.postForObject(Constants.url + "/order/updateOrderStatus", map, Info.class);
             }
             System.out.println("Invoicea:"+billHeaderRes.toString());
 		}

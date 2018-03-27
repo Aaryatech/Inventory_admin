@@ -120,7 +120,7 @@
 													    <th width="100" align="left">Paid Amt</th>
 													    <th width="100" align="left">Remaining Amt</th>
 													    <th width="100" align="left">Status</th>
-														<th width="170" align="left">Action</th>
+														<th width="190" align="left">Action</th>
 												</tr>
 												</thead> 
                           
