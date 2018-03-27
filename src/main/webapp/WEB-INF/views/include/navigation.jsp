@@ -70,7 +70,7 @@
 			<!-- BEGIN Navlist -->
 			<a class="navbar-brand" href="#"
 				style="width: 100%; text-align: center; padding: 15px 0px;"> <img
-				src="${pageContext.request.contextPath}/resources/img/monginislogo.png"
+				src="${pageContext.request.contextPath}/resources/img/sona.jpg"
 				style="position: relative;" alt="">
 			</a>
 			<div style="clear: both;"></div>

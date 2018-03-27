@@ -113,7 +113,7 @@ public class BillController {
      		}
      		invoiceNo.append(String.valueOf(tsettingRes.getSettingValue()));
      		 System.out.println("invoiceNo"+invoiceNo);
-     		 model.addObject("", tsettingRes.getSettingValue());
+     		 model.addObject("settingValue", tsettingRes.getSettingValue());
             model.addObject("invoiceNo", invoiceNo);
             model.addObject("tsettingRes", tsettingRes); 
 			model.addObject("customerList",customerList); 		
