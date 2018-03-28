@@ -27,6 +27,7 @@ import com.inventory.project.common.Constants;
 import com.inventory.project.model.BillDetail;
 import com.inventory.project.model.BillHeader;
 import com.inventory.project.model.ExportToExcel;
+import com.inventory.project.model.Info;
 
 
 @Controller
@@ -99,6 +100,37 @@ public class ReportController {
 			e.printStackTrace();
 		}
 		return model;
+	}
+	@RequestMapping(value = "/approvedSalePayment", method = RequestMethod.POST)
+	public String approvedSalePayment(HttpServletRequest request, HttpServletResponse response) {
+
+		 
+		try
+		{	RestTemplate rest = new RestTemplate();
+
+			String[] checkbox=request.getParameterValues("select_to_approve");
+			
+			 
+			String billNoList = "0";
+			for(int i=0;i<checkbox.length;i++)
+			{
+				billNoList = billNoList +","+ checkbox[i];
+			}
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
+			map.add("billNoList", billNoList);
+			
+			Info info = rest.postForObject(Constants.url + "/bill/approvedPaidInSaleBill",map, Info.class);
+			
+			System.out.println("info " +info);
+			 
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+	
+		return "redirect:/saleUnpaidReport";
 	}
 	@RequestMapping(value = "/saleReportByDate", method = RequestMethod.GET)
 	public ModelAndView saleReportByDate(HttpServletRequest request, HttpServletResponse response) {

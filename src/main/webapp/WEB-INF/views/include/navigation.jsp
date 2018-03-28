@@ -177,15 +177,17 @@
 					<a href="${pageContext.request.contextPath}/purchaseBillList">Purchase Bill List</a>
 					</li>
 					<li> 
-					<a href="${pageContext.request.contextPath}/orders">Orders</a>
+					<a href="${pageContext.request.contextPath}/orders">Order And Bill</a>
 					</li>
 				     <li> 
-				 	<a href="${pageContext.request.contextPath}/bill">Bill</a>
+				 	<a href="${pageContext.request.contextPath}/bill">Sale Bill</a>
 					</li>
 				    <li> 
 				  	<a href="${pageContext.request.contextPath}/bills">View Bills</a>
 					</li>
-					
+					 <li> 
+				  	<a href="${pageContext.request.contextPath}/saleUnpaidReport">Unpaid Sale Bills</a>
+					</li>
 				
 					</ul>
 					<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>

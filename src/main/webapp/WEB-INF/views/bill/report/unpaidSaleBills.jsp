@@ -61,13 +61,15 @@
 									class="fa fa-chevron-up"></i></a>
 							</div>
 						</div>
-
+	<form onsubmit="return confirm('Do you really want to Approve Payment ?');" id="validation-form" class="form-horizontal"
+						action="${pageContext.request.contextPath}/approvedSalePayment" method="post">
 						<div class="box-content">
 							<div class="clearfix"></div>
 							<div class="table-responsive" style="border: 0" >
 								<table width="100%" id="table1" >
 									<thead>
 										<tr  style="background-color: rgba(191, 182, 182, 0.13);color: rgba(128, 126, 128, 0.91);">
+										<th align="left">Select</th>
 											<th width="80" style="width: 18px">No.</th>
 										                <th width="150" align="left">Invoice No.</th>
 														<th width="150" align="left">Invoice Date</th>
@@ -84,10 +86,10 @@
 									<tbody>
 							  <%int c=1; %>
 										<c:forEach items="${unPaidBills}" var="bill">
-
-
-
-											<tr >
+											<tr>
+											 <td><input type="checkbox" name="select_to_approve"
+																id="select_to_approve" 
+																value="${bill.billNo}" ></td>
 												<td>	<%=c++%>
 											<c:out
 														value="${c}" /> 
@@ -118,6 +120,9 @@
 										</c:forEach>
                                        <c:forEach items="${unPaidBillsExpGretor}" var="bill">
 											<tr  bgcolor="#ff99cc">
+											 <td><input type="checkbox" name="select_to_approve"
+																id="select_to_approve" 
+																value="${bill.billNo}" ></td>
 												<td>	<%=c++%>
 											<c:out value="${c}" /> 
 												</td>
@@ -147,6 +152,9 @@
 										</c:forEach>
 										<c:forEach items="${unPaidBillsBlocked}" var="bill">
 										<tr  bgcolor="#f44141" >
+										 <td><input type="checkbox" name="select_to_approve"
+																id="select_to_approve" 
+																value="${bill.billNo}" ></td>
 												<td>	<%=c++%>
 											<c:out value="${c}" /> 
 												</td>
@@ -176,8 +184,12 @@
 											</c:forEach>
 									</tbody>
 								</table>
+							</div><br><br><div class="row">
+							<div class="col-md-12" style="text-align: center">
+								 <input type="submit" class="btn btn-info" value="Paid" >
 							</div>
 						</div>
+						</div></form>
 					</div>
 				</div>
 			</div>
