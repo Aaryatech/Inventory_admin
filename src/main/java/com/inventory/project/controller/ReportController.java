@@ -1,8 +1,12 @@
 package com.inventory.project.controller;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,12 +33,71 @@ import com.inventory.project.model.ExportToExcel;
 @Scope("session")
 public class ReportController {
 	
-	
+	public static Date addDays(Date date, int days) {
+		GregorianCalendar cal = new GregorianCalendar();
+		cal.setTime(date);
+		cal.add(Calendar.DATE, days);
+				
+		return cal.getTime();
+	}
 	@RequestMapping(value = "/saleReportGroupByDate", method = RequestMethod.GET)
 	public ModelAndView saleReportGroupByDate(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("bill/report/saleGroupByDate");
 		model.addObject("isexcel",0);
+		return model;
+	}
+	@RequestMapping(value = "/saleUnpaidReport", method = RequestMethod.GET)
+	public ModelAndView saleUnpaidReport(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("bill/report/unpaidSaleBills");
+		try {
+		RestTemplate rest = new RestTemplate();
+		
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		
+		BillHeader[] billHeaderList = rest.getForObject(Constants.url + "/report/findUnpaidBills",BillHeader[].class);
+		ArrayList<BillHeader> billHeaderListRes = new ArrayList<BillHeader>(Arrays.asList(billHeaderList));
+		System.out.println("billHeaderListRes " + billHeaderListRes);
+		SimpleDateFormat sf=new SimpleDateFormat("dd-MM-yyyy");
+		 
+		Date currentDate = new Date();
+		Date cDate=sf.parse(sf.format(currentDate));
+	        
+		List<BillHeader>  unPaidBills=new ArrayList<BillHeader>();
+		List<BillHeader>  unPaidBillsExpGretor=new ArrayList<BillHeader>();
+		List<BillHeader>  unPaidBillsBlocked=new ArrayList<BillHeader>();
+		for(int i=0;i<billHeaderListRes.size();i++){
+			
+			Date invDate=sf.parse(billHeaderListRes.get(i).getInvoiceDate());
+			Date expDate=sf.parse(billHeaderListRes.get(i).getExpiryDate());
+			Date invDatePlus30=addDays(invDate,30);
+			
+			if(cDate.compareTo(invDatePlus30)>0)
+			{
+				unPaidBillsBlocked.add(billHeaderListRes.get(i));
+				
+			}else if(cDate.compareTo(expDate)>0)
+			{
+				unPaidBillsExpGretor.add(billHeaderListRes.get(i));
+			}
+			else {
+				
+				unPaidBills.add(billHeaderListRes.get(i));
+			}
+			
+			
+		}
+		model.addObject("unPaidBills",unPaidBills);
+		model.addObject("unPaidBillsExpGretor",unPaidBillsExpGretor);
+		model.addObject("unPaidBillsBlocked",unPaidBillsBlocked);
+        System.err.println(unPaidBills.toString());
+        System.err.println(unPaidBillsExpGretor.toString());
+        System.err.println(unPaidBillsBlocked.toString());
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		return model;
 	}
 	@RequestMapping(value = "/saleReportByDate", method = RequestMethod.GET)

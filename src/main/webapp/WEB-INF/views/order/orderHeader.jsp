@@ -148,7 +148,7 @@
 															<td align="left">
                                                         	<c:choose>
 															<c:when test="${order.orderStatus==2}">
-															<a href="" onclick="return billAlert()"><abbr title="BILL"><input type="button" value="BILL" class="btn btn-default"/></abbr></a>
+															<a href="" onclick="return billAlert()"><abbr title="BILL"></abbr></a>
 															</c:when>
 															<c:otherwise>
 															<a href="${pageContext.request.contextPath}/bill/${order.orderId}"><abbr title="BILL"><input type="button" value="BILL" class="btn btn-default"/></abbr></a>

@@ -76,6 +76,8 @@
 								<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-4 col-lg-6 col-lg-offset-5">
 										<input type="submit" class="btn btn-primary" value="Search">
+									    <button class="btn btn-primary" value="PDF" id="PDFButton" onclick="genPdf()">PDF</button>
+										
      							</div>
 								</div>
 							</form>
@@ -154,6 +156,27 @@
 													</c:forEach>  
 												</tbody>
 											</table>
+											<c:choose>
+											<c:when test="${isexcel==1}">
+												<div class="form-group" id="range">
+								 
+											<div class="col-sm-3  controls">
+											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();">
+											</div>
+											</div>
+											
+											</c:when>
+											<c:otherwise>
+												<div class="form-group" id="range" style="display: none;">
+								 
+											<div class="col-sm-3  controls">
+											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();">
+											</div>
+											</div>
+											
+											</c:otherwise>
+											</c:choose>
+											
 										</div>
 									</div>
 								</div>
@@ -236,7 +259,43 @@
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript">							
+function genPdf()
+{
+	var isValid=validation();
+	if(isValid)
+    {
+	var from_date = $("#fromDate").val();
+	var to_date = $("#toDate").val();
 
+	window.open('${pageContext.request.contextPath}/pdf?url=/showSaleByDatePdf/'+from_date+'/'+to_date);
+    }
+}
+
+function exportToExcel()
+{
+	 
+	window.open("${pageContext.request.contextPath}/exportToExcel");
+			document.getElementById("expExcel").disabled=true;
+}
+</script>
+<script type="text/javascript">
+function validation() {
+	
+	var fromDate = $("#fromDate").val();
+	var toDate = $("#toDate").val();
+
+	var isValid = true;
+	if (fromDate==""||fromDate==null) { 
+		isValid = false;
+		alert("Please Select From Date");
+	} else if (toDate==""||toDate==null) {
+		isValid = false;
+		alert("Please Select To Date ");
+	}
+	return isValid;
+}
+</script>
 <script type="text/javascript">
 function billPdf()
 {

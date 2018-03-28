@@ -743,6 +743,8 @@ function generateBill()
 	var discount = $("#discount").val();
 	var invoiceNo = $("#invoice_no").val();
 	var invoiceDate = $("#invoice_date").val();
+	var settingValue = $("#settingValue").val();
+
 	$('#loader').show();
 	$
 	.getJSON(
@@ -753,6 +755,8 @@ function generateBill()
 				remark:remark,
 				discount : discount,
 				paidAmount : paidAmount,
+				settingValue:settingValue,
+
 				ajax : 'true'
 
 			},
@@ -794,6 +798,8 @@ var remark = $("#remark").val();
 	var discount = $("#discount").val();
 	var invoiceNo = $("#invoice_no").val();
 	var invoiceDate = $("#invoice_date").val();
+	var settingValue = $("#settingValue").val();
+
 	$('#loader').show();
 	$
 	.getJSON(
@@ -804,6 +810,8 @@ var remark = $("#remark").val();
 				remark:remark,
 				discount : discount,
 				paidAmount : paidAmount,
+				settingValue:settingValue,
+
 				ajax : 'true'
 
 			},

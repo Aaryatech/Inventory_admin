@@ -167,7 +167,7 @@
 															</c:when>
 															</c:choose></td>
 															<td align="left">
-                                                        	<a href=""  onclick="return singleBill(${bill.billNo});"><abbr title="PDF"><input type="button" value="PDF" class="btn btn-default"/></abbr></a>
+                                                        	<a href=""  onclick="return singleBill(${bill.billNo});"><abbr title="PDF"><button name="button"  ><i class="fa fa-file-pdf-o">PDF</i></button></abbr></a>
                                                        <abbr title="Bill Detail">  <a href="${pageContext.request.contextPath}/billDetails/${bill.billNo}"><span
 														class="fa fa-list fa-lg"></span></abbr></a>
                                                          </td>

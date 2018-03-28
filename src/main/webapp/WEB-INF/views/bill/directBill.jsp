@@ -67,6 +67,8 @@
                              <div  class="box-content" style="text-align: left;padding-left:100px;  border: 1px solid skyblue; border-radius: 12px;">
                          	<input type="hidden" name="isSameState" id="isSameState"/>
                          		<input type="hidden" name="creditDays" id="creditDays"/>
+                         		 <input type="hidden" name="settingValue"id="settingValue" value="${settingValue}"/>
+                         		
 	                         <div class="form-group">
 									<div class="col-md-2">Invoice No:</div>
 									<div class="col-md-3">	<input class="form-control" id="invoice_no" size="14"
@@ -768,6 +770,7 @@ function generateBill()
 	var remark = $("#remark").val();
 	var paidAmount = $("#paidAmount").val();
 	var discount = $("#discount").val();
+	var settingValue = $("#settingValue").val();
 	$('#loader').show();
 
 	$
@@ -785,6 +788,7 @@ function generateBill()
 				remark:remark,
 				discount : discount,
 				paidAmount : paidAmount,
+				settingValue:settingValue,
 				ajax : 'true'
 
 			},
@@ -829,6 +833,8 @@ function pdfBtn()
 	var remark = $("#remark").val();
 	var paidAmount = $("#paidAmount").val();
 	var discount = $("#discount").val();
+	var settingValue = $("#settingValue").val();
+
 	$('#loader').show();
 
 	$
@@ -846,6 +852,7 @@ function pdfBtn()
 				remark:remark,
 				discount : discount,
 				paidAmount : paidAmount,
+				settingValue:settingValue,
 				ajax : 'true'
 
 			},
