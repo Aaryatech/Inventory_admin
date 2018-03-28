@@ -97,7 +97,7 @@ public class OrderBillController {
              
              int maxInvLenth=String.valueOf(tsettingRes.getSettingValue()).length();
              maxInvLenth=5-maxInvLenth;
-     		 StringBuilder invoiceNo=new StringBuilder(financiyalYearFrom+""+financiyalYearTo);
+     		 StringBuilder invoiceNo=new StringBuilder(financiyalYearFrom+""+financiyalYearTo+"-");
      		
      		for(int i=0;i<maxInvLenth;i++)
      		{   String j="0";
@@ -106,6 +106,7 @@ public class OrderBillController {
      		invoiceNo.append(String.valueOf(tsettingRes.getSettingValue()));
      		 System.out.println("invoiceNo"+invoiceNo);
             model.addObject("invoiceNo", invoiceNo);
+    		model.addObject("settingValue", tsettingRes.getSettingValue());
 			model.addObject("itemList", itemList);
 			model.addObject("batchList", batchList);
 			model.addObject("currentDate", date);
@@ -121,7 +122,7 @@ public class OrderBillController {
 	public @ResponseBody List<BillDetail> calculateOrderDiscount(HttpServletRequest request, HttpServletResponse response) {
 		
 		try {
-			System.out.println("hi********************");
+			
 		float discountPer=Float.parseFloat(request.getParameter("discount"));
 		int isSameState=Integer.parseInt(request.getParameter("isSameState"));
 		for(int i=0;i<insertBillList.size();i++)
@@ -161,6 +162,7 @@ public class OrderBillController {
 			float grandTotal = totalTax + taxableAmt;
 			grandTotal = roundUp(grandTotal);
 			insertBillList.get(i).setTaxableAmt(taxableAmt);
+			insertBillList.get(i).setDiscAmt(discountAmt);
 			insertBillList.get(i).setCgstRs(cgstRs);
 			insertBillList.get(i).setSgstRs(sgstRs);
 			insertBillList.get(i).setIgstRs(igstRs);
@@ -314,6 +316,7 @@ public class OrderBillController {
 			billDetail.setCessPer(purchaseDetail.getCessPer());
 			billDetail.setCessRs(cessRs);
 			billDetail.setTaxAmt(totalTax);
+			billDetail.setDiscAmt(discountAmt);
 			billDetail.setGrandTotal(grandTotal);
 			billDetail.setUniqueKey(key);
 			System.out.println("billDetail"+billDetail.toString());
@@ -428,6 +431,7 @@ orderDListRes.get(key).setOrderQty(0);//
 			billDetail.setCessPer(purchaseDetail.getCessPer());
 			billDetail.setCessRs(cessRs);
 			billDetail.setTaxAmt(totalTax);
+			billDetail.setDiscAmt(discountAmt);
 			billDetail.setGrandTotal(grandTotal);
 			billDetail.setUniqueKey(key);//
 			System.out.println("billDetail"+billDetail.toString());
@@ -808,6 +812,7 @@ orderDListRes.get(key).setOrderQty(0);//
 
 			float paidAmount = Float.parseFloat(request.getParameter("paidAmount"));
 			System.out.println("paidAmount:" + paidAmount);
+			int settingValue = Integer.parseInt(request.getParameter("settingValue"));
 
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			LocalDate localDate = LocalDate.now();
@@ -845,6 +850,7 @@ orderDListRes.get(key).setOrderQty(0);//
 			for(int i=0;i<insertBillList.size();i++)
 			{
 				grandTotal=grandTotal+insertBillList.get(i).getGrandTotal();
+				discountAmt=discountAmt+insertBillList.get(i).getDiscAmt();
 				taxAmt=taxAmt+insertBillList.get(i).getTaxAmt();
 				cgstRs=cgstRs+insertBillList.get(i).getCgstRs();
 				sgstRs=sgstRs+insertBillList.get(i).getSgstRs();
@@ -859,7 +865,11 @@ orderDListRes.get(key).setOrderQty(0);//
 			//grandTotal=grandTotal-discountAmt;
 			
 			remAmt=grandTotal-paidAmount;
+			remAmt = roundUp(remAmt);
+
 			billHeader.setPaidAmt(paidAmount);
+			billHeader.setDiscountPer(discountPer);
+
 			billHeader.setRemAmt(remAmt);
 			billHeader.setRemark(remark);
 			billHeader.setTaxableAmt(taxableAmt);
@@ -884,6 +894,11 @@ orderDListRes.get(key).setOrderQty(0);//
     			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
     			map.add("orderId",getOrderRes.getOrderId());
                 Info infoRes=rest.postForObject(Constants.url + "/order/updateOrderStatus", map, Info.class);
+                
+            	map = new LinkedMultiValueMap<String, Object>();
+    			map.add("key","invoice_no");
+    			map.add("value",settingValue+1);
+            	int isUpdated=rest.postForObject(Constants.url + "/updateTsettingKey", map, Integer.class);
             }
             System.out.println("Invoicea:"+billHeaderRes.toString());
 		}

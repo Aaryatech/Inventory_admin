@@ -105,7 +105,7 @@ public class BillController {
              
              int maxInvLenth=String.valueOf(tsettingRes.getSettingValue()).length();
              maxInvLenth=5-maxInvLenth;
-     		 StringBuilder invoiceNo=new StringBuilder(financiyalYearFrom+""+financiyalYearTo);
+     		 StringBuilder invoiceNo=new StringBuilder(financiyalYearFrom+""+financiyalYearTo+"-");
      		
      		for(int i=0;i<maxInvLenth;i++)
      		{   String j="0";
@@ -175,6 +175,7 @@ public class BillController {
 			insertBillList.get(i).setIgstRs(igstRs);
 			insertBillList.get(i).setCessRs(cessRs);
 			insertBillList.get(i).setTaxAmt(totalTax);
+			insertBillList.get(i).setDiscAmt(discountAmt);
 			insertBillList.get(i).setGrandTotal(grandTotal);
 			
 			
@@ -361,6 +362,7 @@ public class BillController {
 			billDetail.setCessPer(purchaseDetail.getCessPer());
 			billDetail.setCessRs(cessRs);
 			billDetail.setTaxAmt(totalTax);
+			billDetail.setDiscAmt(discountAmt);
 			billDetail.setGrandTotal(grandTotal);
 			System.out.println("billDetail"+billDetail.toString());
 			
@@ -462,7 +464,7 @@ public class BillController {
 
 			billDetail.setTaxableAmt(taxableAmt);
 			billDetail.setCgstPer(purchaseDetail.getCgstPer());
-			
+			billDetail.setDiscAmt(discountAmt);
 			billDetail.setCgstRs(cgstRs);
 			billDetail.setSgstPer(purchaseDetail.getSgstPer());
 			billDetail.setSgstRs(sgstRs);
@@ -534,7 +536,7 @@ public class BillController {
 			float discountPer = Float.parseFloat(request.getParameter("discount"));
 			System.out.println("discount:" + discountPer);
 
-			//int paymentMode = Integer.parseInt(request.getParameter("paymentMode"));
+			int settingValue = Integer.parseInt(request.getParameter("settingValue"));
 			//System.out.println("paymentMode:" + paymentMode);
 
 			float paidAmount = Float.parseFloat(request.getParameter("paidAmount"));
@@ -571,20 +573,23 @@ public class BillController {
 			for(int i=0;i<insertBillList.size();i++)
 			{
 				grandTotal=grandTotal+insertBillList.get(i).getGrandTotal();
+				discountAmt=discountAmt+insertBillList.get(i).getDiscAmt();
 				taxAmt=taxAmt+insertBillList.get(i).getTaxAmt();
 				cgstRs=cgstRs+insertBillList.get(i).getCgstRs();
 				sgstRs=sgstRs+insertBillList.get(i).getSgstRs();
 				igstRs=igstRs+insertBillList.get(i).getIgstRs();
 				cessRs=cessRs+insertBillList.get(i).getCessRs();
 				taxableAmt=taxableAmt+insertBillList.get(i).getTaxableAmt();
-				
+				taxableAmt = roundUp(taxableAmt);
 			}
 			
 			//discountAmt=grandTotal*discountPer/100;
 			//grandTotal=grandTotal-discountAmt;
-			
+			grandTotal = roundUp(grandTotal);
 			remAmt=grandTotal-paidAmount;
+			remAmt = roundUp(remAmt);
 			billHeader.setPaidAmt(paidAmount);
+			billHeader.setDiscountPer(discountPer);
 			billHeader.setRemAmt(remAmt);
 			billHeader.setRemark(remark);
 			billHeader.setTaxableAmt(taxableAmt);
@@ -607,6 +612,10 @@ public class BillController {
             	System.out.println("batchList"+batchList.toString());
             	Info info=rest.postForObject(Constants.url + "/bill/postPurchaseDetails", batchList,Info.class);
             	
+    			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+    			map.add("key","invoice_no");
+    			map.add("value",settingValue+1);
+            	int isUpdated=rest.postForObject(Constants.url + "/updateTsettingKey", map, Integer.class);
             	
             }
             System.out.println("Invoice:"+billHeaderRes.toString());
