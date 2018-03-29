@@ -31,7 +31,7 @@
 			<div class="page-title">
 				<div>
 					<h1>
-						<i class="fa fa-file-o"></i> Pending Payment List
+						<i class="fa fa-file-o"></i> Pending Payment List  
 					</h1>
 					
 				</div>
@@ -41,9 +41,7 @@
 
 			<div class="row">
 				<div class="col-md-12">
-		 
-				 
-					 
+		  
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
@@ -91,20 +89,20 @@
 													
 														<c:set var = "color" value="red"/> 
 													 
-													<tr>
+													<tr style="color: <c:out value = "${color}"/>">
 													 <td><input type="checkbox" name="select_to_approve"
 																id="select_to_approve" 
 																value="${sts4List.purchaseId}" ></td>
-														<td style="color: <c:out value = "${color}"/>"><c:out value="${srNo+1}" /></td>
+														<td><c:out value="${srNo+1}" /></td>
  														<c:set var = "srNo" value="${srNo+1}"/> 
-														<td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts4List.invoiceNo}" /></td> 
-														<td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts4List.invDate}" /></td> 
-														<td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts4List.suppName}" /></td>
-														<td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts4List.billAmt}" /></td>
-														<td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts4List.cdDate1}" /></td> 
-														 <td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts4List.cdDate2}" /></td> 
-														 <td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts4List.cdDate3}" /></td> 
-														 <td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts4List.cdDate4}" /></td> 
+														<td align="left"><c:out value="${sts4List.invoiceNo}" /></td> 
+														<td align="left"><c:out value="${sts4List.invDate}" /></td> 
+														<td align="left"><c:out value="${sts4List.suppName}" /></td>
+														<td align="left"><c:out value="${sts4List.billAmt}" /></td>
+														<td align="left"><c:out value="${sts4List.cdDate1}" /></td> 
+														 <td align="left"><c:out value="${sts4List.cdDate2}" /></td> 
+														 <td align="left"><c:out value="${sts4List.cdDate3}" /></td> 
+														 <td align="left"><c:out value="${sts4List.cdDate4}" /></td> 
 													 <td><a href="${pageContext.request.contextPath}/purchaseHeaderWithDetail/${sts4List.purchaseId}" class="action_btn" ><abbr title="Details"><i class="fa fa-list"></i></abbr></a></td>
 												</tr>
 										</c:forEach>
@@ -116,15 +114,15 @@
 													<td><input type="checkbox" name="select_to_approve"
 																id="select_to_approve" 
 																value="${sts3List.purchaseId}" ></td>
-														<td><c:out value="${srNo+1}" /></td>
+														<td style="color: <c:out value = "${color}"/>"><c:out value="${srNo+1}" /></td>
  														<c:set var = "srNo" value="${srNo+1}"/> 
-														<td align="left"><c:out value="${sts3List.invoiceNo}" /></td> 
-														<td align="left"><c:out value="${sts3List.invDate}" /></td> 
-														<td align="left"><c:out value="${sts3List.suppName}" /></td>
-														<td align="left"><c:out value="${sts3List.billAmt}" /></td>
-														<td align="left"><c:out value="${sts3List.cdDate1}" /></td> 
-														<td align="left"><c:out value="${sts3List.cdDate2}" /></td> 
-														<td align="left"><c:out value="${sts3List.cdDate3}" /></td> 
+														<td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts3List.invoiceNo}" /></td> 
+														<td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts3List.invDate}" /></td> 
+														<td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts3List.suppName}" /></td>
+														<td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts3List.billAmt}" /></td>
+														<td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts3List.cdDate1}" /></td> 
+														<td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts3List.cdDate2}" /></td> 
+														<td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts3List.cdDate3}" /></td> 
 														<td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts3List.cdDate4}" /></td> 
 													 <td><a href="${pageContext.request.contextPath}/purchaseHeaderWithDetail/${sts3List.purchaseId}" class="action_btn" ><abbr title="Details"><i class="fa fa-list"></i></abbr></a></td>
 												</tr>
@@ -145,7 +143,15 @@
 														<td align="left"><c:out value="${sts2List.suppName}" /></td>
 														<td align="left"><c:out value="${sts2List.billAmt}" /></td>
 														<td align="left"><c:out value="${sts2List.cdDate1}" /></td> 
-														<td align="left"><c:out value="${sts2List.cdDate2}" /></td> 
+														<c:choose>
+															<c:when test="${today==sts2List.cdDate2}">
+																<td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts2List.cdDate2}" /></td> 
+															</c:when>
+															<c:otherwise>
+																<td align="left"><c:out value="${sts2List.cdDate2}" /></td> 
+															</c:otherwise>
+														</c:choose>
+														 
 														<td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts2List.cdDate3}" /></td> 
 														<td align="left"><c:out value="${sts2List.cdDate4}" /></td> 
 													 <td><a href="${pageContext.request.contextPath}/purchaseHeaderWithDetail/${sts2List.purchaseId}" class="action_btn" ><abbr title="Details"><i class="fa fa-list"></i></abbr></a></td>
@@ -166,11 +172,40 @@
 														<td align="left"><c:out value="${sts1List.invDate}" /></td> 
 														<td align="left"><c:out value="${sts1List.suppName}" /></td>
 														<td align="left"><c:out value="${sts1List.billAmt}" /></td>
-														<td align="left"><c:out value="${sts1List.cdDate1}" /></td> 
+														<c:choose>
+															<c:when test="${today==sts1List.cdDate1}">
+																<td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts1List.cdDate1}" /></td> 
+															</c:when>
+															<c:otherwise>
+																<td align="left"><c:out value="${sts1List.cdDate1}" /></td> 
+															</c:otherwise>
+														</c:choose> 
 														<td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts1List.cdDate2}" /></td> 
 														<td align="left" ><c:out value="${sts1List.cdDate3}" /></td> 
 														<td align="left"><c:out value="${sts1List.cdDate4}" /></td> 
 													 <td><a href="${pageContext.request.contextPath}/purchaseHeaderWithDetail/${sts1List.purchaseId}" class="action_btn" ><abbr title="Details"><i class="fa fa-list"></i></abbr></a></td>
+												</tr>
+										</c:forEach>
+										
+										<!-- status 0 -->
+									 <c:forEach items="${sts0List}" var="sts0List"
+													varStatus="count"> 
+													 <c:set var = "color" value="red"/> 
+													<tr>
+													<td><input type="checkbox" name="select_to_approve"
+																id="select_to_approve" 
+																value="${sts0List.purchaseId}" ></td>
+														<td ><c:out value="${srNo+1}" /></td>
+ 														<c:set var = "srNo" value="${srNo+1}"/> 
+														<td align="left"><c:out value="${sts0List.invoiceNo}" /></td> 
+														<td align="left"><c:out value="${sts0List.invDate}" /></td> 
+														<td align="left"><c:out value="${sts0List.suppName}" /></td>
+														<td align="left"><c:out value="${sts0List.billAmt}" /></td>
+														<td align="left" style="color: <c:out value = "${color}"/>"><c:out value="${sts0List.cdDate1}" /></td> 
+														<td align="left" ><c:out value="${sts0List.cdDate2}" /></td> 
+														<td align="left" ><c:out value="${sts0List.cdDate3}" /></td> 
+														<td align="left"><c:out value="${sts0List.cdDate4}" /></td> 
+													 <td><a href="${pageContext.request.contextPath}/purchaseHeaderWithDetail/${sts0List.purchaseId}" class="action_btn" ><abbr title="Details"><i class="fa fa-list"></i></abbr></a></td>
 												</tr>
 										</c:forEach>
 

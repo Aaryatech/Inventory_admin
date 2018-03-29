@@ -909,6 +909,7 @@ public class PurchaseController {
 			 List<UnpaidPurchaseBill> extra3 = new ArrayList<>();
 			 List<UnpaidPurchaseBill> extra2 = new ArrayList<>();
 			 List<UnpaidPurchaseBill> extra1 = new ArrayList<>();
+			 List<UnpaidPurchaseBill> extra0 = new ArrayList<>();
 			 
 			 for(int i=0;i<unpaidPurchaseBillList.size();i++)
 			 {
@@ -917,7 +918,12 @@ public class PurchaseController {
 				  Date cd2 = sf2.parse(unpaidPurchaseBillList.get(i).getCdDate2());
 				  Date cd3 = sf2.parse(unpaidPurchaseBillList.get(i).getCdDate3());
 				  Date cd4 = sf2.parse(unpaidPurchaseBillList.get(i).getCdDate4());
-				  if(today.compareTo(cd1)>=0 && cd2.compareTo(today)>0)
+				  if(cd1.compareTo(today)>0)
+				  {
+					  unpaidPurchaseBillList.get(i).setExtra(0);
+					  extra0.add(unpaidPurchaseBillList.get(i));
+				  }
+				  else if(today.compareTo(cd1)>=0 && cd2.compareTo(today)>0)
 				  {
 					  unpaidPurchaseBillList.get(i).setExtra(1);
 					  extra1.add(unpaidPurchaseBillList.get(i));
@@ -939,16 +945,19 @@ public class PurchaseController {
 				  }
 					  
 			 }
+			 System.out.println("extra0 " +extra0);
 			 System.out.println("extra1 " +extra1);
 			 System.out.println("extra2 " +extra2);
 			 System.out.println("extra3 " +extra3);
 			 System.out.println("extra4 " +extra4);
+			 
 			 System.out.println("unpaidPurchaseBillList " + unpaidPurchaseBillList);
 			 model.addObject("sts4List",extra4);
 			 model.addObject("sts3List",extra3);
 			 model.addObject("sts2List",extra2);
 			 model.addObject("sts1List",extra1);
-			 
+			 model.addObject("sts0List",extra0);
+			 model.addObject("today",sf2.format(date));
 		}catch(Exception e)
 		{
 			e.printStackTrace();
