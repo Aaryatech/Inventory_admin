@@ -227,6 +227,7 @@ public class GrnController {
 					}
 					 MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 					 map.add("batchList", batchNo);
+					 map.add("grnType", grnGvnHeader.getGrnType());
 					Info info = rest.postForObject(Constants.url + "updateIsGrnInPurchaseDetail",map, Info.class);
 					System.out.println("info " + info);
 				}
