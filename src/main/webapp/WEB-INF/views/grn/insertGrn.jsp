@@ -73,11 +73,30 @@
 							
 								</select>
 							</div>
-							 
+							 <div class="col-md-1" ></div>
 							 <div class="col-md-1" >GSTIN </div>
 									<div class="col-md-2">
 										 <input type="text" name="gstinNo" id="gstinNo" class="form-control" required>
 									</div>
+							
+							
+						</div>
+						<br>
+						
+						<div class="box-content">
+
+							<div class="col-md-2">Select Supplier</div>
+							<div class="col-md-3">
+							 
+							<select name="grnType" id="grnType" class="form-control" onchange="getGstnNo();" tabindex="-1" required>
+							<option value="0">Regular</option>
+							 <option value="1">Replace</option>
+							
+								</select>
+							</div>
+							 
+							 <div class="col-md-1" ></div>
+									 
 							<div class="col-md-1" >Date</div>
 									<div class="col-md-2">
 										 <input type="text" name="date" id="date" class="form-control date-picker" required>
@@ -222,6 +241,7 @@
 		{
 		
 		 var suppId = $("#suppId").val();
+		 var grnType = $("#grnType").val();
 			$.getJSON(
 					'${getGstinNo}',
 
@@ -241,6 +261,7 @@
 								{
 									 
 									suppId : suppId, 
+									grnType : grnType,
 									ajax : 'true',
 
 								},
@@ -298,7 +319,8 @@
 		
 		var batchNo = $("#batchNo").val(); 
 		var suppId = $("#suppId").val();
-		 
+		var grnType = $("#grnType").val();
+		
 		var valid=0;
 		if (batchNo=="") {
  
@@ -322,6 +344,7 @@
 						{
 							batchNo :batchNo, 
 							suppId : suppId,
+							grnType : grnType,
 							ajax : 'true',
 
 						},

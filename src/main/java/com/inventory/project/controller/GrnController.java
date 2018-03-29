@@ -22,10 +22,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.inventory.project.common.Constants;
 import com.inventory.project.common.DateConvertor;
+import com.inventory.project.model.AddPurchaseDetail;
 import com.inventory.project.model.GrnGvnDetail;
 import com.inventory.project.model.GrnGvnHeader;
 import com.inventory.project.model.GrnList;
-import com.inventory.project.model.Info; 
+import com.inventory.project.model.Info;
+import com.inventory.project.model.ItemMaster;
+import com.inventory.project.model.PurchaseDetail;
+import com.inventory.project.model.ReplaceItem;
 import com.inventory.project.model.SupplierMaster;
 
 @Controller
@@ -35,6 +39,7 @@ public class GrnController {
 	
 	RestTemplate rest = new RestTemplate();
 	List<GrnList> getGrnList = new ArrayList<GrnList>();
+	List<ReplaceItem> replaceItemList = new ArrayList<ReplaceItem>();
 	
 	@RequestMapping(value = "/insertGrn", method = RequestMethod.GET)
 	public ModelAndView insertGrn(HttpServletRequest request, HttpServletResponse response) {
@@ -91,9 +96,11 @@ public class GrnController {
 		try {
 			 Date date = new Date();
 			 SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
-			int suppId = Integer.parseInt(request.getParameter("suppId")); 
+			int suppId = Integer.parseInt(request.getParameter("suppId"));
+			int grnType = Integer.parseInt(request.getParameter("grnType"));
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			 map.add("suppId", suppId);
+			 map.add("grnType", grnType);
 			 map.add("currentDate", DateConvertor.convertToYMD(sf.format(date)));
 			 GrnList[] allGrnList = rest.postForObject(Constants.url + "getallExpireItemSupllierWise",map, GrnList[].class);
 			 getGrnList = new ArrayList<GrnList>(Arrays.asList(allGrnList));
@@ -113,6 +120,8 @@ public class GrnController {
 		try {
 			String batchNo =request.getParameter("batchNo"); 
 			int suppId = Integer.parseInt(request.getParameter("suppId"));
+			int grnType = Integer.parseInt(request.getParameter("grnType"));
+			
 			System.out.println("batchNo"+batchNo);
 			int flag=0;
 			
@@ -131,6 +140,7 @@ public class GrnController {
 				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 				 map.add("batchNo", batchNo);
 				 map.add("suppId", suppId);
+				 map.add("grnType", grnType);
 				 map.add("currentDate", DateConvertor.convertToYMD(sf.format(date)));
 				 GrnList grnList = rest.postForObject(Constants.url + "getItemFromPurchaseBillForGvn",map, GrnList.class);
 				 
@@ -171,6 +181,7 @@ public class GrnController {
 		
 		try {
 				int suppId = Integer.parseInt(request.getParameter("supId"));
+				int grnType = Integer.parseInt(request.getParameter("grnType"));
 				String gstinNo = request.getParameter("gstinNo");
 				String date = request.getParameter("date"); 
 				  
@@ -184,6 +195,7 @@ public class GrnController {
 				insert.setSuppId(suppId);
 				insert.setDate(date);
 				insert.setGstnNo(gstinNo);
+				insert.setGrnType(grnType);
 				
 				List<GrnGvnDetail> grnGvnDetailList = new ArrayList<GrnGvnDetail>();
 				
@@ -291,6 +303,96 @@ public class GrnController {
 	 
 		 
 		return model;
+	}
+	
+	@RequestMapping(value = "/replaceQtyFromCustmer", method = RequestMethod.GET)
+	public ModelAndView replaceQtyFromCustmer(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("grn/replaceQtyFromCustmer"); 
+		replaceItemList = new ArrayList<ReplaceItem>();
+		return model;
+	}
+	
+	@RequestMapping(value = "/addItemInReplaceList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ReplaceItem> addItemInReplaceList(HttpServletRequest request, HttpServletResponse response) {
+		 
+		 
+		try {
+			String batchNo =request.getParameter("batchNo"); 
+			int qty = Integer.parseInt(request.getParameter("qty")); 
+			int flag=0;
+			
+			 for(int i=0;i<replaceItemList.size();i++)
+			 {
+				 if(replaceItemList.get(i).getBatchNo().equals(batchNo))
+				 {
+					 flag=1;
+					 break;
+				 }
+			 }
+			 if(flag!=1)
+			 {
+				 
+				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				 map.add("batchNo", batchNo);  
+				 PurchaseDetail purchaseDetail = rest.postForObject(Constants.url + "getItemByBatchNo",map, PurchaseDetail.class);
+				 
+				 if(purchaseDetail.getPurDetailId()!=0)
+				 {
+					 ReplaceItem replaceItem = new ReplaceItem();
+					 replaceItem.setItemId(purchaseDetail.getItemId());
+					 replaceItem.setItemName(purchaseDetail.getItemName());
+					 replaceItem.setBatchNo(purchaseDetail.getBatchNo());
+					 replaceItem.setQty(qty);
+					 replaceItem.setOldReplaceQty(purchaseDetail.getReplaceQty());
+					 replaceItem.setTotalReplaceQty(replaceItem.getQty()+replaceItem.getOldReplaceQty());
+					 replaceItemList.add(replaceItem);  
+				 }
+					
+			 } 
+			 
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return replaceItemList;
+	}
+	
+	@RequestMapping(value = "/delteItemFromReplaceList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ReplaceItem> delteItemFromReplaceList(HttpServletRequest request, HttpServletResponse response) {
+		 
+		try {
+			int index =Integer.parseInt(request.getParameter("index"));  
+			 
+			replaceItemList.remove(index);
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return replaceItemList;
+	}
+	
+	@RequestMapping(value = "/submitReplaceItemList", method = RequestMethod.POST)
+	public String submitReplaceItemList(HttpServletRequest request, HttpServletResponse response) {
+ 
+		try {
+				 
+			 
+			Info info = rest.postForObject(Constants.url + "updateReplaceQtyInPurchaseBill",replaceItemList, Info.class);
+				System.out.println("info " +info);
+				
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+
+		return "redirect:/replaceQtyFromCustmer";
 	}
 
 }

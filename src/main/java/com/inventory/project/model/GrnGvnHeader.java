@@ -11,6 +11,7 @@ public class GrnGvnHeader {
 	private int suppId;  
 	private String gstnNo; 
 	private int delStatus; 
+	private int grnType;
 	private List<GrnGvnDetail> grnGvnDetailList;
 	public int getGrnId() {
 		return grnId;
@@ -49,10 +50,17 @@ public class GrnGvnHeader {
 	public void setGrnGvnDetailList(List<GrnGvnDetail> grnGvnDetailList) {
 		this.grnGvnDetailList = grnGvnDetailList;
 	}
+	
+	public int getGrnType() {
+		return grnType;
+	}
+	public void setGrnType(int grnType) {
+		this.grnType = grnType;
+	}
 	@Override
 	public String toString() {
 		return "GrnGvnHeader [grnId=" + grnId + ", date=" + date + ", suppId=" + suppId + ", gstnNo=" + gstnNo
-				+ ", delStatus=" + delStatus + ", grnGvnDetailList=" + grnGvnDetailList + "]";
+				+ ", delStatus=" + delStatus + ", grnType=" + grnType + ", grnGvnDetailList=" + grnGvnDetailList + "]";
 	}
 	
 	
