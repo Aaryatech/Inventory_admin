@@ -17,7 +17,10 @@
 	href="${pageContext.request.contextPath}/resources/assets/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/assets/font-awesome/css/font-awesome.min.css">
-
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.min.css" />
+	<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.jquery.min.js"></script>
 <!--page specific css styles-->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/loader.css">
