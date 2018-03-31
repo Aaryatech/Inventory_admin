@@ -185,6 +185,9 @@
 				    <li> 
 				  	<a href="${pageContext.request.contextPath}/bills">View Bills</a>
 					</li>
+					<li> 
+					<a href="${pageContext.request.contextPath}/replaceQtyFromCustmer">Replace Item</a>
+					</li>
 					 <li> 
 				  	<a href="${pageContext.request.contextPath}/unpaidPurchaseBillList">Pending Payment Of Purchase Bills</a>
 					</li>
@@ -220,6 +223,32 @@
 					<a href="${pageContext.request.contextPath}/grnItemHistory">GRN GVN List</a>
 					</li>
 				</ul>
+				
+				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
+					<span>Purchase Report</span> <b class="arrow fa fa-angle-right"></b>
+				</a>
+				<!-- BEGIN Submenu -->
+				<ul class="submenu">
+				
+					
+					<li> 
+					<a href="${pageContext.request.contextPath}/billWise">Bill Wise Report</a>
+					</li>
+					<li> 
+					<a href="${pageContext.request.contextPath}/supplierWise">Supplier Wise Report</a>
+					</li>
+				    <li> 
+					<a href="${pageContext.request.contextPath}/dateWise">Date Wise Report</a>
+					</li>
+					<li> 
+					<a href="${pageContext.request.contextPath}/monthWise">Month Wise Report</a>
+					</li>
+					<li> 
+					<a href="${pageContext.request.contextPath}/itemPurchaseReport">Item Wise Report</a>
+					</li>
+					
+					</ul>
+					
 					<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
 					<span>Sale Report</span> <b class="arrow fa fa-angle-right"></b>
 				</a>
