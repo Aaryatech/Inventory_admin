@@ -82,6 +82,22 @@
 										</div><br>
 						
 								</div>
+								
+								<div class=" box-content">
+								    <div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Select GRN Type</label>
+									<div class="col-sm-5 col-lg-3 controls">
+										<select name="grnType" class="form-control chosen" tabindex="-1" id="grnType" data-rule-required="true">
+													<option value="-1" selected>All</option>
+													 <option value="0" >Regular</option>
+													 <option value="1" >Replace</option>
+												</select>
+									
+										</div>
+										 
+										</div><br>
+						
+								</div>
 								 
 								 
 								<div class=" box-content">
@@ -123,11 +139,12 @@
 										style="width: 100%" id="table_grid1">
 								<thead>
 									<tr>
-										<th style="text-align:center;">Sr.No.</th>  
-										<th style="text-align:center;">Date</th>
-										<th style="text-align:center;">Supplier</th> 
-										<th style="text-align:center;">Gst No</th> 
-										<th style="text-align:center;">Action</th>
+										<th>Sr.No.</th>  
+										<th>Date</th>
+										<th>Supplier</th> 
+										<th>Gst No</th> 
+										<th>Grn Type</th> 
+										<th>Action</th>
 										
 									</tr>
 								</thead>
@@ -247,7 +264,7 @@
 			 
 			var fromDate = $("#fromDate").val();
 			var toDate = $("#toDate").val();
-		 
+		    var grnType = $("#grnType").val();
 			
 			var valid=0;
 			
@@ -260,6 +277,11 @@
 			else if(toDate=="")
 				{
 				alert("Enter Valid To Date");
+				valid=1;
+				}
+			else if(grnType=="")
+				{
+				alert("Select Grn Type");
 				valid=1;
 				}
 			 
@@ -283,7 +305,7 @@
 								 
 								fromDate : fromDate,
 								toDate : toDate,
-								 
+								grnType : grnType,
 								ajax : 'true'
 
 							},
@@ -309,6 +331,12 @@
 												
 								 
 									var suppname;
+									var type;
+									if(itemList.grnType==0)
+										type="Regular"; 
+									else
+										type="Replace"; 
+										 
 												var tr = $('<tr></tr>');
 											  	tr.append($('<td></td>').html(key+1)); 
 											  	tr.append($('<td></td>').html(itemList.date)); 
@@ -321,7 +349,8 @@
 											  	}
 											   
 											  	tr.append($('<td></td>').html(suppname)); 
-											  	tr.append($('<td></td>').html(itemList.gstnNo)); 
+											  	tr.append($('<td></td>').html(itemList.gstnNo));
+											  	tr.append($('<td></td>').html(type)); 
 											  	tr.append($('<td></td>').html('<a href="${pageContext.request.contextPath}/grnHeaderWithDetail/'+itemList.grnId+'" class="action_btn" ><abbr title="Details"><i class="fa fa-list"></i></abbr></a> '));
 												$('#table_grid1 tbody').append(tr);
 												 

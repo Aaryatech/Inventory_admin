@@ -261,9 +261,11 @@ public class GrnController {
 		try {
 			String fromDate = request.getParameter("fromDate");
 			String toDate = request.getParameter("toDate");
+			int grnType = Integer.parseInt(request.getParameter("grnType"));
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("grnType", grnType);
 			System.out.println(map);
 			GrnGvnHeader[] grnGvnHeader = rest.postForObject(Constants.url + "getHistoryOfGrnGvn",map,
 					GrnGvnHeader[].class);

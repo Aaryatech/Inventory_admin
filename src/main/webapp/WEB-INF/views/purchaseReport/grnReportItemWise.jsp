@@ -14,9 +14,8 @@
 <body>
  
 
-	<c:url var="dateWisePurchaseReport" value="/dateWisePurchaseReport"></c:url>
- 
-	
+	<c:url var="grnItemWiseReport" value="/grnItemWiseReport"></c:url> 
+	<c:url var="getSupplierListForPurchaseLis" value="/getSupplierListForPurchaseLis"></c:url> 
 
 
 	<div class="container" id="main-container">
@@ -39,7 +38,7 @@
 			<div class="page-title">
 				<div>
 					<h1>
-						<i class="fa fa-file-o"></i>Invoice Date Wise Report
+						<i class="fa fa-file-o"></i>GRN Report
 					</h1>
 					
 				</div>
@@ -50,18 +49,20 @@
 			<div class="row">
 				<div class="col-md-12">
 
-					<div class="box" id="billwise">
+					 
+					<div class="box" id="supplierwise" >
+					
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Invoice Date Wise Report
+								<i class="fa fa-table"></i>GRN Report
 							</h3>
 							<div class="box-tool">
-								 
+								 <a href="${pageContext.request.contextPath}/insertGrn">Insert Grn</a> <a data-action="collapse" href="#"><i
+									class="fa fa-chevron-up"></i></a>
 							</div>
+							 
 						</div>
-						 
-						 
-							<div class=" box-content">
+						<div class=" box-content">
 						<div class="form-group">
 									<div class="col-md-2">From Date:</div>
 									<div class="col-md-3">
@@ -81,19 +82,15 @@
 										</div><br>
 						
 								</div>
+								
 								<div class=" box-content">
 								    <div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Select supplier</label>
+									<label class="col-sm-3 col-lg-2 control-label">Select GRN Type</label>
 									<div class="col-sm-5 col-lg-3 controls">
-										<select data-placeholder="Select Supplier" name="suppliers[]"
-													class="form-control chosen" tabindex="-1" id="suppliers" multiple="multiple"
-													data-rule-required="true">
-													<option value="0" selected>All</option>
-													<c:forEach items="${supplierList}" var="supplierList"> 
-													<option value="${supplierList.suppId}"><c:out value="${supplierList.suppName}"></c:out> </option>
-													
-
-											</c:forEach> 
+										<select name="grnType" class="form-control chosen" tabindex="-1" id="grnType" data-rule-required="true">
+													<option value="" >Select Type</option>
+													 <option value="0" >Regular</option>
+													 <option value="1" >Replace</option>
 												</select>
 									
 										</div>
@@ -101,37 +98,19 @@
 										</div><br>
 						
 								</div>
+								 
+								 
 								<div class=" box-content">
-									<div class="form-group">
-									<div class="col-md-2">Group By</div>
-									<div class="col-md-3">
-										<input class="form-control" id="book_Date" size="16" value="Invoice Date"
-											 type="text" name="book_Date" readonly />
-											  
-										</div>
-										 
-										</div><br>
-						
-								</div>
-										
-										
-										 
-						
-								 
-							
-								 
 								<div class="form-group">
-									<div class=" box-content">
+								
 								<div align="center" class="form-group">
 									<div class="col-sm-25 col-sm-offset-3 col-lg-30 col-lg-offset-0">
-										
-				
+										 
 										<input type="button" class="btn btn-primary" value="View All" id="searchmixall"
-											onclick="searchbillwise()">
-											 <input type="button" class="btn btn-primary" value="Pdf" onclick="getPdf()" ></a>
-							 
-
-									</div><br> 
+											onclick="searchsupplierwise()">
+											  
+									</div><br>
+									
 									<div align="center" id="loader" style="display: none">
 
 									<span>
@@ -143,10 +122,13 @@
 										class="l-5"></span> <span class="l-6"></span>
 								</div>	
 									
+									
 								</div>
-								 </div>
 								</div>
-						 
+								</div>
+								
+							
+
 						<div class=" box-content">
 					<div class="row">
 					
@@ -154,21 +136,13 @@
 						<div class="col-md-12 table-responsive">
 							<div style="overflow:scroll;height:100%;width:100%;overflow:auto">
 									<table width="100%" height="100%" border="0"class="table table-bordered table-striped fill-head "
-										style="width: 100%" id="table_grid">
+										style="width: 100%" id="table_grid1">
 								<thead>
 									<tr>
-										<th style="text-align:center;">Sr.No.</th> 
-										<th style="text-align:center;">Invoice Date</th>  
-										<th style="text-align:center;">Discount</th>
-										<th style="text-align:center;">Freight Amt</th>
-										<th style="text-align:center;">Insurance Amt</th> 
-										<th style="text-align:center;">Taxable Amt</th>
-										<th style="text-align:center;">CGST</th>
-										<th style="text-align:center;">SGST</th>
-										<th style="text-align:center;">IGST</th> 
-										<th style="text-align:center;">Cess</th> 
-										<th style="text-align:center;">Other</th>
-										<th style="text-align:center;">Total</th>
+										<th>Sr.No.</th>  
+										<th>Item Name</th> 
+										<th>Qty</th> 
+										<th>Total</th>  
 										
 									</tr>
 								</thead>
@@ -179,7 +153,7 @@
 									
 								</tbody>
 							</table>
-							<div class="form-group" >
+							<div class="form-group" style="display: none;" id="range">
 								 
 											 
 											 
@@ -201,16 +175,12 @@
 
 		</div>
 					</div>
-						
-						
-						
-					 
-					 
+				
 				</div>
 			</div>
 			<!-- END Main Content -->
 			<footer>
-			<p>2018 © SONA ELECTRONICS.</p>
+			<p>2017 © MONGINIS.</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
@@ -284,15 +254,15 @@
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
 		
-		 
-	 
 		<script type="text/javascript">
-	
-		function searchbillwise() {
+	 
+	</script>
+		<script type="text/javascript">
+		function searchsupplierwise() {
 			 
 			var fromDate = $("#fromDate").val();
 			var toDate = $("#toDate").val();
-			var suppliers = $("#suppliers").val();
+		    var grnType = $("#grnType").val();
 			 
 			var valid=0;
 			
@@ -307,103 +277,61 @@
 				alert("Enter Valid To Date");
 				valid=1;
 				}
-			else if(suppliers==null)
-			{
-			alert("Select Minimum One Supplier");
-			valid=1;
-			}
-			
+			else if(grnType=="")
+				{
+				alert("Select Grn Type");
+				valid=1;
+				}
+			 
+		
 			if(valid==0)
 			{
-			$('#loader').show();
-
-			$.getJSON('${dateWisePurchaseReport}',
+			 
+			$.getJSON('${grnItemWiseReport}',
 
 							{
 								 
 								fromDate : fromDate,
 								toDate : toDate,
-								suppliers : suppliers,
+								grnType : grnType, 
 								ajax : 'true'
 
 							},
-							function(data) { 
-								$('#table_grid td').remove();
+							function(data) {
+
+								$('#table_grid1 td').remove();
 								$('#loader').hide();
 
 								if (data == "") {
 									alert("No records found !!");
-									document.getElementById("expExcel").disabled=true;
-
+									 document.getElementById("expExcel").disabled=true;
 								}
-							  
+								
+								 
+
 							  $.each( data, function(key, itemList) {
 												
-								  document.getElementById("expExcel").disabled=false;
 								 
+									var suppname;
+									var type;
+									 
+										 
 												var tr = $('<tr></tr>');
-											  	tr.append($('<td ></td>').html(key+1));   
-											  	tr.append($('<td style="text-align:center;"></td>').html(itemList.invDate));  
-											  	tr.append($('<td style="text-align:right"></td>').html((itemList.discAmt).toFixed(2)));  
-											  	tr.append($('<td style="text-align:right"></td>').html((itemList.freightAmt).toFixed(2))); 
-											  	tr.append($('<td style="text-align:right"></td>').html((itemList.insuranceAmt).toFixed(2))); 
-											  	tr.append($('<td style="text-align:right"></td>').html((itemList.taxableAmt).toFixed(2))); 
-											  	tr.append($('<td style="text-align:right"></td>').html((itemList.cgst).toFixed(2))); 
-											  	tr.append($('<td style="text-align:right"></td>').html((itemList.sgst).toFixed(2))); 
-											  	tr.append($('<td style="text-align:right"></td>').html((itemList.igst).toFixed(2)));   
-											  	tr.append($('<td style="text-align:right"></td>').html((itemList.cess).toFixed(2))); 
-											  	tr.append($('<td style="text-align:right"></td>').html((itemList.otherExtra).toFixed(2))); 
-											  	 tr.append($('<td style="text-align:right"></td>').html((itemList.billAmt).toFixed(2)));  
-												$('#table_grid tbody').append(tr);
+											  	tr.append($('<td></td>').html(key+1)); 
+											   
+											  	tr.append($('<td></td>').html(itemList.itemName)); 
+											  	tr.append($('<td></td>').html(itemList.qty));
+											  	tr.append($('<td></td>').html(itemList.total));  
+											  	$('#table_grid1 tbody').append(tr);
 												 
 
 											})  
 							});
-
-		}
+						 
+			}
 	}
 		 
 	</script>
-	<script type="text/javascript">
- 
-function exportToExcel()
-{
 	 
-	window.open("${pageContext.request.contextPath}/exportToExcel");
-			document.getElementById("expExcel").disabled=true;
-}
-
-function getPdf()
-{
-    var fromDate = $("#fromDate").val(); 
-    var toDate = $("#toDate").val();
-    var supplier=$("#suppliers").val();
-	var valid=0;
-	
-		if(fromDate=="")
-			{
-			alert("Enter Valid From Date");
-			valid=1;
-			
-			}
-		else if(toDate=="")
-			{
-			alert("Enter Valid To Date");
-			valid=1;
-			}
-		else if(supplier==null)
-		{
-		alert("Select Minimum One Supplier");
-		valid=1;
-		}
-	
-		if(valid==0)
-		{
-	    	window.open('${pageContext.request.contextPath}/purchaseBillReport?url=pdf/purchaseDateWisePdf/'+fromDate+'/'+toDate+'/'+supplier+'/');
-		}
-    }
-</script>
-	
-	
 </body>
 </html>

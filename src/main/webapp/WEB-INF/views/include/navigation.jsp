@@ -244,7 +244,7 @@
 					<a href="${pageContext.request.contextPath}/monthWise">Month Wise Report</a>
 					</li>
 					<li> 
-					<a href="${pageContext.request.contextPath}/itemPurchaseReport">Item Wise Report</a>
+					<a href="${pageContext.request.contextPath}/itemWise">Item Wise Report</a>
 					</li>
 					
 					</ul>

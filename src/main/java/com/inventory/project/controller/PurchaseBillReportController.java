@@ -30,8 +30,11 @@ import org.zefer.pd4ml.PD4ML;
 import org.zefer.pd4ml.PD4PageMark;
 
 import com.inventory.project.common.Constants;
+import com.inventory.project.common.DateConvertor;
 import com.inventory.project.model.ExportToExcel;
+import com.inventory.project.model.GrnReport;
 import com.inventory.project.model.ItemMaster;
+import com.inventory.project.model.ItemReplaceReport;
 import com.inventory.project.model.ItemWisePurchase;
 import com.inventory.project.model.PurchaseReport;
 import com.inventory.project.model.SupplierMaster;
@@ -919,6 +922,61 @@ public class PurchaseBillReportController {
 		}
 		return model;
 
+	}
+	
+	@RequestMapping(value = "/grnReportItemWise", method = RequestMethod.GET)
+	public ModelAndView grnReportItemWise(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("purchaseReport/grnReportItemWise"); 
+		 
+		return model;
+	}
+	
+	@RequestMapping(value = "/grnItemWiseReport", method = RequestMethod.GET)
+	public @ResponseBody List<GrnReport> grnItemWiseReport(HttpServletRequest request, HttpServletResponse response) {
+
+		List<GrnReport> grnItemWiseReport = new ArrayList<GrnReport>();
+ 
+		try {
+			String fromDate = request.getParameter("fromDate");
+			String todate = request.getParameter("toDate");
+			int grnType = Integer.parseInt(request.getParameter("grnType"));
+			 
+			 
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(todate));
+			map.add("grnType", grnType);
+		 System.out.println(map);
+			
+		 GrnReport[] grnReport = rest.postForObject(Constants.url + "/purchaseReport/grnItemWiseReport", map , GrnReport[].class); 
+		 grnItemWiseReport = new ArrayList<GrnReport>(Arrays.asList(grnReport));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		 
+		return grnItemWiseReport;
+
+	}
+	
+	@RequestMapping(value = "/replaceItemList", method = RequestMethod.GET)
+	public ModelAndView replaceItemList(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("purchaseReport/replaceItemList"); 
+		List<ItemReplaceReport> grnItemWiseReport = new ArrayList<ItemReplaceReport>();
+		try
+		{
+			ItemReplaceReport[] itemReplaceReport = rest.getForObject(Constants.url + "/purchaseReport/itemReplaceReport", ItemReplaceReport[].class); 
+			 grnItemWiseReport = new ArrayList<ItemReplaceReport>(Arrays.asList(itemReplaceReport));
+			 model.addObject("grnItemWiseReport",grnItemWiseReport);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		 
+		return model;
 	}
 	
 	private Dimension format = PD4Constants.A2;

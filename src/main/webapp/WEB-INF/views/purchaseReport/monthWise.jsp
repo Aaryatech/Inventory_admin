@@ -103,9 +103,9 @@
 								</div>
 								<div class=" box-content">
 									<div class="form-group">
-									<div class="col-md-2">Order By Date</div>
+									<div class="col-md-2">Group By</div>
 									<div class="col-md-3">
-										<input class="form-control" id="book_Date" size="16" value="Bill Wise"
+										<input class="form-control" id="book_Date" size="16" value="Month"
 											 type="text" name="book_Date" readonly />
 											  
 										</div>
