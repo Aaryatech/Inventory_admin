@@ -783,7 +783,7 @@ public class MastersController {
 			String itemName = request.getParameter("itemName");
 			int itemCode = Integer.parseInt(request.getParameter("itemCode"));
 			int uomId = Integer.parseInt(request.getParameter("uomId"));
-			String rm_specification = request.getParameter("rm_specification");
+			//String rm_specification = request.getParameter("rm_specification");
 			String uomName = request.getParameter("uomName");
 			int groupId = Integer.parseInt(request.getParameter("groupId")); 
 			int catId = Integer.parseInt(request.getParameter("catId"));

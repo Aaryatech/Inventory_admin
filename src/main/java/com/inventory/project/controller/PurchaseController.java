@@ -567,7 +567,7 @@ public class PurchaseController {
 
 	 
 		SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
-		SimpleDateFormat time = new SimpleDateFormat("hh:mm:ss");
+		SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
 		Date date = new Date();
 		
 		

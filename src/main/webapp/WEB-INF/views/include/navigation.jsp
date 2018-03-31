@@ -186,8 +186,12 @@
 				  	<a href="${pageContext.request.contextPath}/bills">View Bills</a>
 					</li>
 					 <li> 
-				  	<a href="${pageContext.request.contextPath}/saleUnpaidReport">Unpaid Sale Bills</a>
+				  	<a href="${pageContext.request.contextPath}/unpaidPurchaseBillList">Pending Payment Of Purchase Bills</a>
 					</li>
+					 <li> 
+				  	<a href="${pageContext.request.contextPath}/saleUnpaidReport">Pending Payment Of Sale Bills</a>
+					</li>
+					
 				
 					</ul>
 					<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
@@ -211,6 +215,9 @@
 				<ul class="submenu">
 					<li> 
 					<a href="${pageContext.request.contextPath}/insertGrn">GRN GVN</a>
+					</li>
+					<li> 
+					<a href="${pageContext.request.contextPath}/grnItemHistory">GRN GVN List</a>
 					</li>
 				</ul>
 					<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
