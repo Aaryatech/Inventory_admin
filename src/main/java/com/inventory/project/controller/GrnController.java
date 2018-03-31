@@ -10,10 +10,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.junit.runner.Request;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,6 +28,7 @@ import com.inventory.project.model.GrnGvnDetail;
 import com.inventory.project.model.GrnGvnHeader;
 import com.inventory.project.model.GrnList;
 import com.inventory.project.model.Info;
+import com.inventory.project.model.PurchaseHeader;
 import com.inventory.project.model.SupplierMaster;
 
 @Controller
@@ -199,6 +202,7 @@ public class GrnController {
 					grnGvnDetail.setRate(getGrnList.get(i).getRateWithTax());
 					grnGvnDetail.setQty(getGrnList.get(i).getBalance());
 					grnGvnDetail.setTotal(Float.valueOf(df.format(grnGvnDetail.getQty()*grnGvnDetail.getRate())));
+					grnGvnDetail.setExpireDate(getGrnList.get(i).getExpiryDate());
 					grnGvnDetailList.add(grnGvnDetail);
 				}
 				insert.setGrnGvnDetailList(grnGvnDetailList);
@@ -225,6 +229,71 @@ public class GrnController {
 		
 
 		return "redirect:/insertGrn";
+	}
+	
+	
+	@RequestMapping(value = "/grnItemHistory", method = RequestMethod.GET)
+	public ModelAndView grnItemHistory(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("grn/grnCompleteList");
+		 
+	 
+		 
+		return model;
+	}
+	
+	@RequestMapping(value = "/getHistoryOfGrnGvn", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GrnGvnHeader> getHistoryOfGrnGvn(HttpServletRequest request, HttpServletResponse response) {
+		
+		 
+		 List<GrnGvnHeader> grnGvnHeaderList = new ArrayList<GrnGvnHeader>();
+		try {
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			System.out.println(map);
+			GrnGvnHeader[] grnGvnHeader = rest.postForObject(Constants.url + "getHistoryOfGrnGvn",map,
+					GrnGvnHeader[].class);
+			 grnGvnHeaderList = new ArrayList<GrnGvnHeader>(Arrays.asList(grnGvnHeader));
+			 
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return grnGvnHeaderList;
+	}
+	
+	@RequestMapping(value = "/grnHeaderWithDetail/{grnId}", method = RequestMethod.GET)
+	public ModelAndView grnHeaderWithDetail(@PathVariable int grnId, HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("grn/grnHeaderWithDetail");
+		 try {
+			 
+			 
+			 MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("grnId",grnId); 
+				GrnGvnHeader grnGvnHeader = rest.postForObject(Constants.url + "getGrnDetailByHeaderId",map, GrnGvnHeader.class);
+				 
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("flag",1);
+				SupplierMaster[] supplierMaster = rest.postForObject(Constants.url + "getSuppllierList",map,
+				SupplierMaster[].class);
+					ArrayList<SupplierMaster> supplierList = new ArrayList<SupplierMaster>(Arrays.asList(supplierMaster));
+				
+				 model.addObject("grnGvnHeader",grnGvnHeader);
+				 model.addObject("supplierList",supplierList);
+				 
+		 }catch(Exception e)
+		 {
+			 e.printStackTrace();
+		 }
+	 
+		 
+		return model;
 	}
 
 }

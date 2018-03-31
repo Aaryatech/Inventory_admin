@@ -116,6 +116,7 @@
 												<th>Purchase Rate</th>
 												<th >Qty</th>
 												<th>Total</th>  
+												<th>Expire Date</th>
 												<th>Action</th>
 
 											</tr>
@@ -276,7 +277,7 @@
 												  	 
 												  	 tr.append($('<td style="text-align:right;"></td>').html('<input style="text-align:right; width:100px" type="text" onchange="changeRate('+key+')" id="total'+key+'" value="'+(itemList.rateWithTax*itemList.balance).toFixed(2)+'"  class="form-control" '+
 															  	'  name="total'+key+'" readonly>')); 
-												  	 
+												  	tr.append($('<td></td>').html(itemList.expiryDate)); 
 												  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-remove" onclick="deleteItem('+key+');""></span>')); 
 													$('#table_grid tbody').append(tr);
 													
@@ -360,7 +361,7 @@
 										  	
 										  	 
 										  	 tr.append($('<td style="text-align:right;"></td>').html((itemList.rateWithTax*itemList.balance).toFixed(2))); 
-										  	 
+										  	tr.append($('<td></td>').html(itemList.expiryDate)); 
 										  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-remove" onclick="deleteItem('+key+');""></span>')); 
 											$('#table_grid tbody').append(tr);
 											
@@ -423,7 +424,7 @@
 												  	'  name="balanceRate'+key+'" required><input type="hidden"  id="balanceOrigingal'+key+'"  value="'+itemList.balance+'"  >'));
 										  	
 										  	 tr.append($('<td style="text-align:right;"></td>').html((itemList.rateWithTax*itemList.balance).toFixed(2))); 
-										  	 
+										  	tr.append($('<td></td>').html(itemList.expiryDate)); 
 										  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-remove" onclick="deleteItem('+key+');""></span>')); 
 											$('#table_grid tbody').append(tr);
 											
