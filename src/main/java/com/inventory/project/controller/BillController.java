@@ -76,9 +76,8 @@ public class BillController {
 			ArrayList<ItemMaster> itemList = new ArrayList<ItemMaster>(Arrays.asList(itemMaster));
 			model.addObject("itemList", itemList);
 			
-			 map = new LinkedMultiValueMap<String, Object>();
-			map.add("flag", 0);
-			CustomerMaster[] customerMaster = rest.postForObject(Constants.url + "getCustomerList",map,
+		
+			CustomerMaster[] customerMaster = rest.getForObject(Constants.url + "/bill/getValidCustomers",
 					CustomerMaster[].class); 
 			ArrayList<CustomerMaster> customerList = new ArrayList<CustomerMaster>(Arrays.asList(customerMaster)); 
 			

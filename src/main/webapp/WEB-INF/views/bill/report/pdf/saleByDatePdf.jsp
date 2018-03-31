@@ -101,7 +101,7 @@ th {
 				    	<c:set var="discount" value="${discount + report.discountAmt}" />
 				    	<c:set var="paid" value="${paid + report.paidAmt}" />
 					<c:set var="taxAmount" value="${taxAmount + report.taxableAmt}" />
-					
+						<c:set var="remAmt" value="${remAmt + report.remAmt}" />
 					<c:set var="grandTotal"
 						value="${grandTotal+report.grandTotal}" />
 			

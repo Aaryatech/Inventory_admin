@@ -91,7 +91,7 @@
 
 
 			<footer>
-			<p>2017 © INVENTORY.</p>
+			<p>2018 © SONA ELECTRICALS.</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i

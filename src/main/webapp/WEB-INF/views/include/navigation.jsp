@@ -260,7 +260,7 @@
 					<a href="${pageContext.request.contextPath}/saleReportByDate">Sale Report Datewise</a>
 					</li>
 					<li> 
-					<a href="${pageContext.request.contextPath}/saleReportGroupByDate">Sake Report(Group By Date)</a>
+					<a href="${pageContext.request.contextPath}/saleReportGroupByDate">Sale Report(Group By Date)</a>
 					</li>
 				    <li> 
 					<a href="${pageContext.request.contextPath}/saleByItemAndHsncodeWise">Sale Report(Itemwise And Hsncodewise)</a>

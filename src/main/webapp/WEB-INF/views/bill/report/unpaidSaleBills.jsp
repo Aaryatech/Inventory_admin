@@ -85,6 +85,70 @@
 									</thead>
 									<tbody>
 							  <%int c=1; %>
+							  		<c:forEach items="${unPaidBillsBlocked}" var="bill">
+										<tr  bgcolor="#f44141" >
+										 <td><input type="checkbox" name="select_to_approve"
+																id="select_to_approve" 
+																value="${bill.billNo}" ></td>
+												<td>	<%=c++%>
+											<c:out value="${c}" /> 
+												</td>
+													<td align="left"><c:out	value="${bill.invoiceNo}"></c:out></td>
+															<td align="left"><c:out value="${bill.invoiceDate}"></c:out></td>
+															<td align="left"><c:out value="${bill.custName}"></c:out></td>
+															<td align="left"><c:choose>
+															<c:when test="${bill.custType==1}">
+															<c:out value="Wholesaler"></c:out>
+															</c:when>
+															<c:when test="${bill.custType==2}">
+															<c:out value="Retailer"></c:out>
+															</c:when>
+															</c:choose></td>
+															<td align="left" style="text-align:right;"><c:out
+																	value="${bill.taxableAmt}"></c:out></td>
+															<td align="left" style="text-align:right;"><c:out
+																	value="${bill.taxAmt}"></c:out></td>
+															<td align="left" style="text-align:right;"><c:out
+																	value="${bill.grandTotal}"></c:out></td>
+															<td align="left" style="text-align:right;"><c:out
+																	value="${bill.discountAmt}"></c:out></td>
+															<td align="left" style="text-align:right;"><c:out
+																	value="${bill.paidAmt}"></c:out></td>
+															<td align="left" style="text-align:right;"><c:out
+																	value="${bill.remAmt}"></c:out></td>								</tr>
+											</c:forEach>
+							      <c:forEach items="${unPaidBillsExpGretor}" var="bill">
+											<tr  bgcolor="#ff99cc">
+											 <td><input type="checkbox" name="select_to_approve"
+																id="select_to_approve" 
+																value="${bill.billNo}" ></td>
+												<td>	<%=c++%>
+											<c:out value="${c}" /> 
+												</td>
+													<td align="left"><c:out	value="${bill.invoiceNo}"></c:out></td>
+															<td align="left"><c:out value="${bill.invoiceDate}"></c:out></td>
+															<td align="left"><c:out value="${bill.custName}"></c:out></td>
+															<td align="left"><c:choose>
+															<c:when test="${bill.custType==1}">
+															<c:out value="Wholesaler"></c:out>
+															</c:when>
+															<c:when test="${bill.custType==2}">
+															<c:out value="Retailer"></c:out>
+															</c:when>
+															</c:choose></td>
+															<td align="left" style="text-align:right;"><c:out
+																	value="${bill.taxableAmt}"></c:out></td>
+															<td align="left"style="text-align:right;"><c:out
+																	value="${bill.taxAmt}"></c:out></td>
+															<td align="left" style="text-align:right;"><c:out
+																	value="${bill.grandTotal}"></c:out></td>
+															<td align="left" style="text-align:right;"><c:out
+																	value="${bill.discountAmt}"></c:out></td>
+															<td align="left" style="text-align:right;"><c:out
+																	value="${bill.paidAmt}"></c:out></td>
+															<td align="left" style="text-align:right;"><c:out
+																	value="${bill.remAmt}"></c:out></td>											</tr>
+										</c:forEach>
 										<c:forEach items="${unPaidBills}" var="bill">
 											<tr>
 											 <td><input type="checkbox" name="select_to_approve"
@@ -118,70 +182,8 @@
 															<td align="left" style="text-align:right;"><c:out
 																	value="${bill.remAmt}"></c:out></td>											</tr>
 										</c:forEach>
-                                       <c:forEach items="${unPaidBillsExpGretor}" var="bill">
-											<tr  bgcolor="#ff99cc">
-											 <td><input type="checkbox" name="select_to_approve"
-																id="select_to_approve" 
-																value="${bill.billNo}" ></td>
-												<td>	<%=c++%>
-											<c:out value="${c}" /> 
-												</td>
-													<td align="left"><c:out	value="${bill.invoiceNo}"></c:out></td>
-															<td align="left"><c:out value="${bill.invoiceDate}"></c:out></td>
-															<td align="left"><c:out value="${bill.custName}"></c:out></td>
-															<td align="left"><c:choose>
-															<c:when test="${bill.custType==1}">
-															<c:out value="Wholesaler"></c:out>
-															</c:when>
-															<c:when test="${bill.custType==2}">
-															<c:out value="Retailer"></c:out>
-															</c:when>
-															</c:choose></td>
-															<td align="left" style="text-align:right;"><c:out
-																	value="${bill.taxableAmt}"></c:out></td>
-															<td align="left"style="text-align:right;"><c:out
-																	value="${bill.taxAmt}"></c:out></td>
-															<td align="left" style="text-align:right;"><c:out
-																	value="${bill.grandTotal}"></c:out></td>
-															<td align="left" style="text-align:right;"><c:out
-																	value="${bill.discountAmt}"></c:out></td>
-															<td align="left" style="text-align:right;"><c:out
-																	value="${bill.paidAmt}"></c:out></td>
-															<td align="left" style="text-align:right;"><c:out
-																	value="${bill.remAmt}"></c:out></td>											</tr>
-										</c:forEach>
-										<c:forEach items="${unPaidBillsBlocked}" var="bill">
-										<tr  bgcolor="#f44141" >
-										 <td><input type="checkbox" name="select_to_approve"
-																id="select_to_approve" 
-																value="${bill.billNo}" ></td>
-												<td>	<%=c++%>
-											<c:out value="${c}" /> 
-												</td>
-													<td align="left"><c:out	value="${bill.invoiceNo}"></c:out></td>
-															<td align="left"><c:out value="${bill.invoiceDate}"></c:out></td>
-															<td align="left"><c:out value="${bill.custName}"></c:out></td>
-															<td align="left"><c:choose>
-															<c:when test="${bill.custType==1}">
-															<c:out value="Wholesaler"></c:out>
-															</c:when>
-															<c:when test="${bill.custType==2}">
-															<c:out value="Retailer"></c:out>
-															</c:when>
-															</c:choose></td>
-															<td align="left" style="text-align:right;"><c:out
-																	value="${bill.taxableAmt}"></c:out></td>
-															<td align="left" style="text-align:right;"><c:out
-																	value="${bill.taxAmt}"></c:out></td>
-															<td align="left" style="text-align:right;"><c:out
-																	value="${bill.grandTotal}"></c:out></td>
-															<td align="left" style="text-align:right;"><c:out
-																	value="${bill.discountAmt}"></c:out></td>
-															<td align="left" style="text-align:right;"><c:out
-																	value="${bill.paidAmt}"></c:out></td>
-															<td align="left" style="text-align:right;"><c:out
-																	value="${bill.remAmt}"></c:out></td>								</tr>
-											</c:forEach>
+                                   
+								
 									</tbody>
 								</table>
 							</div><br><br><div class="row">

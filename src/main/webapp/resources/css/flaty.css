@@ -4638,7 +4638,7 @@ div.tagsinput .not_valid {
 #theme-setting ul.colors a.yellow      {background-color: #f3d240;}
 #theme-setting ul.colors a.pink        {background-color: #f359a8;}
 #theme-setting ul.colors a.magenta     {background-color: #c48aff;}
-#theme-setting ul.colors a.gray        {background-color: #ababab;}
+#theme-setting ul.colors a.gray        {background-color: #d69077;}
 #theme-setting ul.colors a.black       {background-color: #373b41;}
 
 /***
@@ -4679,7 +4679,7 @@ div.tagsinput .not_valid {
 .sidebar-collapsed .nav-list > li.open:hover > a    {color: #fff;}
 
 .navbar {
-    background: #343690; border-bottom:1px solid #ec268f;
+    background: #bb6f54; border-bottom:1px solid #ec268f;
 }
 .flaty-nav > li > a > .badge {
     border-color: #58b1fc;
@@ -4707,7 +4707,7 @@ div.tagsinput .not_valid {
 .nav-list .search-form,
 .nav-list .search-pan input,
 #nav-horizontal.nav-xs > li > a,
-.nav-list > li > a                                  {background-color: #ec268f;}    /* Sidebar Background */
+.nav-list > li > a                                  {background-color: #c71a1a;}    /* Sidebar Background */
 .nav-list .search-form:hover,
 .nav-list .search-form:hover .search-pan input,
 .nav-list > li.open > a,
