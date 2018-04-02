@@ -90,11 +90,81 @@
 							<div class="col-md-1"></div>
 							<div class="col-md-2" >Invoice no. Date</div>
 									<div class="col-md-3">
-										 <input type="text" name="invoiceDate" id="invoiceDate" class="form-control date-picker" required>
+										 <input type="text" name="invoiceDate"   onblur="cdDate()"   id="invoiceDate" class="form-control date-picker" required>
 									</div>
 									
 						</div>
-							<br><br>
+							<br>
+							
+							<div class="box-content">
+							<div class="col-md-2" >Advance</div>
+									<div class="col-md-3">
+									 
+										 <select name="isPaid" id="isPaid" onchange="disabledDate()" class="form-control" tabindex="-1" >
+											<option value="1">No</option>
+											 <option value="2">Yes</option>
+										</select>
+									</div>
+							 
+						</div>
+							<br>
+							
+							<div class="box-content">
+						<div class="col-md-2" >Days For Date1</div>
+									<div class="col-md-3">
+										 <input type="text"  name="days1" onchange="cdDate()" id="days1" class="form-control" required>
+									</div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2" >CD Date1</div>
+									<div class="col-md-3">
+										 <input type="text" name="cdDate1" id="cdDate1" class="form-control" readonly>
+									</div>
+									
+						</div>
+							<br>
+							
+							<div class="box-content">
+						<div class="col-md-2" >Days For Date2</div>
+									<div class="col-md-3">
+										 <input type="text" name="days2" onchange="cdDate()" id="days2" class="form-control" required>
+									</div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2" >CD Date2</div>
+									<div class="col-md-3">
+										 <input type="text" name="cdDate2" id="cdDate2" class="form-control " readonly>
+									</div>
+									
+						</div>
+							<br>
+							
+							<div class="box-content">
+						<div class="col-md-2" >Days For Date3</div>
+									<div class="col-md-3">
+										 <input type="text" name="days3" onchange="cdDate()" id="days3" class="form-control" required>
+									</div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2" >CD Date3</div>
+									<div class="col-md-3">
+										 <input type="text" name="cdDate3" id="cdDate3" class="form-control" readonly>
+									</div>
+									
+						</div>
+							<br>
+							
+							<div class="box-content">
+						<div class="col-md-2" >Days For Date4</div>
+									<div class="col-md-3">
+										 <input type="text" name="days4" onchange="cdDate()" id="days4" class="form-control" required>
+									</div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2" >CD Date4</div>
+									<div class="col-md-3">
+										 <input type="text" name="cdDate4" id="cdDate4" class="form-control" readonly>
+									</div>
+									
+						</div>
+							<br>
+							<br>
 							
 							<hr>
 							
@@ -136,15 +206,7 @@
 									 
 						</div><br>
 						
-						<div class="box-content">
-										 
-										<div class="col-md-2">Expire Date</div>
-											<div class="col-md-2">
-												<input type="text" class="form-control date-picker" id="expireDate" name="expireDate" >
-											</div>
-											 
-									 
-						</div><br><br>
+					 <br>
 						
 						<div class="box-content">
 							<div class="col-md-12" style="text-align: center">
@@ -182,7 +244,7 @@
 												<th>Total<i class="fa fa-inr" style="font-size:13px"></i></th>
 												<th>Wholesale Rate<i class="fa fa-inr" style="font-size:13px"></i></th>
 												<th>Retail Rate<i class="fa fa-inr" style="font-size:13px"></i></th>
-												<th>Expire Date</th>
+												 
 												<th>Action</th>
 
 											</tr>
@@ -584,13 +646,7 @@
 
 		}
 		
-		if (expireDate=="") {
-
-			 
-			alert("Enter Expire Date");
-			valid=1;
-
-		}
+		 
 		  
 		if(valid==0)
 			{
@@ -609,7 +665,7 @@
 							extraCharges : extraCharges,
 							insuranceAmt : insuranceAmt,
 							freightAmt : freightAmt,
-							expireDate : expireDate,
+							 
 							ajax : 'true',
 
 						},
@@ -660,7 +716,7 @@
 										  	tr.append($('<td style="text-align:right;"></td>').html('<input style="text-align:right; width:100px" type="text" onchange="changeRate('+key+')" id="retailRate'+key+'" value="'+(itemList.retailRate).toFixed(2)+'"  class="form-control" '+
 												  	' name="retailRate'+key+'" required><input type="hidden"  id="retailRateOrigingal'+key+'"  value="'+(itemList.retailRate).toFixed(2)+'"  >'));
 										  	
-										  	tr.append($('<td></td>').html(itemList.expiryDate)); 
+										 
 										  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" onclick="edit('+key+');"></span> <span class="glyphicon glyphicon-remove" onclick="deleteItem('+key+');""></span>')); 
 											$('#table_grid tbody').append(tr);
 											
@@ -762,7 +818,7 @@
 										  	
 									tr.append($('<td style="text-align:right;"></td>').html('<input style="text-align:right; width:100px" type="text" onchange="changeRate('+key+')" id="retailRate'+key+'" value="'+(itemList.retailRate).toFixed(2)+'"  class="form-control" '+
 												  	' name="retailRate'+key+'" required><input type="hidden"  id="retailRateOrigingal'+key+'"  value="'+(itemList.retailRate).toFixed(2)+'"  >'));
-									tr.append($('<td></td>').html(itemList.expiryDate)); 
+									 
 								  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" onclick="edit('+key+');"></span>'
 										  	+'<span class="glyphicon glyphicon-remove" onclick="deleteItem('+key+');"></span>')); 
 									$('#table_grid tbody').append(tr);
@@ -920,7 +976,7 @@
 										tr.append($('<td style="text-align:right;"></td>').html('<input style="text-align:right; width:100px" type="text" onchange="changeRate('+key+')" id="retailRate'+key+'" value="'+(itemList.retailRate).toFixed(2)+'"  class="form-control" '+
 													  	' name="retailRate'+key+'" required><input type="hidden"  id="retailRateOrigingal'+key+'"  value="'+(itemList.retailRate).toFixed(2)+'"  >'));
 										
-										tr.append($('<td></td>').html(itemList.expiryDate)); 
+										 
 									  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" onclick="edit('+key+');"></span>'
 											  	+'<span class="glyphicon glyphicon-remove" onclick="deleteItem('+key+');""></span>')); 
 										$('#table_grid tbody').append(tr);
@@ -967,9 +1023,85 @@
 		   		}
 			 
 		}
-	  
+	 
+	 
+
+	 function disabledDate()
+		{
+		    
+		 var isPaid = $("#isPaid").val();
+		 
+		 if(isPaid==2)
+			 {
+			 document.getElementById("days1").disabled=true;
+			 document.getElementById("days2").disabled=true;
+			 document.getElementById("days3").disabled=true;
+			 document.getElementById("days4").disabled=true;
+			 }
+		 else
+			 {
+			 document.getElementById("days1").disabled=false;
+			 document.getElementById("days2").disabled=false;
+			 document.getElementById("days3").disabled=false;
+			 document.getElementById("days4").disabled=false;
+			 }
+		}
+	 function cdDate() {
+			/* var d = new Date(); */
+			 
+			if($("#invoiceDate").val()!="")
+				{
+					var selectedDate = $("#invoiceDate").val().split("-");
+					
+					var d = new Date(selectedDate[2],selectedDate[1] - 1, selectedDate[0]);
+					var days1 = $("#days1").val();
+					var days2 = $("#days2").val();
+					var days3 = $("#days3").val();
+					var days4 = $("#days4").val();
+					var todayTimeStamp1 = +d; // Unix timestamp in milliseconds
+					d.setDate(d.getDate());
+					var todayTimeStamp = +d; // Unix timestamp in milliseconds
+					var oneDayTimeStamp = 1000 * 60 * 60 * 24; // Milliseconds in a day
+					
+					if(days1!="")
+					{
+						var diff = todayTimeStamp + (oneDayTimeStamp*days1);
+						var yesterdayDate = new Date(diff);  
+		
+						var tommarowString =  yesterdayDate.getDate()+ '-' + (yesterdayDate.getMonth() + 1) + '-' +yesterdayDate.getFullYear();
+						document.getElementById("cdDate1").value=tommarowString;
+					}
+					if(days2!="")
+					{
+						var diff = todayTimeStamp + (oneDayTimeStamp*days2);
+						var yesterdayDate = new Date(diff);  
+		
+						var tommarowString =  yesterdayDate.getDate()+ '-' + (yesterdayDate.getMonth() + 1) + '-' +yesterdayDate.getFullYear();
+						document.getElementById("cdDate2").value=tommarowString;
+					}
+					if(days3!="")
+					{
+						var diff = todayTimeStamp + (oneDayTimeStamp*days3);
+						var yesterdayDate = new Date(diff);  
+		
+						var tommarowString =  yesterdayDate.getDate()+ '-' + (yesterdayDate.getMonth() + 1) + '-' +yesterdayDate.getFullYear();
+						document.getElementById("cdDate3").value=tommarowString;
+					}
+					if(days4!="")
+					{
+						var diff = todayTimeStamp + (oneDayTimeStamp*days4);
+						var yesterdayDate = new Date(diff);  
+		
+						var tommarowString =  yesterdayDate.getDate()+ '-' + (yesterdayDate.getMonth() + 1) + '-' +yesterdayDate.getFullYear();
+						document.getElementById("cdDate4").value=tommarowString;
+					}
+					
+				
+				}
+			 
+		}
 	</script>
-	
+	<!-- onchange="cdDate();" -->
 
 </body>
 </html>

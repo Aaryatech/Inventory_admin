@@ -13,6 +13,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat; 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -34,12 +35,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.inventory.project.common.Constants;
 import com.inventory.project.common.DateConvertor;
 import com.inventory.project.model.AddPurchaseDetail;
+import com.inventory.project.model.Info;
 import com.inventory.project.model.ItemBarcode;
 import com.inventory.project.model.ItemMaster; 
 import com.inventory.project.model.PurchaseDetail;
 import com.inventory.project.model.PurchaseHeader;
 import com.inventory.project.model.SupplierMaster;
 import com.inventory.project.model.TSetting;
+import com.inventory.project.model.UnpaidPurchaseBill;
 
 @Controller
 @Scope("session")
@@ -157,8 +160,7 @@ public class PurchaseController {
 			float insuAmt = Float.parseFloat(request.getParameter("insuranceAmt"));
 			float extraCharges = Float.parseFloat(request.getParameter("extraCharges"));
 			String itemName = request.getParameter("itemName");
-			String index = request.getParameter("index");
-			String expireDate = request.getParameter("expireDate");
+			String index = request.getParameter("index"); 
 			
 			 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
@@ -187,7 +189,7 @@ public class PurchaseController {
 				addItem.setCessPer(itemMaster.getCess());
 				String batchNo = itemId+"-"+tSetting.getSettingValue();
 				addItem.setBatchNo(batchNo);
-				addItem.setExpiryDate(expireDate);
+			 
 				purchaseDetailtemList.add(addItem);
 				 
 				float totalValue = 0; 
@@ -271,8 +273,7 @@ public class PurchaseController {
 				purchaseDetailtemList.get(key).setItemName(itemName);
 				purchaseDetailtemList.get(key).setItemId(itemId);
 				purchaseDetailtemList.get(key).setRate(rate);
-				purchaseDetailtemList.get(key).setRecQty(recQty);
-				purchaseDetailtemList.get(key).setExpiryDate(expireDate);
+				purchaseDetailtemList.get(key).setRecQty(recQty); 
 				purchaseDetailtemList.get(key).setValue(Float.valueOf(df.format(recQty*rate))); 
 				purchaseDetailtemList.get(key).setDiscPer(discPer);
 				purchaseDetailtemList.get(key).setDiscAmt(Float.valueOf(df.format((discPer/100)*purchaseDetailtemList.get(key).getValue()))); 
@@ -569,11 +570,18 @@ public class PurchaseController {
 		SimpleDateFormat time = new SimpleDateFormat("hh:mm:ss");
 		Date date = new Date();
 		
+		
+		
 		try {
 				int suppId = Integer.parseInt(request.getParameter("suppId"));
 				String vehicleNo = request.getParameter("vehicleNo");
 				String invoiceNo = request.getParameter("invoiceNo");
 				String invoiceDate = request.getParameter("invoiceDate");
+				String cdDate1 = request.getParameter("cdDate1");
+				String cdDate2 = request.getParameter("cdDate2");
+				String cdDate3 = request.getParameter("cdDate3");
+				String cdDate4 = request.getParameter("cdDate4");
+				int isPaid = Integer.parseInt(request.getParameter("isPaid"));
 				float basicValue = Float.parseFloat(request.getParameter("basicValue"));
 				float freightAmt = Float.parseFloat(request.getParameter("freightAmt"));
 				float cgst = Float.parseFloat(request.getParameter("cgst"));
@@ -587,6 +595,12 @@ public class PurchaseController {
 				float cess = Float.parseFloat(request.getParameter("cess"));
 				float billAmount = Float.parseFloat(request.getParameter("billAmount"));
 				//float roundOff = Float.parseFloat(request.getParameter("roundOff"));
+				
+				Calendar c = Calendar.getInstance();
+				c.setTime(sf.parse(invoiceDate)); 
+				c.add(Calendar.DATE, 365);
+				Date afterYear=c.getTime();
+				
 				float totalTaxableAmt=0;
 				for(int i=0;i<purchaseDetailtemList.size();i++)
 				{
@@ -616,6 +630,11 @@ public class PurchaseController {
 				insert.setOtherExtra(extraCharges);
 				insert.setVehicleNo(vehicleNo);
 				insert.setPurchaseNo("");
+				insert.setCdDate1(cdDate1);
+				insert.setCdDate2(cdDate2);
+				insert.setCdDate3(cdDate3);
+				insert.setCdDate4(cdDate4);
+				insert.setIsPaid(isPaid);
 				
 				List<PurchaseDetail> purchaseDetailList = new ArrayList<PurchaseDetail>();
 				
@@ -650,8 +669,8 @@ public class PurchaseController {
 					purchaseDetail.setRateWithTax(purchaseDetailtemList.get(i).getRateWithTax());
 					purchaseDetail.setRateWithoutTax(purchaseDetailtemList.get(i).getRateWithoutTax());
 					purchaseDetail.setWholesaleRate(purchaseDetailtemList.get(i).getWholesaleRate());
-					purchaseDetail.setRetailRate(purchaseDetailtemList.get(i).getRetailRate());
-					purchaseDetail.setExpiryDate(purchaseDetailtemList.get(i).getExpiryDate());
+					purchaseDetail.setRetailRate(purchaseDetailtemList.get(i).getRetailRate()); 
+					purchaseDetail.setExpiryDate(sf.format(afterYear));
 					purchaseDetailList.add(purchaseDetail);
 				}
 				insert.setPurchaseDetailList(purchaseDetailList);
@@ -864,6 +883,110 @@ public class PurchaseController {
 			e.printStackTrace();
 		}
 	  
+	}
+	
+	@RequestMapping(value = "/unpaidPurchaseBillList", method = RequestMethod.GET)
+	public ModelAndView unpaidPurchaseBillList(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("purchase/unpaidPurchaseBillList");
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd"); 
+		Date date = new Date();
+		try
+		{
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("currentDate",sf.format(date)); 
+			System.out.println("map" + map);
+			UnpaidPurchaseBill[] unpaidPurchaseBill = rest.postForObject(Constants.url + "unpaidPurchaseBillList",map, UnpaidPurchaseBill[].class);
+			 
+			ArrayList<UnpaidPurchaseBill> unpaidPurchaseBillList = new ArrayList<UnpaidPurchaseBill>(Arrays.asList(unpaidPurchaseBill));
+			 
+			 
+			 SimpleDateFormat sf2= new SimpleDateFormat("dd-MM-yyyy");
+			 System.out.println(  sf2.parse(sf2.format(date)));
+			 Date today= sf2.parse(sf2.format(date));
+			 
+			 List<UnpaidPurchaseBill> extra4 = new ArrayList<>();
+			 List<UnpaidPurchaseBill> extra3 = new ArrayList<>();
+			 List<UnpaidPurchaseBill> extra2 = new ArrayList<>();
+			 List<UnpaidPurchaseBill> extra1 = new ArrayList<>();
+			 
+			 for(int i=0;i<unpaidPurchaseBillList.size();i++)
+			 {
+				  
+				  Date cd1 = sf2.parse(unpaidPurchaseBillList.get(i).getCdDate1());
+				  Date cd2 = sf2.parse(unpaidPurchaseBillList.get(i).getCdDate2());
+				  Date cd3 = sf2.parse(unpaidPurchaseBillList.get(i).getCdDate3());
+				  Date cd4 = sf2.parse(unpaidPurchaseBillList.get(i).getCdDate4());
+				  if(today.compareTo(cd1)>=0 && cd2.compareTo(today)>0)
+				  {
+					  unpaidPurchaseBillList.get(i).setExtra(1);
+					  extra1.add(unpaidPurchaseBillList.get(i));
+				  }
+				  else if(today.compareTo(cd2)>=0 && cd3.compareTo(today)>0)
+				  {
+					  unpaidPurchaseBillList.get(i).setExtra(2);
+					  extra2.add(unpaidPurchaseBillList.get(i));
+				  } 
+				  else if(today.compareTo(cd3)>=0 && cd4.compareTo(today)>0)
+				  {
+					  unpaidPurchaseBillList.get(i).setExtra(3);
+					  extra3.add(unpaidPurchaseBillList.get(i));
+				  } 
+				  else
+				  {
+					  unpaidPurchaseBillList.get(i).setExtra(4);
+					  extra4.add(unpaidPurchaseBillList.get(i));
+				  }
+					  
+			 }
+			 System.out.println("extra1 " +extra1);
+			 System.out.println("extra2 " +extra2);
+			 System.out.println("extra3 " +extra3);
+			 System.out.println("extra4 " +extra4);
+			 System.out.println("unpaidPurchaseBillList " + unpaidPurchaseBillList);
+			 model.addObject("sts4List",extra4);
+			 model.addObject("sts3List",extra3);
+			 model.addObject("sts2List",extra2);
+			 model.addObject("sts1List",extra1);
+			 
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+	
+		return model;
+	}
+	
+	@RequestMapping(value = "/approvedPayment", method = RequestMethod.POST)
+	public String approvedPayment(HttpServletRequest request, HttpServletResponse response) {
+
+		 
+		try
+		{
+			String[] checkbox=request.getParameterValues("select_to_approve");
+			
+			 
+			String purchaseIdList = "0";
+			for(int i=0;i<checkbox.length;i++)
+			{
+				purchaseIdList = purchaseIdList +","+ checkbox[i];
+			}
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
+			map.add("purchaseIdList", purchaseIdList);
+			
+			Info info = rest.postForObject(Constants.url + "approvedIsPaidInPurchaseBill",map, Info.class);
+			
+			System.out.println("info " +info);
+			 
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+	
+		return "redirect:/unpaidPurchaseBillList";
 	}
 
 }

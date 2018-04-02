@@ -1,7 +1,7 @@
 package com.inventory.project.model;
- 
+  
 import java.util.List;
-
+ 
 import com.fasterxml.jackson.annotation.JsonFormat;
   
 public class PurchaseHeader {
@@ -28,7 +28,12 @@ public class PurchaseHeader {
 	private float billAmt; 
 	private float roundOff;  
 	private float otherExtra; 
-	private int delStatus; 
+	private int delStatus;  
+	private String cdDate1; 
+	private String cdDate2; 
+	private String cdDate3; 
+	private String cdDate4;
+	private int isPaid;
 	private List<PurchaseDetail> purchaseDetailList;
 	public int getPurchaseId() {
 		return purchaseId;
@@ -176,6 +181,41 @@ public class PurchaseHeader {
 	public void setPurchaseDetailList(List<PurchaseDetail> purchaseDetailList) {
 		this.purchaseDetailList = purchaseDetailList;
 	}
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public String getCdDate1() {
+		return cdDate1;
+	}
+	public void setCdDate1(String cdDate1) {
+		this.cdDate1 = cdDate1;
+	}
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public String getCdDate2() {
+		return cdDate2;
+	}
+	public void setCdDate2(String cdDate2) {
+		this.cdDate2 = cdDate2;
+	}
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public String getCdDate3() {
+		return cdDate3;
+	}
+	public void setCdDate3(String cdDate3) {
+		this.cdDate3 = cdDate3;
+	}
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public String getCdDate4() {
+		return cdDate4;
+	}
+	public void setCdDate4(String cdDate4) {
+		this.cdDate4 = cdDate4;
+	}
+	
+	public int getIsPaid() {
+		return isPaid;
+	}
+	public void setIsPaid(int isPaid) {
+		this.isPaid = isPaid;
+	}
 	@Override
 	public String toString() {
 		return "PurchaseHeader [purchaseId=" + purchaseId + ", purchaseNo=" + purchaseNo + ", date=" + date + ", time="
@@ -184,7 +224,8 @@ public class PurchaseHeader {
 				+ ", discAmt2=" + discAmt2 + ", freightAmt=" + freightAmt + ", insuranceAmt=" + insuranceAmt + ", cgst="
 				+ cgst + ", sgst=" + sgst + ", igst=" + igst + ", cess=" + cess + ", taxableAmt=" + taxableAmt
 				+ ", billAmt=" + billAmt + ", roundOff=" + roundOff + ", otherExtra=" + otherExtra + ", delStatus="
-				+ delStatus + ", purchaseDetailList=" + purchaseDetailList + "]";
+				+ delStatus + ", cdDate1=" + cdDate1 + ", cdDate2=" + cdDate2 + ", cdDate3=" + cdDate3 + ", cdDate4="
+				+ cdDate4 + ", isPaid=" + isPaid + ", purchaseDetailList=" + purchaseDetailList + "]";
 	}
 	
 	
