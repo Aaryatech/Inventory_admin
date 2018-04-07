@@ -106,7 +106,7 @@
 									</div>
 									
 							</div><br></form>
-							<div class="col-md-1"><strong>Item:</strong></div>
+							<%-- <div class="col-md-1"><strong>Item:</strong></div>
 							<div class="col-md-2">
 								<select name="item_id" id="item_id" class="form-control" placeholder="Select Item"  data-rule-required="true"  onchange="return onItemChanged(this.value)">
 											<option value="0">Select Item</option>
@@ -133,7 +133,7 @@
 											data-rule-required="true" />
 								</div>
 								<div class="col-sm-1">	<button class="btn additem_btn" 
-										onclick="insertItem()">Add Item</button></div>
+										onclick="insertItem()">Add Item</button></div> --%>
 							<br>
 							
 						<%-- 	<form action="${pageContext.request.contextPath}/saveBill" class="form-horizontal"
@@ -322,7 +322,7 @@
 
 					<span>
 						<h4>
-							<font color="#343690">Loading</font>
+							<font color="#343690">Saving your bill,please wait..</font>
 						</h4>
 					</span> <span class="l-1"></span> <span class="l-2"></span> <span
 						class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
