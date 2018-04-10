@@ -40,6 +40,7 @@ public class AddPurchaseDetail {
 	private float retailRate; 
 	private int delStatus;
 	private String expiryDate;
+	private int replaceQty;
 	public int getPurDetailId() {
 		return purDetailId;
 	}
@@ -257,6 +258,13 @@ public class AddPurchaseDetail {
 	public void setExpiryDate(String expiryDate) {
 		this.expiryDate = expiryDate;
 	}
+	
+	public int getReplaceQty() {
+		return replaceQty;
+	}
+	public void setReplaceQty(int replaceQty) {
+		this.replaceQty = replaceQty;
+	}
 	@Override
 	public String toString() {
 		return "AddPurchaseDetail [purDetailId=" + purDetailId + ", purchaseId=" + purchaseId + ", itemName=" + itemName
@@ -269,7 +277,7 @@ public class AddPurchaseDetail {
 				+ discOnBill + ", otherExtra=" + otherExtra + ", batchNo=" + batchNo + ", sellQty=" + sellQty
 				+ ", balance=" + balance + ", rateWithoutTax=" + rateWithoutTax + ", rateWithTax=" + rateWithTax
 				+ ", wholesaleRate=" + wholesaleRate + ", retailRate=" + retailRate + ", delStatus=" + delStatus
-				+ ", expiryDate=" + expiryDate + "]";
+				+ ", expiryDate=" + expiryDate + ", replaceQty=" + replaceQty + "]";
 	}
 	
 	

@@ -961,6 +961,34 @@ public class PurchaseBillReportController {
 
 	}
 	
+	@RequestMapping(value = "pdf/grnItemWisePdf/{fromDate}/{toDate}/{grnType}", method = RequestMethod.GET)
+	public ModelAndView grnItemWisePdf(@PathVariable String fromDate,@PathVariable String toDate,@PathVariable int grnType,HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("purchaseReport/pdf/grnitemwisepdf");
+		try {
+			List<GrnReport> grnItemWiseReport = new ArrayList<GrnReport>();
+  
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("grnType", grnType);
+		 System.out.println(map);
+			
+		 GrnReport[] grnReport = rest.postForObject(Constants.url + "/purchaseReport/grnItemWiseReport", map , GrnReport[].class); 
+		 grnItemWiseReport = new ArrayList<GrnReport>(Arrays.asList(grnReport));
+			
+			model.addObject("staticlist", grnItemWiseReport);
+			model.addObject("fromDate", fromDate);
+			model.addObject("toDate", toDate);
+			model.addObject("grnType", grnType);
+			System.out.println("grnItemWiseReport" + grnItemWiseReport);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+
+	}
+	
 	@RequestMapping(value = "/replaceItemList", method = RequestMethod.GET)
 	public ModelAndView replaceItemList(HttpServletRequest request, HttpServletResponse response) {
 

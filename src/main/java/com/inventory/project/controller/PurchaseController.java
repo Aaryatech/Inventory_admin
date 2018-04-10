@@ -690,6 +690,9 @@ public class PurchaseController {
 	public ModelAndView purchaseBillList(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("purchase/purchaseBillList");
+		SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyy");
+		Date date = new Date();
+		model.addObject("toDay",sf.format(date));
 		
 	
 		return model;
@@ -883,6 +886,729 @@ public class PurchaseController {
 			e.printStackTrace();
 		}
 	  
+	}
+	
+	
+	List<AddPurchaseDetail>  editPurchaseDetailtemList = new ArrayList<AddPurchaseDetail>();
+	PurchaseHeader editpurchaseHeader = new PurchaseHeader();
+	
+	
+	@RequestMapping(value = "/editPurchaseBill/{purchaseId}", method = RequestMethod.GET)
+	public ModelAndView editPurchaseBill(@PathVariable int purchaseId, HttpServletRequest request, HttpServletResponse response) {
+
+		  editPurchaseDetailtemList = new ArrayList<AddPurchaseDetail>();
+		  ModelAndView model = new ModelAndView("purchase/editPurchaseBill");
+		  try
+		  {
+			  
+		  
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("purchaseId",purchaseId); 
+			 editpurchaseHeader = rest.postForObject(Constants.url + "getPurchaseHeaderAndDetailWithId",map, PurchaseHeader.class);
+			 
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("flag",1);
+			SupplierMaster[] supplierMaster = rest.postForObject(Constants.url + "getSuppllierList",map,
+			SupplierMaster[].class);
+				ArrayList<SupplierMaster> supplierList = new ArrayList<SupplierMaster>(Arrays.asList(supplierMaster));
+				 for(int i=0;i<editpurchaseHeader.getPurchaseDetailList().size();i++)
+				 {
+					 AddPurchaseDetail addPurchaseDetail = new AddPurchaseDetail();
+					 addPurchaseDetail.setPurDetailId(editpurchaseHeader.getPurchaseDetailList().get(i).getPurDetailId());
+					 addPurchaseDetail.setPurchaseId(editpurchaseHeader.getPurchaseDetailList().get(i).getPurchaseId());
+					 addPurchaseDetail.setItemName(editpurchaseHeader.getPurchaseDetailList().get(i).getItemName());
+					 addPurchaseDetail.setItemId(editpurchaseHeader.getPurchaseDetailList().get(i).getItemId());
+					 addPurchaseDetail.setItemUom(editpurchaseHeader.getPurchaseDetailList().get(i).getItemUom());
+					 addPurchaseDetail.setRecQty(editpurchaseHeader.getPurchaseDetailList().get(i).getRecQty());
+					 addPurchaseDetail.setRate(editpurchaseHeader.getPurchaseDetailList().get(i).getRate());
+					 addPurchaseDetail.setBaseRate(editpurchaseHeader.getPurchaseDetailList().get(i).getBaseRate());
+					 addPurchaseDetail.setValue(editpurchaseHeader.getPurchaseDetailList().get(i).getValue());
+					 addPurchaseDetail.setDiscPer(editpurchaseHeader.getPurchaseDetailList().get(i).getDiscPer());
+					 addPurchaseDetail.setDiscAmt(editpurchaseHeader.getPurchaseDetailList().get(i).getDiscAmt());
+					 addPurchaseDetail.setFreightAmt(editpurchaseHeader.getPurchaseDetailList().get(i).getFreightAmt());
+					 addPurchaseDetail.setInsuAmt(editpurchaseHeader.getPurchaseDetailList().get(i).getInsuAmt());
+					 addPurchaseDetail.setCgstPer(editpurchaseHeader.getPurchaseDetailList().get(i).getCgstPer());
+					 addPurchaseDetail.setCgstRs(editpurchaseHeader.getPurchaseDetailList().get(i).getCgstRs());
+					 addPurchaseDetail.setSgstPer(editpurchaseHeader.getPurchaseDetailList().get(i).getSgstPer());
+					 addPurchaseDetail.setSgstRs(editpurchaseHeader.getPurchaseDetailList().get(i).getSgstRs());
+					 addPurchaseDetail.setIgstPer(editpurchaseHeader.getPurchaseDetailList().get(i).getIgstPer());
+					 addPurchaseDetail.setIgstRs(editpurchaseHeader.getPurchaseDetailList().get(i).getIgstRs());
+					 addPurchaseDetail.setCessPer(editpurchaseHeader.getPurchaseDetailList().get(i).getCessPer()); 
+					 addPurchaseDetail.setCessRs(editpurchaseHeader.getPurchaseDetailList().get(i).getCessRs());
+					 addPurchaseDetail.setTaxableAmt(editpurchaseHeader.getPurchaseDetailList().get(i).getTaxableAmt());
+					 addPurchaseDetail.setTotal(editpurchaseHeader.getPurchaseDetailList().get(i).getTotal());
+					 addPurchaseDetail.setRoundOff(editpurchaseHeader.getPurchaseDetailList().get(i).getRoundOff());
+					 addPurchaseDetail.setDiscOnBill(editpurchaseHeader.getPurchaseDetailList().get(i).getDiscOnBill());
+					 addPurchaseDetail.setOtherExtra(editpurchaseHeader.getPurchaseDetailList().get(i).getOtherExtra());
+					 addPurchaseDetail.setBatchNo(editpurchaseHeader.getPurchaseDetailList().get(i).getBatchNo());
+					 addPurchaseDetail.setSellQty(editpurchaseHeader.getPurchaseDetailList().get(i).getSellQty());
+					 addPurchaseDetail.setBalance(editpurchaseHeader.getPurchaseDetailList().get(i).getBalance());
+					 addPurchaseDetail.setRateWithoutTax(editpurchaseHeader.getPurchaseDetailList().get(i).getRateWithoutTax());
+					 addPurchaseDetail.setRateWithTax(editpurchaseHeader.getPurchaseDetailList().get(i).getRateWithTax());
+					 addPurchaseDetail.setWholesaleRate(editpurchaseHeader.getPurchaseDetailList().get(i).getWholesaleRate());
+					 addPurchaseDetail.setRetailRate(editpurchaseHeader.getPurchaseDetailList().get(i).getRetailRate());
+					 addPurchaseDetail.setDelStatus(editpurchaseHeader.getPurchaseDetailList().get(i).getDelStatus());
+					 addPurchaseDetail.setExpiryDate(editpurchaseHeader.getPurchaseDetailList().get(i).getExpiryDate());
+					 addPurchaseDetail.setReplaceQty(editpurchaseHeader.getPurchaseDetailList().get(i).getReplaceQty());
+					 editPurchaseDetailtemList.add(addPurchaseDetail);
+					 
+				 }
+				 map = new LinkedMultiValueMap<String, Object>();
+				 map.add("flag", 0);
+				 ItemMaster[] itemMaster = rest.postForObject(Constants.url + "getItemList",map, ItemMaster[].class);
+					ArrayList<ItemMaster> itemList = new ArrayList<ItemMaster>(Arrays.asList(itemMaster));
+					
+					  map = new LinkedMultiValueMap<String, Object>();
+					 map.add("suppId", editpurchaseHeader.getSuppId());
+					 SupplierMaster check = rest.postForObject(Constants.url + "getSuppllierById",map, SupplierMaster.class);
+					  if(check.getIsSameState()==1)
+						  isSameState=1;
+					  else
+						  isSameState=0;
+				 
+				model.addObject("itemList",itemList);
+			 model.addObject("purchaseHeader",editpurchaseHeader);
+			 model.addObject("purchaseDetailList",editPurchaseDetailtemList);
+			 model.addObject("supplierList",supplierList);
+		 
+		  }catch(Exception e)
+		  {
+			  e.printStackTrace();
+		  }
+	
+		return model;
+	}
+	
+	
+	@RequestMapping(value = "/checkIsSupplierSameStateInEditPurchaseBill", method = RequestMethod.GET)
+	@ResponseBody
+	public List<AddPurchaseDetail> checkIsSupplierSameStateInEditPurchaseBill(HttpServletRequest request, HttpServletResponse response) {
+		
+		 SupplierMaster supplierMaster = new SupplierMaster();
+		
+		try {
+			int suppId = Integer.parseInt(request.getParameter("suppId")); 
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			 map.add("suppId", suppId);
+			  supplierMaster = rest.postForObject(Constants.url + "getSuppllierById",map, SupplierMaster.class);
+			  if(supplierMaster.getIsSameState()==1)
+				  isSameState=1;
+			  else
+				  isSameState=0;
+			  
+			  for(int i=0;i<editPurchaseDetailtemList.size();i++)
+				{
+				  
+					 
+						if(isSameState==1)
+						{
+							editPurchaseDetailtemList.get(i).setCgstRs(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()*
+									editPurchaseDetailtemList.get(i).getCgstPer()/100)));
+							editPurchaseDetailtemList.get(i).setSgstRs(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()*
+									editPurchaseDetailtemList.get(i).getSgstPer()/100)));
+							editPurchaseDetailtemList.get(i).setIgstRs(0);
+						}
+						else
+						{
+							editPurchaseDetailtemList.get(i).setCgstRs(0);
+							editPurchaseDetailtemList.get(i).setSgstRs(0);
+							editPurchaseDetailtemList.get(i).setIgstRs(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()*
+									editPurchaseDetailtemList.get(i).getIgstPer()/100)));
+						}
+						editPurchaseDetailtemList.get(i).setTotal(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()
+								+editPurchaseDetailtemList.get(i).getIgstRs()+editPurchaseDetailtemList.get(i).getCgstRs()+editPurchaseDetailtemList.get(i).getSgstRs()
+								+editPurchaseDetailtemList.get(i).getCessRs()+editPurchaseDetailtemList.get(i).getOtherExtra())));
+						editPurchaseDetailtemList.get(i).setRateWithTax(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTotal()/editPurchaseDetailtemList.get(i).getRecQty())));
+						editPurchaseDetailtemList.get(i).setRateWithoutTax(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()/editPurchaseDetailtemList.get(i).getRecQty())));
+						float wholesaleAmt = editPurchaseDetailtemList.get(i).getRateWithTax()*20/100;
+						float retailerAmt = editPurchaseDetailtemList.get(i).getRateWithTax()*30/100;
+						editPurchaseDetailtemList.get(i).setWholesaleRate(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getRateWithTax()+wholesaleAmt)));
+						editPurchaseDetailtemList.get(i).setRetailRate(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getRateWithTax()+retailerAmt)));
+				 
+				}
+			 
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return editPurchaseDetailtemList;
+	}
+	
+	@RequestMapping(value = "/addItemInPurchaseBillEdit", method = RequestMethod.GET)
+	@ResponseBody
+	public List<AddPurchaseDetail> addItemInPurchaseBillEdit(HttpServletRequest request, HttpServletResponse response) {
+
+	 
+		try {
+			int itemId = Integer.parseInt(request.getParameter("itemId"));
+			int recQty = Integer.parseInt(request.getParameter("recQty"));
+			float rate = Float.parseFloat(request.getParameter("rate"));
+			float discPer = Float.parseFloat(request.getParameter("discPer"));
+			float discPerOnBill = Float.parseFloat(request.getParameter("discPerOnBill")); 
+			float freightAmt = Float.parseFloat(request.getParameter("freightAmt"));
+			float insuAmt = Float.parseFloat(request.getParameter("insuranceAmt"));
+			float extraCharges = Float.parseFloat(request.getParameter("extraCharges"));
+			String itemName = request.getParameter("itemName");
+			String index = request.getParameter("index"); 
+			
+			 
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			 map.add("itemId", itemId);
+			 ItemMaster itemMaster = rest.postForObject(Constants.url + "getItemById",map, ItemMaster.class);
+			if(index==null || index=="")   //Add new Item
+			{
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("key", "Batch No");
+				TSetting tSetting = rest.postForObject(Constants.url + "getSettingValueByKey",map, TSetting.class);
+				 
+				 
+				System.out.println("add new Item");
+				AddPurchaseDetail addItem = new AddPurchaseDetail();
+				addItem.setItemName(itemName);
+				addItem.setItemId(itemId);
+				addItem.setRate(rate);
+				addItem.setRecQty(recQty);
+				addItem.setValue(Float.valueOf(df.format(recQty*rate))); 
+				addItem.setDiscPer(discPer);
+				addItem.setDiscAmt(Float.valueOf(df.format((discPer/100)*addItem.getValue()))); 
+				addItem.setItemUom(itemMaster.getUomName());
+				addItem.setCgstPer(itemMaster.getCgst()); 
+				addItem.setSgstPer(itemMaster.getSgst());
+				addItem.setIgstPer(itemMaster.getIgst());
+				addItem.setCessPer(itemMaster.getCess());
+				String batchNo = itemId+"-"+tSetting.getSettingValue();
+				addItem.setBatchNo(batchNo);
+			 
+				editPurchaseDetailtemList.add(addItem);
+				 
+				float totalValue = 0; 
+				
+				for(int i=0;i<editPurchaseDetailtemList.size();i++)
+				{
+					if(editPurchaseDetailtemList.get(i).getDelStatus()==0) 
+					{
+					totalValue=totalValue+editPurchaseDetailtemList.get(i).getValue();
+					}
+				}
+				 
+				for(int i=0;i<editPurchaseDetailtemList.size();i++)
+				{
+					if(editPurchaseDetailtemList.get(i).getDelStatus()==0) 
+					{
+						float divFactor=editPurchaseDetailtemList.get(i).getValue()/totalValue*100;
+						System.out.println(editPurchaseDetailtemList.get(i).getValue()+"/"+totalValue+"*100="+divFactor);
+						
+						if(Float.isNaN(divFactor))
+						{
+							System.out.println("in if division factor");
+							editPurchaseDetailtemList.get(i).setDiscOnBill( Float.valueOf(df.format((editPurchaseDetailtemList.get(i).getValue() - editPurchaseDetailtemList.get(i).getDiscAmt())
+									* discPerOnBill / 100)));
+							editPurchaseDetailtemList.get(i).setDivisionFactor(0);
+							editPurchaseDetailtemList.get(i).setDiscOnBill(0); 
+							editPurchaseDetailtemList.get(i).setFreightAmt(0);
+							editPurchaseDetailtemList.get(i).setInsuAmt(0); 
+							 
+						}
+						else
+						{
+							System.out.println("in else division factor");
+							editPurchaseDetailtemList.get(i).setDiscOnBill( Float.valueOf(df.format((editPurchaseDetailtemList.get(i).getValue() - editPurchaseDetailtemList.get(i).getDiscAmt())
+									* discPerOnBill / 100)));
+							editPurchaseDetailtemList.get(i).setDivisionFactor(Float.valueOf(df.format(divFactor))); 
+							editPurchaseDetailtemList.get(i).setFreightAmt(Float.valueOf(df.format(divFactor*freightAmt/100)));
+							editPurchaseDetailtemList.get(i).setInsuAmt(Float.valueOf(df.format(divFactor*insuAmt/100))); 
+							editPurchaseDetailtemList.get(i).setTaxableAmt(Float.valueOf(df.format( editPurchaseDetailtemList.get(i).getValue()-
+									editPurchaseDetailtemList.get(i).getDiscAmt()-editPurchaseDetailtemList.get(i).getDiscOnBill()+
+									editPurchaseDetailtemList.get(i).getFreightAmt()+editPurchaseDetailtemList.get(i).getInsuAmt())));
+							if(isSameState==1)
+							{
+								editPurchaseDetailtemList.get(i).setCgstRs(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()*
+										editPurchaseDetailtemList.get(i).getCgstPer()/100)));
+								editPurchaseDetailtemList.get(i).setSgstRs(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()*
+										editPurchaseDetailtemList.get(i).getSgstPer()/100)));
+								editPurchaseDetailtemList.get(i).setIgstRs(0);
+							}
+							else
+							{
+								editPurchaseDetailtemList.get(i).setCgstRs(0);
+								editPurchaseDetailtemList.get(i).setSgstRs(0);
+								editPurchaseDetailtemList.get(i).setIgstRs(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()*
+										editPurchaseDetailtemList.get(i).getIgstPer()/100)));
+							}
+							
+							editPurchaseDetailtemList.get(i).setCessRs(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()*
+									editPurchaseDetailtemList.get(i).getCessPer()/100)));
+							editPurchaseDetailtemList.get(i).setOtherExtra(Float.valueOf(df.format(divFactor*extraCharges/100)));
+							editPurchaseDetailtemList.get(i).setTotal(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()
+									+editPurchaseDetailtemList.get(i).getIgstRs()+editPurchaseDetailtemList.get(i).getCgstRs()+editPurchaseDetailtemList.get(i).getSgstRs()
+									+editPurchaseDetailtemList.get(i).getCessRs()+editPurchaseDetailtemList.get(i).getOtherExtra())));
+							editPurchaseDetailtemList.get(i).setRateWithTax(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTotal()/editPurchaseDetailtemList.get(i).getRecQty())));
+							editPurchaseDetailtemList.get(i).setRateWithoutTax(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()/editPurchaseDetailtemList.get(i).getRecQty())));
+							float wholesaleAmt = editPurchaseDetailtemList.get(i).getRateWithTax()*20/100;
+							float retailerAmt = editPurchaseDetailtemList.get(i).getRateWithTax()*30/100;
+							editPurchaseDetailtemList.get(i).setWholesaleRate(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getRateWithTax()+wholesaleAmt)));
+							editPurchaseDetailtemList.get(i).setRetailRate(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getRateWithTax()+retailerAmt)));
+							 
+						}
+					}
+				}
+			}
+			else  //Edit Item
+			{
+				System.out.println("edit Item");
+				 int key=Integer.parseInt(index);
+				 if(editPurchaseDetailtemList.get(key).getItemId()!=itemId)
+				 {
+					map = new LinkedMultiValueMap<String, Object>();
+					map.add("key", "Batch No");
+					TSetting tSetting = rest.postForObject(Constants.url + "getSettingValueByKey",map, TSetting.class);
+					String batchNo = itemId+"-"+tSetting.getSettingValue();
+					purchaseDetailtemList.get(key).setBatchNo(batchNo);
+				 }
+				 editPurchaseDetailtemList.get(key).setItemName(itemName);
+				 editPurchaseDetailtemList.get(key).setItemId(itemId);
+				 editPurchaseDetailtemList.get(key).setRate(rate);
+				 editPurchaseDetailtemList.get(key).setRecQty(recQty); 
+				 editPurchaseDetailtemList.get(key).setValue(Float.valueOf(df.format(recQty*rate))); 
+				 editPurchaseDetailtemList.get(key).setDiscPer(discPer);
+				 editPurchaseDetailtemList.get(key).setDiscAmt(Float.valueOf(df.format((discPer/100)*editPurchaseDetailtemList.get(key).getValue()))); 
+				 editPurchaseDetailtemList.get(key).setItemUom(itemMaster.getUomName());
+				 editPurchaseDetailtemList.get(key).setCgstPer(itemMaster.getCgst()); 
+				 editPurchaseDetailtemList.get(key).setSgstPer(itemMaster.getSgst());
+				 editPurchaseDetailtemList.get(key).setIgstPer(itemMaster.getIgst());
+				 editPurchaseDetailtemList.get(key).setCessPer(itemMaster.getCess()); 
+				
+				 
+				float totalValue = 0; 
+				
+				for(int i=0;i<editPurchaseDetailtemList.size();i++)
+				{
+					if(editPurchaseDetailtemList.get(i).getDelStatus()==0) 
+					{
+					totalValue=totalValue+editPurchaseDetailtemList.get(i).getValue();
+					}
+				}
+				 
+				for(int i=0;i<editPurchaseDetailtemList.size();i++)
+				{
+					if(editPurchaseDetailtemList.get(i).getDelStatus()==0) 
+					{
+						float divFactor=editPurchaseDetailtemList.get(i).getValue()/totalValue*100;
+						System.out.println(editPurchaseDetailtemList.get(i).getValue()+"/"+totalValue+"*100="+divFactor);
+						
+						if(Float.isNaN(divFactor))
+						{
+							System.out.println("in if division factor");
+							editPurchaseDetailtemList.get(i).setDiscOnBill( Float.valueOf(df.format((editPurchaseDetailtemList.get(i).getValue() - editPurchaseDetailtemList.get(i).getDiscAmt())
+									* discPerOnBill / 100)));
+							editPurchaseDetailtemList.get(i).setDivisionFactor(0);
+							editPurchaseDetailtemList.get(i).setDiscOnBill(0); 
+							editPurchaseDetailtemList.get(i).setFreightAmt(0);
+							editPurchaseDetailtemList.get(i).setInsuAmt(0); 
+							 
+						}
+						else
+						{
+							System.out.println("in else division factor");
+							editPurchaseDetailtemList.get(i).setDiscOnBill( Float.valueOf(df.format((editPurchaseDetailtemList.get(i).getValue() - editPurchaseDetailtemList.get(i).getDiscAmt())
+									* discPerOnBill / 100)));
+							editPurchaseDetailtemList.get(i).setDivisionFactor(Float.valueOf(df.format(divFactor))); 
+							editPurchaseDetailtemList.get(i).setFreightAmt(Float.valueOf(df.format(divFactor*freightAmt/100)));
+							editPurchaseDetailtemList.get(i).setInsuAmt(Float.valueOf(df.format(divFactor*insuAmt/100))); 
+							editPurchaseDetailtemList.get(i).setTaxableAmt(Float.valueOf(df.format( editPurchaseDetailtemList.get(i).getValue()-
+									editPurchaseDetailtemList.get(i).getDiscAmt()-editPurchaseDetailtemList.get(i).getDiscOnBill()+
+									editPurchaseDetailtemList.get(i).getFreightAmt()+editPurchaseDetailtemList.get(i).getInsuAmt())));
+							if(isSameState==1)
+							{
+								editPurchaseDetailtemList.get(i).setCgstRs(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()*
+										editPurchaseDetailtemList.get(i).getCgstPer()/100)));
+								editPurchaseDetailtemList.get(i).setSgstRs(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()*
+										editPurchaseDetailtemList.get(i).getSgstPer()/100)));
+								editPurchaseDetailtemList.get(i).setIgstRs(0);
+							}
+							else
+							{
+								editPurchaseDetailtemList.get(i).setCgstRs(0);
+								editPurchaseDetailtemList.get(i).setSgstRs(0);
+								editPurchaseDetailtemList.get(i).setIgstRs(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()*
+										editPurchaseDetailtemList.get(i).getIgstPer()/100)));
+							}
+							editPurchaseDetailtemList.get(i).setCessRs(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()*
+									editPurchaseDetailtemList.get(i).getCessPer()/100)));
+							editPurchaseDetailtemList.get(i).setOtherExtra(Float.valueOf(df.format(divFactor*extraCharges/100)));
+							editPurchaseDetailtemList.get(i).setTotal(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()
+									+editPurchaseDetailtemList.get(i).getIgstRs()+editPurchaseDetailtemList.get(i).getCgstRs()+editPurchaseDetailtemList.get(i).getSgstRs()
+									+editPurchaseDetailtemList.get(i).getCessRs()+editPurchaseDetailtemList.get(i).getOtherExtra())));
+							editPurchaseDetailtemList.get(i).setRateWithTax(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTotal()/editPurchaseDetailtemList.get(i).getRecQty())));
+							editPurchaseDetailtemList.get(i).setRateWithoutTax(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()/editPurchaseDetailtemList.get(i).getRecQty())));
+							float wholesaleAmt = editPurchaseDetailtemList.get(i).getRateWithTax()*20/100;
+							float retailerAmt = editPurchaseDetailtemList.get(i).getRateWithTax()*30/100;
+							editPurchaseDetailtemList.get(i).setWholesaleRate(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getRateWithTax()+wholesaleAmt)));
+							editPurchaseDetailtemList.get(i).setRetailRate(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getRateWithTax()+retailerAmt)));
+							 
+						}
+					}
+				}
+			}
+			
+			 
+			System.out.println(editPurchaseDetailtemList);
+			 
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return editPurchaseDetailtemList;
+	}
+	
+	@RequestMapping(value = "/deleteItemInEditPurchaseList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<AddPurchaseDetail> deleteItemInEditPurchaseList(HttpServletRequest request, HttpServletResponse response) {
+
+	 
+		try {
+			 
+			float discPerOnBill = Float.parseFloat(request.getParameter("discPerOnBill")); 
+			float freightAmt = Float.parseFloat(request.getParameter("freightAmt"));
+			float insuAmt = Float.parseFloat(request.getParameter("insuranceAmt"));
+			float extraCharges = Float.parseFloat(request.getParameter("extraCharges"));
+			int index = Integer.parseInt(request.getParameter("index"));
+		 
+			if(editPurchaseDetailtemList.get(index).getPurDetailId()!=0)
+				editPurchaseDetailtemList.get(index).setDelStatus(1);
+			else 
+				editPurchaseDetailtemList.remove(index);
+			
+				float totalValue = 0; 
+				
+				for(int i=0;i<editPurchaseDetailtemList.size();i++)
+				{
+					if(editPurchaseDetailtemList.get(i).getDelStatus()==0) 
+					{
+						totalValue=totalValue+editPurchaseDetailtemList.get(i).getValue();
+					}
+				}
+				 
+				for(int i=0;i<editPurchaseDetailtemList.size();i++)
+				{
+					if(editPurchaseDetailtemList.get(i).getDelStatus()==0) 
+					{
+						float divFactor=editPurchaseDetailtemList.get(i).getValue()/totalValue*100;
+						System.out.println(editPurchaseDetailtemList.get(i).getValue()+"/"+totalValue+"*100="+divFactor);
+						
+						if(Float.isNaN(divFactor))
+						{
+							System.out.println("in if division factor");
+							editPurchaseDetailtemList.get(i).setDiscOnBill( Float.valueOf(df.format((editPurchaseDetailtemList.get(i).getValue() - editPurchaseDetailtemList.get(i).getDiscAmt())
+									* discPerOnBill / 100)));
+							editPurchaseDetailtemList.get(i).setDivisionFactor(0);
+							editPurchaseDetailtemList.get(i).setDiscOnBill(0); 
+							editPurchaseDetailtemList.get(i).setFreightAmt(0);
+							editPurchaseDetailtemList.get(i).setInsuAmt(0); 
+							 
+						}
+						else
+						{
+							System.out.println("in else division factor");
+							editPurchaseDetailtemList.get(i).setDiscOnBill( Float.valueOf(df.format((editPurchaseDetailtemList.get(i).getValue() - editPurchaseDetailtemList.get(i).getDiscAmt())
+									* discPerOnBill / 100)));
+							editPurchaseDetailtemList.get(i).setDivisionFactor(Float.valueOf(df.format(divFactor))); 
+							editPurchaseDetailtemList.get(i).setFreightAmt(Float.valueOf(df.format(divFactor*freightAmt/100)));
+							editPurchaseDetailtemList.get(i).setInsuAmt(Float.valueOf(df.format(divFactor*insuAmt/100))); 
+							editPurchaseDetailtemList.get(i).setTaxableAmt(Float.valueOf(df.format( editPurchaseDetailtemList.get(i).getValue()-
+									editPurchaseDetailtemList.get(i).getDiscAmt()-editPurchaseDetailtemList.get(i).getDiscOnBill()+
+									editPurchaseDetailtemList.get(i).getFreightAmt()+editPurchaseDetailtemList.get(i).getInsuAmt())));
+							if(isSameState==1)
+							{
+								editPurchaseDetailtemList.get(i).setCgstRs(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()*
+										editPurchaseDetailtemList.get(i).getCgstPer()/100)));
+								editPurchaseDetailtemList.get(i).setSgstRs(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()*
+										editPurchaseDetailtemList.get(i).getSgstPer()/100)));
+								editPurchaseDetailtemList.get(i).setIgstRs(0);
+							}
+							else
+							{
+								editPurchaseDetailtemList.get(i).setCgstRs(0);
+								editPurchaseDetailtemList.get(i).setSgstRs(0);
+								editPurchaseDetailtemList.get(i).setIgstRs(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()*
+										editPurchaseDetailtemList.get(i).getIgstPer()/100)));
+							}
+							editPurchaseDetailtemList.get(i).setCessRs(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()*
+									editPurchaseDetailtemList.get(i).getCessPer()/100)));
+							editPurchaseDetailtemList.get(i).setOtherExtra(Float.valueOf(df.format(divFactor*extraCharges/100)));
+							editPurchaseDetailtemList.get(i).setTotal(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()
+									+editPurchaseDetailtemList.get(i).getIgstRs()+editPurchaseDetailtemList.get(i).getCgstRs()+editPurchaseDetailtemList.get(i).getSgstRs()
+									+editPurchaseDetailtemList.get(i).getCessRs()+editPurchaseDetailtemList.get(i).getOtherExtra())));
+							editPurchaseDetailtemList.get(i).setRateWithTax(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTotal()/editPurchaseDetailtemList.get(i).getRecQty())));
+							editPurchaseDetailtemList.get(i).setRateWithoutTax(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()/editPurchaseDetailtemList.get(i).getRecQty())));
+							float wholesaleAmt = editPurchaseDetailtemList.get(i).getRateWithTax()*20/100;
+							float retailerAmt = editPurchaseDetailtemList.get(i).getRateWithTax()*30/100;
+							editPurchaseDetailtemList.get(i).setWholesaleRate(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getRateWithTax()+wholesaleAmt)));
+							editPurchaseDetailtemList.get(i).setRetailRate(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getRateWithTax()+retailerAmt)));
+							 
+						}
+					}
+				}
+		 
+			 
+			 
+			System.out.println(editPurchaseDetailtemList);
+			 
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return editPurchaseDetailtemList;
+	}
+	
+	@RequestMapping(value = "/editPurchaseItemListInEditPurchaseBill", method = RequestMethod.GET)
+	@ResponseBody
+	public AddPurchaseDetail editPurchaseItemListInEditPurchaseBill(HttpServletRequest request, HttpServletResponse response) {
+		
+		AddPurchaseDetail edit = new AddPurchaseDetail(); 
+		
+		try {
+			int index = Integer.parseInt(request.getParameter("index")); 
+			edit=editPurchaseDetailtemList.get(index);
+			 
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return edit;
+	}
+	
+	@RequestMapping(value = "/updatePurchaseHeaderInEditBill", method = RequestMethod.GET)
+	@ResponseBody
+	public List<AddPurchaseDetail> updatePurchaseHeaderInEditBill(HttpServletRequest request, HttpServletResponse response) {
+
+	 
+		try {
+			 
+			float discPerOnBill = Float.parseFloat(request.getParameter("discPerOnBill")); 
+			float freightAmt = Float.parseFloat(request.getParameter("freightAmt"));
+			float insuAmt = Float.parseFloat(request.getParameter("insuranceAmt"));
+			float extraCharges = Float.parseFloat(request.getParameter("extraCharges"));
+			 
+		 
+				 
+				float totalValue = 0; 
+				
+				for(int i=0;i<editPurchaseDetailtemList.size();i++)
+				{
+					if(editPurchaseDetailtemList.get(i).getDelStatus()==0) 
+					{
+						totalValue=totalValue+editPurchaseDetailtemList.get(i).getValue();
+					}
+				}
+				 
+				for(int i=0;i<editPurchaseDetailtemList.size();i++)
+				{
+					if(editPurchaseDetailtemList.get(i).getDelStatus()==0) 
+					{
+						float divFactor=editPurchaseDetailtemList.get(i).getValue()/totalValue*100;
+						System.out.println(editPurchaseDetailtemList.get(i).getValue()+"/"+totalValue+"*100="+divFactor);
+						
+						if(Float.isNaN(divFactor))
+						{
+							System.out.println("in if division factor");
+							editPurchaseDetailtemList.get(i).setDiscOnBill( Float.valueOf(df.format((editPurchaseDetailtemList.get(i).getValue() - editPurchaseDetailtemList.get(i).getDiscAmt())
+									* discPerOnBill / 100)));
+							editPurchaseDetailtemList.get(i).setDivisionFactor(0);
+							editPurchaseDetailtemList.get(i).setDiscOnBill(0); 
+							editPurchaseDetailtemList.get(i).setFreightAmt(0);
+							editPurchaseDetailtemList.get(i).setInsuAmt(0); 
+							 
+						}
+						else
+						{
+							System.out.println("in else division factor");
+							editPurchaseDetailtemList.get(i).setDiscOnBill( Float.valueOf(df.format((editPurchaseDetailtemList.get(i).getValue() - editPurchaseDetailtemList.get(i).getDiscAmt())
+									* discPerOnBill / 100)));
+							editPurchaseDetailtemList.get(i).setDivisionFactor(Float.valueOf(df.format(divFactor))); 
+							editPurchaseDetailtemList.get(i).setFreightAmt(Float.valueOf(df.format(divFactor*freightAmt/100)));
+							editPurchaseDetailtemList.get(i).setInsuAmt(Float.valueOf(df.format(divFactor*insuAmt/100))); 
+							editPurchaseDetailtemList.get(i).setTaxableAmt(Float.valueOf(df.format( editPurchaseDetailtemList.get(i).getValue()-
+									editPurchaseDetailtemList.get(i).getDiscAmt()-editPurchaseDetailtemList.get(i).getDiscOnBill()+
+									editPurchaseDetailtemList.get(i).getFreightAmt()+editPurchaseDetailtemList.get(i).getInsuAmt())));
+							if(isSameState==1)
+							{
+								editPurchaseDetailtemList.get(i).setCgstRs(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()*
+										editPurchaseDetailtemList.get(i).getCgstPer()/100)));
+								editPurchaseDetailtemList.get(i).setSgstRs(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()*
+										editPurchaseDetailtemList.get(i).getSgstPer()/100)));
+								editPurchaseDetailtemList.get(i).setIgstRs(0);
+							}
+							else
+							{
+								editPurchaseDetailtemList.get(i).setCgstRs(0);
+								editPurchaseDetailtemList.get(i).setSgstRs(0);
+								editPurchaseDetailtemList.get(i).setIgstRs(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()*
+										editPurchaseDetailtemList.get(i).getIgstPer()/100)));
+							}
+							editPurchaseDetailtemList.get(i).setCessRs(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()*
+									editPurchaseDetailtemList.get(i).getCessPer()/100)));
+							editPurchaseDetailtemList.get(i).setOtherExtra(Float.valueOf(df.format(divFactor*extraCharges/100)));
+							editPurchaseDetailtemList.get(i).setTotal(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()
+									+editPurchaseDetailtemList.get(i).getIgstRs()+editPurchaseDetailtemList.get(i).getCgstRs()+editPurchaseDetailtemList.get(i).getSgstRs()
+									+editPurchaseDetailtemList.get(i).getCessRs()+editPurchaseDetailtemList.get(i).getOtherExtra())));
+							editPurchaseDetailtemList.get(i).setRateWithTax(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTotal()/editPurchaseDetailtemList.get(i).getRecQty())));
+							editPurchaseDetailtemList.get(i).setRateWithoutTax(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getTaxableAmt()/editPurchaseDetailtemList.get(i).getRecQty())));
+							float wholesaleAmt = editPurchaseDetailtemList.get(i).getRateWithTax()*20/100;
+							float retailerAmt = editPurchaseDetailtemList.get(i).getRateWithTax()*30/100;
+							editPurchaseDetailtemList.get(i).setWholesaleRate(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getRateWithTax()+wholesaleAmt)));
+							editPurchaseDetailtemList.get(i).setRetailRate(Float.valueOf(df.format(editPurchaseDetailtemList.get(i).getRateWithTax()+retailerAmt)));
+							 
+						}
+					}
+				}
+		 
+			 
+			 
+			System.out.println(editPurchaseDetailtemList);
+			 
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return editPurchaseDetailtemList;
+	}
+	
+	@RequestMapping(value = "/insertEditPurchaseBill", method = RequestMethod.POST)
+	public String insertEditPurchaseBill(HttpServletRequest request, HttpServletResponse response) {
+
+	 
+		SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
+		Date date = new Date();
+		
+		System.out.println("in edit ");
+		
+		
+		try {
+				int suppId = Integer.parseInt(request.getParameter("suppId"));
+				String vehicleNo = request.getParameter("vehicleNo");
+				String invoiceNo = request.getParameter("invoiceNo");
+				String invoiceDate = request.getParameter("invoiceDate");
+				String cdDate1 = request.getParameter("cdDate1");
+				String cdDate2 = request.getParameter("cdDate2");
+				String cdDate3 = request.getParameter("cdDate3");
+				String cdDate4 = request.getParameter("cdDate4");
+				int isPaid = Integer.parseInt(request.getParameter("isPaid"));
+				float basicValue = Float.parseFloat(request.getParameter("basicValue"));
+				float freightAmt = Float.parseFloat(request.getParameter("freightAmt"));
+				float cgst = Float.parseFloat(request.getParameter("cgst"));
+				float discAmt2 = Float.parseFloat(request.getParameter("discAmt2"));
+				float insuranceAmt = Float.parseFloat(request.getParameter("insuranceAmt"));
+				float sgst = Float.parseFloat(request.getParameter("sgst"));
+				float discPerOnBill = Float.parseFloat(request.getParameter("discPerOnBill"));
+				float discAmt = Float.parseFloat(request.getParameter("discAmt"));
+				float extraCharges = Float.parseFloat(request.getParameter("extraCharges"));
+				float igst = Float.parseFloat(request.getParameter("igst"));
+				float cess = Float.parseFloat(request.getParameter("cess"));
+				float billAmount = Float.parseFloat(request.getParameter("billAmount"));
+				//float roundOff = Float.parseFloat(request.getParameter("roundOff"));
+				
+				Calendar c = Calendar.getInstance();
+				c.setTime(sf.parse(invoiceDate)); 
+				c.add(Calendar.DATE, 365);
+				Date afterYear=c.getTime();
+				
+				float totalTaxableAmt=0;
+				for(int i=0;i<editPurchaseDetailtemList.size();i++)
+				{
+					if(editPurchaseDetailtemList.get(i).getDelStatus()==0)
+					{
+						editPurchaseDetailtemList.get(i).setWholesaleRate(Float.parseFloat(request.getParameter("wholesaleRate"+i)));
+						editPurchaseDetailtemList.get(i).setRetailRate(Float.parseFloat(request.getParameter("retailRate"+i)));
+						totalTaxableAmt=totalTaxableAmt+editPurchaseDetailtemList.get(i).getTaxableAmt();
+					}
+				}
+				 
+				PurchaseHeader insert = new PurchaseHeader();
+				 
+				insert.setPurchaseId(editpurchaseHeader.getPurchaseId());
+				insert.setSuppId(suppId);
+				insert.setInvoiceNo(invoiceNo);
+				insert.setInvDate(invoiceDate);
+				insert.setBasicValue(basicValue);
+				insert.setDate(sf.format(date));
+				insert.setTime(time.format(date));
+				insert.setDiscPer(discPerOnBill);
+				insert.setDiscAmt(discAmt);
+				insert.setDiscAmt2(discAmt2);
+				insert.setFreightAmt(freightAmt);
+				insert.setInsuranceAmt(insuranceAmt);
+				insert.setTaxableAmt(Float.valueOf(df.format(totalTaxableAmt)));
+				insert.setCgst(cgst);
+				insert.setSgst(sgst);
+				insert.setIgst(igst);
+				insert.setCess(cess);
+				insert.setBillAmt(billAmount); 
+				insert.setOtherExtra(extraCharges);
+				insert.setVehicleNo(vehicleNo);
+				insert.setPurchaseNo("");
+				insert.setCdDate1(cdDate1);
+				insert.setCdDate2(cdDate2);
+				insert.setCdDate3(cdDate3);
+				insert.setCdDate4(cdDate4);
+				insert.setIsPaid(isPaid);
+				
+				List<PurchaseDetail> purchaseDetailList = new ArrayList<PurchaseDetail>();
+				
+				for(int i=0;i<editPurchaseDetailtemList.size();i++)
+				{
+					PurchaseDetail purchaseDetail = new PurchaseDetail();
+					purchaseDetail.setPurDetailId(editPurchaseDetailtemList.get(i).getPurDetailId()); 
+					purchaseDetail.setItemName(editPurchaseDetailtemList.get(i).getItemName());
+					purchaseDetail.setItemId(editPurchaseDetailtemList.get(i).getItemId());
+					purchaseDetail.setItemUom(editPurchaseDetailtemList.get(i).getItemUom());
+					purchaseDetail.setRecQty(editPurchaseDetailtemList.get(i).getRecQty());
+					purchaseDetail.setBalance(editPurchaseDetailtemList.get(i).getRecQty());
+					purchaseDetail.setRate(editPurchaseDetailtemList.get(i).getRate());
+					purchaseDetail.setValue(editPurchaseDetailtemList.get(i).getValue());
+					purchaseDetail.setDiscPer(editPurchaseDetailtemList.get(i).getDiscPer());
+					purchaseDetail.setDiscAmt(editPurchaseDetailtemList.get(i).getDiscAmt());
+					purchaseDetail.setFreightAmt(editPurchaseDetailtemList.get(i).getFreightAmt());
+					purchaseDetail.setInsuAmt(editPurchaseDetailtemList.get(i).getInsuAmt());
+					purchaseDetail.setCgstPer(editPurchaseDetailtemList.get(i).getCgstPer());
+					purchaseDetail.setCgstRs(editPurchaseDetailtemList.get(i).getCgstRs());
+					purchaseDetail.setSgstPer(editPurchaseDetailtemList.get(i).getSgstPer());
+					purchaseDetail.setSgstRs(editPurchaseDetailtemList.get(i).getSgstRs());
+					purchaseDetail.setIgstPer(editPurchaseDetailtemList.get(i).getIgstPer());
+					purchaseDetail.setIgstRs(editPurchaseDetailtemList.get(i).getIgstRs()); 
+					purchaseDetail.setCessPer(editPurchaseDetailtemList.get(i).getCessPer());
+					purchaseDetail.setCessRs(editPurchaseDetailtemList.get(i).getCessRs());
+					purchaseDetail.setTaxableAmt(editPurchaseDetailtemList.get(i).getTaxableAmt());
+					purchaseDetail.setTotal(editPurchaseDetailtemList.get(i).getTotal());
+					purchaseDetail.setRoundOff(editPurchaseDetailtemList.get(i).getRoundOff());
+					purchaseDetail.setDiscOnBill(editPurchaseDetailtemList.get(i).getDiscOnBill());
+					purchaseDetail.setOtherExtra(editPurchaseDetailtemList.get(i).getOtherExtra());
+					purchaseDetail.setBatchNo(editPurchaseDetailtemList.get(i).getBatchNo());
+					purchaseDetail.setRateWithTax(editPurchaseDetailtemList.get(i).getRateWithTax());
+					purchaseDetail.setRateWithoutTax(editPurchaseDetailtemList.get(i).getRateWithoutTax());
+					purchaseDetail.setWholesaleRate(editPurchaseDetailtemList.get(i).getWholesaleRate());
+					purchaseDetail.setRetailRate(editPurchaseDetailtemList.get(i).getRetailRate()); 
+					purchaseDetail.setDelStatus(editPurchaseDetailtemList.get(i).getDelStatus());
+					purchaseDetail.setExpiryDate(sf.format(afterYear));
+					purchaseDetailList.add(purchaseDetail);
+				}
+				insert.setPurchaseDetailList(purchaseDetailList);
+				PurchaseHeader purchaseHeader = rest.postForObject(Constants.url + "postPurchaseHeader",insert, PurchaseHeader.class);
+				System.out.println("purchaseHeader " + purchaseHeader);
+				
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+
+		return "redirect:/purchaseBillList";
 	}
 	
 	@RequestMapping(value = "/unpaidPurchaseBillList", method = RequestMethod.GET)

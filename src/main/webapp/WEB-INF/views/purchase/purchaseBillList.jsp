@@ -63,6 +63,7 @@
 						</div>
 						<div class=" box-content">
 						<div class="form-group">
+						<input   id="toDay" size="16" type="hidden" name="toDay"  value="${toDay}" />
 									<div class="col-md-2">From Date:</div>
 									<div class="col-md-3">
 										<input class="form-control date-picker" id="fromDate" size="16"
@@ -253,6 +254,7 @@
 			 
 			var fromDate = $("#fromDate").val();
 			var toDate = $("#toDate").val();
+			var toDay = $("#toDay").val();
 		 
 			
 			var valid=0;
@@ -333,9 +335,17 @@
 											  	tr.append($('<td style="text-align:right"></td>').html((itemList.cgst+itemList.sgst+itemList.igst).toFixed(2))); 
 											  	tr.append($('<td style="text-align:right"></td>').html((itemList.cess).toFixed(2))); 
 											  	tr.append($('<td style="text-align:right"></td>').html((itemList.otherExtra).toFixed(2))); 
-											  	tr.append($('<td style="text-align:right"></td>').html((itemList.billAmt).toFixed(2)));  
-											  	tr.append($('<td></td>').html('<a href="${pageContext.request.contextPath}/purchaseHeaderWithDetail/'+itemList.purchaseId+'" class="action_btn" ><abbr title="Details"><i class="fa fa-list"></i></abbr></a>'+
+											  	tr.append($('<td style="text-align:right"></td>').html((itemList.billAmt).toFixed(2))); 
+											  	if(toDay!=itemList.date)
+											  		{
+											  		tr.append($('<td></td>').html('<a href="${pageContext.request.contextPath}/purchaseHeaderWithDetail/'+itemList.purchaseId+'" class="action_btn" ><abbr title="Details"><i class="fa fa-list"></i></abbr></a>'+
 											  			'<a href="${pageContext.request.contextPath}/itemListForBarcode/'+itemList.purchaseId+'" class="action_btn" ><abbr title="Details"><i class="fa fa-list"></i></abbr></a> '));
+											  		}
+											  	else
+											  		{
+											  		tr.append($('<td></td>').html('<a href="${pageContext.request.contextPath}/editPurchaseBill/'+itemList.purchaseId+'" class="action_btn" ><span class="glyphicon glyphicon-edit"></span></a> <a href="${pageContext.request.contextPath}/purchaseHeaderWithDetail/'+itemList.purchaseId+'" class="action_btn" ><abbr title="Details"><i class="fa fa-list"></i></abbr></a>'+
+												  			'<a href="${pageContext.request.contextPath}/itemListForBarcode/'+itemList.purchaseId+'" class="action_btn" ><abbr title="Details"><i class="fa fa-list"></i></abbr></a> '));
+											  		}
 												$('#table_grid1 tbody').append(tr);
 												 
 

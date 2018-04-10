@@ -246,7 +246,12 @@
 					<li> 
 					<a href="${pageContext.request.contextPath}/itemWise">Item Wise Report</a>
 					</li>
-					
+					<li> 
+					<a href="${pageContext.request.contextPath}/grnReportItemWise">GRN Report</a>
+					</li>
+					<li> 
+					<a href="${pageContext.request.contextPath}/replaceItemList">Replace Item List</a>
+					</li>
 					</ul>
 					
 					<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>

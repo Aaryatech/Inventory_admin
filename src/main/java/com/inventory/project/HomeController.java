@@ -26,6 +26,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.inventory.project.common.Constants;
+import com.inventory.project.model.LoginResponse;
+import com.inventory.project.model.SupplierMaster;
+
  
 /**
  * Handles requests for the application home page.
@@ -67,13 +71,21 @@ public class HomeController {
 				mav = new ModelAndView("login");
 			} else {
 
+				  
+				String pass = "1234"; 
+				RestTemplate rest = new RestTemplate();
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
+				map.add("userName", name);
+				map.add("pass", password);
+				LoginResponse loginResponse = rest.postForObject(Constants.url + "loginResponse",map,
+						LoginResponse.class);
+				System.out.println("loginResponse" + loginResponse);
 				 
- 
-				String pass = "1234";
-				 
-				if (name.equals("Tester") && password.equals(pass)) 
+				if (loginResponse.isError()==false) 
 				{ 
 					mav = new ModelAndView("home");
+					HttpSession session = request.getSession();
+					session.setAttribute("UserDetail", loginResponse);
 					 
 				} else {
 

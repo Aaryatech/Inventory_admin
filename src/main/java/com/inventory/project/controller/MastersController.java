@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ import com.inventory.project.model.ItemCategory;
 import com.inventory.project.model.ItemGroup;
 import com.inventory.project.model.ItemMaster;
 import com.inventory.project.model.ItemUom;
+import com.inventory.project.model.LoginResponse;
 import com.inventory.project.model.SupplierMaster;
 import com.inventory.project.model.User;
 
@@ -40,7 +42,17 @@ public class MastersController {
 	public ModelAndView showAddSupplier(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("masters/addSupplier");
-		
+		try
+		{
+			HttpSession session = request.getSession();
+			LoginResponse login = (LoginResponse) session.getAttribute("UserDetail");
+			
+			System.out.println("user Id "+ login.getUser().getUserId());
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 
 		return model;
 	}

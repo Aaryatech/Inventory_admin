@@ -108,7 +108,7 @@
 										 
 										<input type="button" class="btn btn-primary" value="View All" id="searchmixall"
 											onclick="searchsupplierwise()">
-											  
+											  <input type="button" class="btn btn-primary" value="Pdf" onclick="getPdf()" >
 									</div><br>
 									
 									<div align="center" id="loader" style="display: none">
@@ -331,6 +331,35 @@
 			}
 	}
 		 
+		function getPdf()
+		{
+		    var fromDate = $("#fromDate").val(); 
+		    var toDate = $("#toDate").val();
+		    var grnType=$("#grnType").val();
+			var valid=0;
+			
+				if(fromDate=="")
+					{
+					alert("Enter Valid From Date");
+					valid=1;
+					
+					}
+				else if(toDate=="")
+					{
+					alert("Enter Valid To Date");
+					valid=1;
+					}
+				else if(grnType==null)
+				{
+				alert("Select Grn Type");
+				valid=1;
+				}
+			
+				if(valid==0)
+				{
+			    	window.open('${pageContext.request.contextPath}/purchaseBillReport?url=pdf/grnItemWisePdf/'+fromDate+'/'+toDate+'/'+grnType+'/');
+				}
+		    }
 	</script>
 	 
 </body>
