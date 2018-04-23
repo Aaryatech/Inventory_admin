@@ -271,7 +271,8 @@
 	
 		  if(document.getElementById("upass").value==document.getElementById("confirmPass").value && document.getElementById("upass").value!=null && document.getElementById("upass").value!="")
 			{
-			   
+			  $("#pass").removeClass("glyphicon glyphicon-remove");
+			  $("#cpass").removeClass("glyphicon glyphicon-remove");
 			  $("#pass").addClass("glyphicon glyphicon-ok");
 				 $("#cpass").addClass("glyphicon glyphicon-ok");
 				// flag=false;
@@ -284,8 +285,12 @@
 			  
 		  else{
 			  
+			 
 			  $("#pass").removeClass("glyphicon glyphicon-ok");
 			  $("#cpass").removeClass("glyphicon glyphicon-ok");
+			  $("#pass").addClass("glyphicon glyphicon-remove");
+			  $("#cpass").addClass("glyphicon glyphicon-remove");
+			  
 			  document.getElementById("submitbtn").disabled=true;
 		  }
 	}

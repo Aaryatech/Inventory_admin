@@ -21,11 +21,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.web.servlet.ModelAndView; 
 import com.inventory.project.common.Constants;
 import com.inventory.project.model.LoginResponse;
 import com.inventory.project.model.SupplierMaster;
@@ -118,6 +118,26 @@ public class HomeController {
 
 		session.invalidate();
 		return "redirect:/";
+	}
+	
+	@ExceptionHandler(LoginFailException.class)
+	public String redirectToLogin() {
+		System.out.println("HomeController Login Fail Excep:");
+
+		return "login";
+	}
+	
+	@RequestMapping(value = "/sessionTimeOut" , method = RequestMethod.GET)
+	public ModelAndView displayLoginAgain(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("login");
+
+		logger.info("/sessionTimeOut request mapping.");
+
+		model.addObject("loginResponseMessage", "Session timeout ! Please login again . . .");
+
+		return model;
+
 	}
 	
 }

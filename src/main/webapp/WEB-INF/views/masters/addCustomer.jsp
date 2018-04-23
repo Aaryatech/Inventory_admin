@@ -219,7 +219,7 @@
 							
 							 <div class=" box-content">
 					<div class="col-md-12" style="text-align: center">
-						<input type="submit" class="btn btn-info" value="Submit">
+						<input type="submit" class="btn btn-info" onclick="checkValidation()" value="Submit">
 					 <input type="button" class="btn btn-primary" value="Cancel" id="cancel" onclick="cancel1()" disabled>
 
 
@@ -384,70 +384,20 @@
 		<script type="text/javascript">
 		
 		
-		function edit(custId) {
-
-			         
-			 
-				//alert("driverId"+driverId);
-				$('#loader').show();
-
-				$
-						.getJSON(
-								'${editCustomer}',
-
-								{
-									 
-									custId : custId, 
-									ajax : 'true'
-
-								},
-								function(data) { 
-									 
-									document.getElementById("custId").value=data.custId;
-									document.getElementById("custName").value=data.custName;
-									document.getElementById("gstin").value=data.gstin;
-									document.getElementById("custAdd").value=data.address;
-									document.getElementById("custCode").value=data.custCode;
-									document.getElementById("mobileNo").value=data.mobile;
-									document.getElementById("email").value=data.email;
-									document.getElementById("contactNo").value=data.phone1;
-									document.getElementById("conPersn").value=data.conctPrsn;
-									document.getElementById("conEmail").value=data.prsnEmail;
-									document.getElementById("custPan").value=data.panNo;
-									document.getElementById("creaditDays").value=data.creditDays;
-									document.getElementById("custType").value=data.custType;
-									$('#custType').trigger("chosen:updated");
-									document.getElementById("isSameState").value=data.isSameState;
-									$('#isSameState').trigger("chosen:updated");
-									document.getElementById("cancel").disabled=false;
-								});
-
-			 
-				 
-			
-	}
+		 
 		
-		function cancel1() {
-
-	         //alert("cancel");
-	         document.getElementById("cancel").disabled=true; 
-	         document.getElementById("custId").value="";
-				document.getElementById("custName").value="";
-				document.getElementById("gstin").value="";
-				document.getElementById("custAdd").value="";
-				document.getElementById("custCode").value="";
-				document.getElementById("mobileNo").value="";
-				document.getElementById("email").value="";
-				document.getElementById("contactNo").value="";
-				document.getElementById("conPersn").value="";
-				document.getElementById("conEmail").value="";
-				document.getElementById("custPan").value="";
-				document.getElementById("creaditDays").value="";
-				document.getElementById("custType").value="";
-				$('#custType').trigger("chosen:updated");
-				document.getElementById("isSameState").value="";
-				$('#isSameState').trigger("chosen:updated");
-				 
+		function checkValidation() {
+			
+			var custType = document.getElementById("custType").value;
+	         var isSame = document.getElementById("isSameState").value;
+	         if(custType=="")
+			 {
+			 alert("Select Customer Type ");
+			 }
+	         else if(isSame=="")
+					 {
+					 alert("Select Is Same State ");
+					 }
 		
 	}
 		 

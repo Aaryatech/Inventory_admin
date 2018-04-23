@@ -244,7 +244,7 @@
 								
 				 
 							</div><br>
-								<div class="box-content">
+								<%-- <div class="box-content">
 							
 								<div class="col-md-2">Supplier FDA Lic*</div>
 								<div class="col-md-3">
@@ -259,7 +259,7 @@
 									</div>
 								
 				 
-							</div><br>
+							</div><br> --%>
 							<div class="box-content">
 							
 								<div class="col-md-2">Supplier Credit days*</div>
@@ -271,9 +271,10 @@
 									<c:when test="${supplierMaster.isSameState==1}">
 										<c:set var="choose" value="Yes"></c:set> 
 									</c:when>
-									<c:otherwise>
+									<c:when test="${supplierMaster.isSameState==2}">
 										<c:set var="choose" value="No"></c:set> 
-									</c:otherwise>
+									</c:when>
+									 
 								</c:choose>
 								<div class="col-md-1"></div>
 								<div class="col-md-2">Is Same State*</div>
